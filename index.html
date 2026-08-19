@@ -168,6 +168,23 @@ label{display:block;font-size:12px;font-weight:800;margin-top:8px}
 .finalsSoon{border-left:5px solid #d8a91e}
 .finalsLater{border-left:5px solid #4979bd}
 
+
+.syllabusCard{background:#fff;border-radius:20px;padding:16px;margin:10px 0;box-shadow:0 5px 18px rgba(0,0,0,.05)}
+.syllabusUnit{margin:10px 0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.syllabusUnitHeader{width:100%;background:#f6f3ee;color:#222;text-align:left;border-radius:0;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.syllabusUnitTitle{font-weight:900}
+.syllabusUnitProgress{font-size:12px;color:#666;white-space:nowrap}
+.syllabusSection{padding:12px 14px;border-top:1px solid #eee}
+.syllabusSectionTitle{font-weight:900;margin-bottom:8px}
+.syllabusItem{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.syllabusItem:last-child{border-bottom:none}
+.syllabusItem input{width:auto;margin:2px 0 0;transform:scale(1.2)}
+.syllabusItemText{flex:1;line-height:1.35}
+.syllabusRule{font-size:12px;color:#666;font-weight:800}
+.syllabusToolbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.syllabusSummary{margin:10px 0 2px;font-size:13px;color:#666}
+.hiddenUnit{display:none}
+
 nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(76px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #ddd}
 .navButton{flex:1;border-radius:0;background:transparent;color:#777;padding:8px 1px;font-size:10px}
 .navButton span{display:block;font-size:21px;margin-bottom:2px}
@@ -242,6 +259,17 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(
 <section id="classesPage" class="page">
   <div class="sectionTitle">📚 Classes</div>
   <div id="classesList"></div>
+
+  <div class="sectionTitle">📖 Evidence Reading Checklist</div>
+  <div class="syllabusCard">
+    <div id="evidenceSyllabusSummary" class="syllabusSummary"></div>
+    <div class="syllabusToolbar">
+      <button class="gray" onclick="expandAllEvidenceUnits()">EXPAND ALL</button>
+      <button class="gray" onclick="collapseAllEvidenceUnits()">COLLAPSE ALL</button>
+    </div>
+    <div id="evidenceSyllabus"></div>
+  </div>
+
   <button class="primary" onclick="openClassModal()">＋ ADD CLASS</button>
 </section>
 
@@ -895,6 +923,80 @@ function readingStatus(course){
   return "Caught up";
 }
 
+
+var EVIDENCE_SYLLABUS = [{"id": "intro", "title": "INTRODUCTION", "sections": [{"title": "Introduction", "rules": ["Rule 606(b)"], "items": ["Thayer (excerpt)", "Tanner v. United States", "Pena-Rodriguez v. Colorado"]}]}, {"id": "unit1", "title": "UNIT ONE — RELEVANCE AND ITS COUNTERWEIGHTS", "sections": [{"title": "A. Relevance", "rules": ["Rules 401-403"], "items": ["United States v. Onumonu", "Carter v. Hewitt", "United States v. Griffith"]}, {"title": "B. Unfair Prejudice", "rules": [], "items": ["Ballou v. Henri Studios, Inc.", "United States v. Bowman", "United States v. Jackson", "Hannah v. State", "Old Chief v. United States", "Holmes v. South Carolina"]}, {"title": "C.1. Proof of Insurance", "rules": ["Rules 411 and 105"], "items": ["Yoho v. Thompson", "Eichel v. New York Central Railroad Co."]}, {"title": "C.2. Settlement Offers and Payment of Medical Expenses", "rules": ["Rules 408 and 409"], "items": ["United States v. Davis"]}, {"title": "C.3. Pleas and Related Statements", "rules": ["Rule 410"], "items": ["United States v. Bauzo-Santiago", "Rachlin v. United States", "United States v. Mezzanatto"]}, {"title": "C.4. Subsequent Remedial Measures", "rules": ["Rule 407"], "items": ["Columbia & P.S.R. Co. v. Hawthorne", "Flaminio v. Honda Motor Co.", "Clausen v. Sea-3 Inc."]}, {"title": "D. Character and Habit", "rules": ["Rules 404-406 and Proposed Rule 406(b); Rules 413-415"], "items": []}, {"title": "D.1. Character of Accused and Victim", "rules": [], "items": ["Rex v. Doaks", "Michelson v. United States", "United States v. Roldan", "United States v. Nixon", "United States v. Jackson"]}, {"title": "D.2. Evidence of Other Bad Acts", "rules": [], "items": ["People v. Zackowitz (excerpt)", "Boyd v. United States", "United States v. Wright", "Jones v. State", "United States v. Jones"]}, {"title": "D.3. Evidence of Other Bad Acts in Sexual Assault Cases", "rules": [], "items": ["Excerpts from legislative history", "United States v. LeCompte", "Craigg v. Arkansas"]}, {"title": "D.4. Character \"In Issue\"", "rules": [], "items": ["Wellman, The Art of Cross-Examination (excerpt)"]}, {"title": "D.5. Habit", "rules": [], "items": ["Mengler (excerpt)", "Park, Leonard & Goldberg (excerpt)", "Aikman v. Kanda", "Babcock v. General Motors", "Reyes v. Missouri Pacific Railroad Co."]}]}, {"id": "unit2", "title": "UNIT TWO — Contents of Writings, Recordings, and Photographs (\"Best Evidence Rule\")", "sections": [{"title": "Best Evidence Rule", "rules": ["Rules 1001-1007"], "items": ["United States v. Stockton", "Seiler v. Lucasfilm, Ltd.", "United States v. Duffy", "United States v. Gonzalez-Benitez"]}]}, {"id": "unit3", "title": "UNIT THREE — Witnesses—Examination and Impeachment", "sections": [{"title": "A. Competency", "rules": ["Rules 601-606(a)"], "items": ["People v. Hall", "Boyd v. United States", "Washington v. Texas", "Falwell v. Flynt", "Ray, Dead Man’s Statute (excerpt)", "United States v. Lake"]}, {"title": "B. Form and Order of Examination", "rules": ["Rules 611, 614, and 615"], "items": ["Testimonial Proof", "United States v. Sebaggala", "United States v. Cephus", "United States v. Nabors", "Susanna and the Elders", "United States v. Sepulveda", "United States v. Smith", "United States v. Nicely", "SEC v. Koenig", "People v. Arnold"]}, {"title": "C. Refreshing Recollection", "rules": ["Rule 612"], "items": ["Baker v. State"]}, {"title": "D.1. Lay Opinions", "rules": ["Rule 701"], "items": ["Opinion Testimony by a Layman", "Farfaras v. Citizens Bank", "State v. Brown"]}, {"title": "D.2(i). Expert Testimony — Qualifications/Helpfulness", "rules": ["Rules 702-706"], "items": ["Expert Witnesses I", "Folkes v. Chadd", "State v. Briner", "Galantine v. Estate of Stekervetz", "United States v. Hanna", "United States v. Hines"]}, {"title": "D.2(ii). Expert Testimony — Reliability", "rules": [], "items": ["Frye v. United States", "Daubert v. Merrell Dow Pharmaceuticals", "General Electric Co. v. Joiner", "Kumho Tire Company v. Carmichael", "Weisgram v. Marley Company (excerpt)", "O’Conner v. Commonwealth Edison", "Knight v. Kirby Inland Marine", "Taylor v. Bristol-Myers", "Almeciga v. CIR"]}, {"title": "D.2(iii). Expert Testimony — Other Issues", "rules": [], "items": ["Expert Witnesses II", "Diaz v. United States", "United States v. Cohen"]}, {"title": "E.1. Capacity, Bias, Interest, Religious Beliefs", "rules": ["Rules 607 and 610"], "items": ["Younger, The Art of Cross-Examination", "United States v. Love", "United States v. Abel", "Olden v. Kentucky", "United States v. Teiche8r"]}, {"title": "E.2. Prior Inconsistent Statements", "rules": ["Rule 613"], "items": ["Impeachment in Fundamentals of Trial Techniques", "United State v. Surdow"]}, {"title": "E.3. Collateral Issue Rule", "rules": [], "items": ["McCormick on Evidence § 47", "United States v. Beauchamp"]}, {"title": "E.4. Character Evidence and Prior Convictions", "rules": ["Rules 608 and 609"], "items": ["United States v. Tedder", "United States v. Drury", "United States v. Shinderman", "United States v. Wallace", "United States v. Brackeen", "Green v. Bock Laundry Machine Corp.", "Luce v. United States", "State v. Santiago"]}, {"title": "F. Rape Shield Laws", "rules": ["Rule 412"], "items": ["Wigmore §924a", "Jeffries v. Nix", "State v. Colbath"]}]}, {"id": "unit4", "title": "UNIT FOUR — The Hearsay Rule and Its Exceptions", "sections": [{"title": "A. Definition", "rules": ["Rule 801(a)-(c); Rule 802"], "items": ["McCormick (excerpt)", "Queen v. Hepburn", "United States v. Montana", "United States v. Norwood", "Commonwealth v. Farris", "United States v. Demott", "United States v. Zenni", "United States v. Lloyd"]}, {"title": "B.1. Prior Inconsistent Statements", "rules": ["Rule 801(d)(1)(A)-(C)"], "items": ["United States v. Butterworth", "United States v. Webster"]}, {"title": "B.2. Prior Consistent Statements", "rules": [], "items": []}, {"title": "B.3. Prior Identifications", "rules": [], "items": ["United States v. Lewis", "United States v. Owens", "Bays v. State"]}, {"title": "C.1. Statements of a Party Opponent and its Agents", "rules": ["Rule 801(d)(2); Rule 106"], "items": ["Morgan (excerpt)", "Jewell v. CSX Transportation", "Tucker v. Bennett", "United States v. Flecha", "Pappas v. Middle Earth Condo Assoc.", "Mahlandt v. Wild Canid Survival & Research Center"]}, {"title": "C.2. Co-conspirator Declarations", "rules": [], "items": ["United States v. Curtis"]}, {"title": "D.1. Present Sense Impressions and Excited Utterances", "rules": ["Rules 803(1), (2), and (4)"], "items": ["Commonwealth v. M’Pike", "Deparvine v. State", "State v. Damper", "Bemis v. Edwards"]}, {"title": "D.2. Statements for Purpose of Medical Diagnosis or Treatment", "rules": [], "items": ["Nebraska v. Vigil"]}, {"title": "D.3(a). State of Mind in Issue", "rules": ["Rule 803(3)"], "items": ["Zippo Manufacturing Co. v. Rogers", "United States v. Jackson"]}, {"title": "D.3(b). The Hillmon Doctrine", "rules": [], "items": ["Mutual Life Insurance Co. v. Hillmon", "Hillmon: A Justice's Law Secretary's Notes", "Shephard v. United States", "United States v. Houlihan"]}, {"title": "E. Business Records and Public Records", "rules": ["Rule 803(6)-(8)"], "items": ["State v. Acquisto", "United States v. Towns", "Lust v. Sealy", "Johnson v. Lutz", "Palmer v. Hoffman", "United States v. Orozco", "Beech Aircraft Corporation v. Rainey"]}, {"title": "F. Past Recollection Recorded", "rules": ["Rule 803(5)"], "items": ["Parker v. Reda"]}, {"title": "G. Former Testimony", "rules": ["Rules 804(a) and 804(b)(1)"], "items": ["United States v. Salerno"]}, {"title": "H. Dying Declarations", "rules": ["Rule 804(b)(2)"], "items": ["King v. Woodcock", "Shephard v. United States (revisited)"]}, {"title": "I. Statements Against Interest", "rules": ["Rule 804(b)(3)"], "items": ["Williamson v. United States", "United States v. Ebron", "United States v. Samaniego", "Donnelly v. United States (Holmes, J. dissenting)"]}, {"title": "J. Residual Exception and Beyond", "rules": ["Rule 807"], "items": ["Dallas County v. Commercial Union Assurance Co.", "United States v. Blackburn", "United States v. Boyce"]}, {"title": "K. Hearsay within Hearsay", "rules": ["Rule 805"], "items": ["Rawlings v. State", "State v. Prather"]}, {"title": "L. Impeaching a Hearsay Declarant", "rules": ["Rule 806"], "items": ["United States v. Wali"]}]}, {"id": "unit5", "title": "UNIT FIVE — Hearsay and the Confrontation Clause", "sections": [{"title": "Confrontation Clause", "rules": [], "items": ["Sir Walter Raleigh’s Case", "Crawford v. Washington", "A Note on Davis and Hammon", "Michigan v. Bryant", "Ohio v. Clark", "A Note on Franklin", "A Note on Giles v. California", "A Note on Crawford and Forensic Evidence"]}]}, {"id": "unit6", "title": "UNIT SIX — Privileges", "sections": [{"title": "Privileges", "rules": ["Rule 501"], "items": []}, {"title": "A.1. Marital Communication Privilege", "rules": ["Proposed Rule 505"], "items": ["United States v. Montgomery", "United States v. Seminole", "United States v. Sutton"]}, {"title": "A.2. Adverse Spousal Testimony Privilege", "rules": [], "items": ["Trammel v. United States", "United States v. Pineda-Mateo"]}, {"title": "B. Attorney-Client Privilege", "rules": [], "items": ["Tornay v. United States", "United States v. Hepner", "United States v. Kovel", "A Note on Swidler & Berlin", "A Note of Zolin", "A Note on Upjohn"]}, {"title": "C. Other Privilege Claims", "rules": [], "items": ["Jaffee v. Redmond"]}]}, {"id": "unit7", "title": "UNIT SEVEN — Other Issues", "sections": [{"title": "A. Preservation", "rules": ["Rule 103"], "items": ["United States v. Wilson"]}, {"title": "B. Judicial Notice", "rules": ["Rule 201(b)"], "items": ["United States v. Bello", "In re Rokowski"]}, {"title": "C. Completeness", "rules": ["Rule 106"], "items": []}, {"title": "D. Illustrative Evidence", "rules": ["Rule 107"], "items": []}]}, {"id": "unit8", "title": "UNIT EIGHT — Functions of the Judge and Jury and Authentication", "sections": [{"title": "A. Judge and Jury", "rules": ["Rule 104; Rule 602; Rule 1008"], "items": ["A Note on Gila Valley Ry. Co.", "State v. McNeely", "Bourjaily v. United States", "United States v. Hickey"]}, {"title": "B. Authentication", "rules": ["Rules 901-902"], "items": ["United States v. Johnson", "United States v. Hobbs", "United States v. Lepanto", "First State Bank of Denton v. Maryland Casualty Co.", "State v. Allcock", "Matter of M.S."]}]}];
+
+function evidenceChecklistState(){
+  var state=readJSON("evidenceChecklist",{});
+  return state && typeof state==="object" ? state : {};
+}
+function saveEvidenceChecklistState(state){ localStorage.setItem("evidenceChecklist",JSON.stringify(state)); }
+function evidenceItemKey(unitId,sectionIndex,itemType,itemIndex){ return unitId+"|"+sectionIndex+"|"+itemType+"|"+itemIndex; }
+function evidenceTotals(){
+  var total=0,done=0,state=evidenceChecklistState();
+  EVIDENCE_SYLLABUS.forEach(function(unit){
+    unit.sections.forEach(function(section,si){
+      section.rules.forEach(function(rule,ri){total++;if(state[evidenceItemKey(unit.id,si,"r",ri)])done++;});
+      section.items.forEach(function(item,ii){total++;if(state[evidenceItemKey(unit.id,si,"i",ii)])done++;});
+    });
+  });
+  return {total:total,done:done};
+}
+function evidenceUnitTotals(unit){
+  var total=0,done=0,state=evidenceChecklistState();
+  unit.sections.forEach(function(section,si){
+    section.rules.forEach(function(rule,ri){total++;if(state[evidenceItemKey(unit.id,si,"r",ri)])done++;});
+    section.items.forEach(function(item,ii){total++;if(state[evidenceItemKey(unit.id,si,"i",ii)])done++;});
+  });
+  return {total:total,done:done};
+}
+function toggleEvidenceItem(key,checked){
+  var state=evidenceChecklistState();
+  state[key]=!!checked;
+  saveEvidenceChecklistState(state);
+  renderEvidenceSyllabus();
+}
+function toggleEvidenceUnit(unitId){
+  var body=document.getElementById("evidenceBody-"+unitId);
+  if(body)body.classList.toggle("hiddenUnit");
+}
+function expandAllEvidenceUnits(){
+  EVIDENCE_SYLLABUS.forEach(function(unit){var body=document.getElementById("evidenceBody-"+unit.id);if(body)body.classList.remove("hiddenUnit");});
+}
+function collapseAllEvidenceUnits(){
+  EVIDENCE_SYLLABUS.forEach(function(unit){var body=document.getElementById("evidenceBody-"+unit.id);if(body)body.classList.add("hiddenUnit");});
+}
+function renderEvidenceSyllabus(){
+  var container=document.getElementById("evidenceSyllabus");
+  var summary=document.getElementById("evidenceSyllabusSummary");
+  if(!container||!summary)return;
+  var state=evidenceChecklistState();
+  var overall=evidenceTotals();
+  var percent=overall.total?Math.round(overall.done/overall.total*100):0;
+  summary.textContent=overall.done+" of "+overall.total+" readings/rules complete • "+percent+"%";
+  var html="";
+  EVIDENCE_SYLLABUS.forEach(function(unit){
+    var totals=evidenceUnitTotals(unit);
+    var pct=totals.total?Math.round(totals.done/totals.total*100):0;
+    html+='<div class="syllabusUnit"><button class="syllabusUnitHeader" onclick="toggleEvidenceUnit(\''+unit.id+'\')"><span class="syllabusUnitTitle">'+escapeHTML(unit.title)+'</span><span class="syllabusUnitProgress">'+totals.done+'/'+totals.total+' • '+pct+'%</span></button><div id="evidenceBody-'+unit.id+'" class="hiddenUnit">';
+    unit.sections.forEach(function(section,si){
+      html+='<div class="syllabusSection"><div class="syllabusSectionTitle">'+escapeHTML(section.title)+'</div>';
+      section.rules.forEach(function(rule,ri){
+        var key=evidenceItemKey(unit.id,si,"r",ri);
+        html+='<label class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+' onchange="toggleEvidenceItem(\''+key+'\',this.checked)"><span class="syllabusItemText"><span class="syllabusRule">'+escapeHTML(rule)+'</span></span></label>';
+      });
+      section.items.forEach(function(item,ii){
+        var key=evidenceItemKey(unit.id,si,"i",ii);
+        html+='<label class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+' onchange="toggleEvidenceItem(\''+key+'\',this.checked)"><span class="syllabusItemText">'+escapeHTML(item)+'</span></label>';
+      });
+      if(!section.rules.length&&!section.items.length)html+='<div class="small">No separate reading listed for this subsection.</div>';
+      html+='</div>';
+    });
+    html+='</div></div>';
+  });
+  container.innerHTML=html;
+}
+
 function renderClasses(){
   if(!classes.length){
     document.getElementById("classesList").innerHTML='<div class="card empty">Add your classes to begin building your semester command center.</div>';
@@ -1048,6 +1150,7 @@ function renderAll(){
   renderFinalsCountdown();
   renderTasks();
   renderClasses();
+  renderEvidenceSyllabus();
   renderCalendar();
   renderProgress();
   renderRewards();
