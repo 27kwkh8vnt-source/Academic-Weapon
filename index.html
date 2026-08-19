@@ -61,7 +61,7 @@ button{width:100%;border:none;border-radius:15px;padding:16px;font-size:16px;fon
 .taskMeta{font-size:12px;color:#777;margin-top:5px}
 .taskDone{opacity:.5}
 .taskDone .taskTitle{text-decoration:line-through}
-.taskActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.taskActions{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:8px;margin-top:10px}
 .taskButton{padding:10px;font-size:12px}
 .priority{display:inline-block;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:900;margin-left:5px}
 .priority-Low{background:#edf2f7;color:#567}
@@ -1322,6 +1322,7 @@ function taskHTML(task){
     '<button class="red taskDeleteButton" onclick="deleteTask(&quot;'+task.id+'&quot;)">DELETE TASK</button>';
   }else{
     html+='<div class="taskActions">'+
+      '<button class="gold taskButton" onclick="uncompleteTask(&quot;'+task.id+'&quot;)">↩️ UNDO COMPLETE</button>'+
       '<button class="gray taskButton" onclick="editTask(&quot;'+task.id+'&quot;)">EDIT</button>'+
       '<button class="red taskButton" onclick="deleteTask(&quot;'+task.id+'&quot;)">DELETE</button>'+
     '</div>';
@@ -2188,20 +2189,42 @@ function completeTask(id){
   var task=tasks.find(function(t){return t.id===id;});
   if(!task||task.done) return;
 
+  var basePoints=Number(task.points||0);
+  var baseCash=Number(task.cash||0);
+  var baseRating=Math.max(1,Math.round(basePoints/5));
+
   task.done=true;
   task.completedAt=new Date().toISOString();
 
-  weekPoints+=Number(task.points||0);
-  counselCash+=Number(task.cash||0);
-  xp+=Number(task.points||0);
-  rating+=Math.max(1,Math.round(Number(task.points||0)/5));
+  // Store the exact rewards so Undo Complete can reverse them safely.
+  task.completionAwardPoints=basePoints;
+  task.completionAwardCash=baseCash;
+  task.completionAwardRating=baseRating;
+  task.completionMajorBonusPoints=0;
+  task.completionMajorBonusCash=0;
+  task.completionMajorBonusRating=0;
+  task.generatedRecurringTaskId="";
+
+  weekPoints+=basePoints;
+  counselCash+=baseCash;
+  xp+=basePoints;
+  rating+=baseRating;
 
   if(task.recurrence&&task.recurrence!=="none"){
     var next=Object.assign({},task);
     next.id="task-"+Date.now()+"-"+Math.random().toString(16).slice(2);
     next.done=false;
     delete next.completedAt;
+    delete next.completionAwardPoints;
+    delete next.completionAwardCash;
+    delete next.completionAwardRating;
+    delete next.completionMajorBonusPoints;
+    delete next.completionMajorBonusCash;
+    delete next.completionMajorBonusRating;
+    delete next.generatedRecurringTaskId;
     next.due=addDays(task.due||todayString(),task.recurrence==="daily"?1:7);
+
+    task.generatedRecurringTaskId=next.id;
     tasks.push(next);
   }
 
@@ -2215,12 +2238,91 @@ function completeTask(id){
   }
 }
 
+function uncompleteTask(id){
+  var task=tasks.find(function(t){return t.id===id;});
+  if(!task||!task.done) return;
+
+  if(!confirm("Reopen this task and reverse the points/cash awarded when it was completed?")){
+    return;
+  }
+
+  // New completions store exact rewards. For older completed tasks,
+  // fall back to the app's normal reward formula.
+  var basePoints=
+    task.completionAwardPoints!==undefined
+      ? Number(task.completionAwardPoints||0)
+      : Number(task.points||0);
+
+  var baseCash=
+    task.completionAwardCash!==undefined
+      ? Number(task.completionAwardCash||0)
+      : Number(task.cash||0);
+
+  var baseRating=
+    task.completionAwardRating!==undefined
+      ? Number(task.completionAwardRating||0)
+      : Math.max(1,Math.round(Number(task.points||0)/5));
+
+  var wasMajor=MAJOR_TYPES.indexOf(task.type)>=0;
+
+  var bonusPoints=
+    task.completionMajorBonusPoints!==undefined
+      ? Number(task.completionMajorBonusPoints||0)
+      : (wasMajor ? 25 : 0);
+
+  var bonusCash=
+    task.completionMajorBonusCash!==undefined
+      ? Number(task.completionMajorBonusCash||0)
+      : (wasMajor ? 15 : 0);
+
+  var bonusRating=
+    task.completionMajorBonusRating!==undefined
+      ? Number(task.completionMajorBonusRating||0)
+      : (wasMajor ? 5 : 0);
+
+  weekPoints=Math.max(0,weekPoints-basePoints-bonusPoints);
+  xp=Math.max(0,xp-basePoints-bonusPoints);
+  counselCash=Math.max(0,counselCash-baseCash-bonusCash);
+  rating=Math.max(0,rating-baseRating-bonusRating);
+
+  // If completing a recurring task automatically generated its next occurrence,
+  // remove that generated copy when the completion is undone.
+  if(task.generatedRecurringTaskId){
+    tasks=tasks.filter(function(t){
+      return t.id!==task.generatedRecurringTaskId;
+    });
+  }
+
+  task.done=false;
+  delete task.completedAt;
+  delete task.completionAwardPoints;
+  delete task.completionAwardCash;
+  delete task.completionAwardRating;
+  delete task.completionMajorBonusPoints;
+  delete task.completionMajorBonusCash;
+  delete task.completionMajorBonusRating;
+  delete task.generatedRecurringTaskId;
+
+  save();
+  renderAll();
+
+  alert("↩️ TASK REOPENED\n\n"+task.name+"\n\nThe completion rewards were reversed and the task is open again.");
+}
+
 function showCaseClosed(task){
-  var bonusPoints=25,bonusCash=15;
+  var bonusPoints=25;
+  var bonusCash=15;
+  var bonusRating=5;
+
   weekPoints+=bonusPoints;
   xp+=bonusPoints;
   counselCash+=bonusCash;
-  rating+=5;
+  rating+=bonusRating;
+
+  task.completionMajorBonusPoints=bonusPoints;
+  task.completionMajorBonusCash=bonusCash;
+  task.completionMajorBonusRating=bonusRating;
+
   save();
   renderAll();
 
