@@ -212,6 +212,42 @@ label{display:block;font-size:12px;font-weight:800;margin-top:8px}
   color:#6f5a13
 }
 
+
+.journalDeadline{
+  border:1px solid #eee;
+  border-radius:16px;
+  padding:14px;
+  margin:10px 0;
+  background:#fff
+}
+.journalDeadline.done{
+  background:#edf8f1;
+  opacity:.8
+}
+.journalDeadlineTop{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:flex-start
+}
+.journalDate{
+  font-size:13px;
+  font-weight:900;
+  color:#72579b;
+  margin-bottom:4px
+}
+.journalDue{
+  font-size:24px;
+  font-weight:900;
+  white-space:nowrap
+}
+.journalReqs{
+  margin-top:8px;
+  font-size:12px;
+  color:#666;
+  line-height:1.45
+}
+
 nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(76px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #ddd}
 .navButton{flex:1;border-radius:0;background:transparent;color:#777;padding:8px 1px;font-size:10px}
 .navButton span{display:block;font-size:21px;margin-bottom:2px}
@@ -308,6 +344,12 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(
       <button class="gray" onclick="collapseAllFamilyClasses()">COLLAPSE ALL</button>
     </div>
     <div id="familySyllabus"></div>
+  </div>
+
+  <div class="sectionTitle">📝 Journal Note Deadlines</div>
+  <div class="syllabusCard">
+    <div id="journalDeadlineSummary" class="syllabusSummary"></div>
+    <div id="journalDeadlines"></div>
   </div>
 
   <button class="primary" onclick="openClassModal()">＋ ADD CLASS</button>
@@ -580,6 +622,103 @@ function ensurePresetClasses(){
 }
 
 ensurePresetClasses();
+
+
+/* PRESET JOURNAL NOTE DEADLINES */
+var PRESET_JOURNAL_TASKS = [
+  {
+    id:"journal-topic-proposal-2026-08-26",
+    name:"Journal — Topic Proposal Due",
+    className:"Journal",
+    due:"2026-08-26",
+    type:"Assignment",
+    priority:"High",
+    recurrence:"none",
+    minutes:120,
+    points:25,
+    cash:10,
+    notes:"Email to your NCE and CC your ENCE by 11:59 PM. Submit 2–3 potential Note topics and have an idea of the structure for each.",
+    done:false
+  },
+  {
+    id:"journal-outline-2026-09-07",
+    name:"Journal — Full Note Outline Due",
+    className:"Journal",
+    due:"2026-09-07",
+    type:"Assignment",
+    priority:"High",
+    recurrence:"none",
+    minutes:180,
+    points:35,
+    cash:15,
+    notes:"Email to your NCE and CC your ENCE by 11:59 PM. Full outline of each section plus 10–15 Bluebooked sources with a short description of each.",
+    done:false
+  },
+  {
+    id:"journal-first-draft-2026-09-28",
+    name:"Journal — First Draft of Note Due",
+    className:"Journal",
+    due:"2026-09-28",
+    type:"Memo / Paper",
+    priority:"Emergency",
+    recurrence:"none",
+    minutes:300,
+    points:60,
+    cash:25,
+    notes:"Email to your NCE and CC your ENCE by 11:59 PM. First draft should be 12–24 pages. Keep writing while waiting for feedback.",
+    done:false
+  },
+  {
+    id:"journal-second-draft-2026-10-26",
+    name:"Journal — Second Draft of Note Due",
+    className:"Journal",
+    due:"2026-10-26",
+    type:"Memo / Paper",
+    priority:"Emergency",
+    recurrence:"none",
+    minutes:300,
+    points:75,
+    cash:30,
+    notes:"Email to your NCE and CC your ENCE by 11:59 PM. Draft should be 24–35 pages. Keep writing if unfinished.",
+    done:false
+  },
+  {
+    id:"journal-final-draft-2026-11-30",
+    name:"Journal — Final Draft of Note Due",
+    className:"Journal",
+    due:"2026-11-30",
+    type:"Memo / Paper",
+    priority:"Emergency",
+    recurrence:"none",
+    minutes:360,
+    points:100,
+    cash:40,
+    notes:"Email to your NCE and CC your ENCE by 11:59 PM. Final Note: 30–35 pages; Times New Roman; body 12 pt double-spaced; footnotes 10 pt single-spaced; minimum 175 footnotes; full cites in every footnote; minimum 35 unique sources; 1-inch margins; one space after periods.",
+    done:false
+  }
+];
+
+function ensurePresetJournalTasks(){
+  PRESET_JOURNAL_TASKS.forEach(function(preset){
+    var existing=tasks.find(function(t){
+      return t.id===preset.id ||
+        (
+          (t.name||"").trim().toLowerCase()===preset.name.toLowerCase()
+          &&
+          t.due===preset.due
+        );
+    });
+
+    if(!existing){
+      tasks.push(Object.assign({
+        createdAt:new Date().toISOString()
+      },preset));
+    }
+  });
+}
+
+ensurePresetJournalTasks();
+
 
 
 if(rewards.length===0){
@@ -1173,6 +1312,59 @@ function renderFamilyLawSyllabus(){
   container.innerHTML=html;
 }
 
+
+function journalDeadlineTasks(){
+  var wantedIds=[
+    "journal-topic-proposal-2026-08-26",
+    "journal-outline-2026-09-07",
+    "journal-first-draft-2026-09-28",
+    "journal-second-draft-2026-10-26",
+    "journal-final-draft-2026-11-30"
+  ];
+
+  return wantedIds.map(function(id){
+    return tasks.find(function(t){ return t.id===id; });
+  }).filter(Boolean);
+}
+
+function journalDisplayDate(dateStr){
+  if(!dateStr) return "";
+  return new Date(dateStr+"T12:00:00").toLocaleDateString(
+    undefined,
+    {weekday:"short",month:"short",day:"numeric",year:"numeric"}
+  );
+}
+
+function renderJournalDeadlines(){
+  var box=document.getElementById("journalDeadlines");
+  var summary=document.getElementById("journalDeadlineSummary");
+  if(!box||!summary) return;
+
+  var list=journalDeadlineTasks();
+  var completed=list.filter(function(t){ return t.done; }).length;
+
+  summary.textContent=
+    completed+" of "+list.length+" major Journal deadlines complete";
+
+  box.innerHTML=list.map(function(task){
+    var status=task.done ? "✅ COMPLETE" : "DUE";
+    return '<div class="journalDeadline '+(task.done?"done":"")+'">'+
+      '<div class="journalDeadlineTop">'+
+        '<div>'+
+          '<div class="journalDate">'+escapeHTML(journalDisplayDate(task.due))+'</div>'+
+          '<div class="taskTitle">'+escapeHTML(task.name.replace("Journal — ",""))+'</div>'+
+          '<div class="small">Due by 11:59 PM • Email NCE and CC ENCE</div>'+
+        '</div>'+
+        '<div class="journalDue">'+status+'</div>'+
+      '</div>'+
+      '<div class="journalReqs">'+escapeHTML(task.notes||"")+'</div>'+
+      (!task.done
+        ? '<button class="green taskButton" style="margin-top:10px" onclick="completeTask(&quot;'+task.id+'&quot;)">MARK COMPLETE</button>'
+        : '')+
+    '</div>';
+  }).join("");
+}
+
 function renderClasses(){
   if(!classes.length){
     document.getElementById("classesList").innerHTML='<div class="card empty">No classes configured.</div>';
@@ -1357,6 +1549,7 @@ function renderAll(){
   renderClasses();
   renderEvidenceSyllabus();
   renderFamilyLawSyllabus();
+  renderJournalDeadlines();
   renderCalendar();
   renderProgress();
   renderRewards();
