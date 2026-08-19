@@ -1096,7 +1096,10 @@ function completeFocusSession(){
     date:new Date().toISOString()
   });
 
-  points+=Math.max(5,Math.round(focusDurationMinutes/5));
+  var focusPoints=Math.max(5,Math.round(focusDurationMinutes/5));
+  weekPoints+=focusPoints;
+  xp+=focusPoints;
+  rating+=Math.max(1,Math.round(focusPoints/5));
 
   save();
 
@@ -1106,7 +1109,7 @@ function completeFocusSession(){
 
   document.getElementById("focusTaskMeta").textContent=
     "Focus session complete • +"+
-    Math.max(5,Math.round(focusDurationMinutes/5))+
+    focusPoints+
     " points";
 }
 
@@ -1734,8 +1737,7 @@ function collapseAllEvidenceUnits(){
 }
 
 function localTodayDate(){
-  var d=new Date();
-  return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+  return todayString();
 }
 
 function syllabusTaskId(courseName,key){
