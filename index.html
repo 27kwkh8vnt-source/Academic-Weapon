@@ -7,9 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Academic Weapon">
-
 <link rel="apple-touch-icon" href="Icon.png">
-
 <title>Academic Weapon</title>
 
 <style>
@@ -25,544 +23,155 @@
   --red:#e74a45;
   --purple:#7b61a8;
 }
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent
-}
-
-html,body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif
-}
-
-body{
-  padding-bottom:100px
-}
-
-header{
-  text-align:center;
-  padding:22px 16px 10px
-}
-
-header h1{
-  margin:0;
-  font-size:30px;
-  font-weight:900
-}
-
-header p{
-  margin:6px 0 0;
-  color:var(--muted);
-  font-size:14px
-}
-
-.page{
-  display:none;
-  padding:0 16px 26px;
-  max-width:680px;
-  margin:auto
-}
-
-.page.active{
-  display:block
-}
-
-.card{
-  background:var(--card);
-  border-radius:22px;
-  padding:18px;
-  margin:12px 0;
-  box-shadow:0 5px 20px rgba(0,0,0,.07)
-}
-
-.center{
-  text-align:center
-}
-
-.heroAvatar{
-  width:100%;
-  max-width:330px;
-  height:340px;
-  object-fit:contain;
-  display:block;
-  margin:2px auto 10px;
-  border-radius:18px
-}
-
-.rating{
-  font-size:62px;
-  line-height:1;
-  font-weight:900
-}
-
-.status{
-  font-size:20px;
-  font-weight:900;
-  margin-top:8px
-}
-
-.muted{
-  color:var(--muted)
-}
-
-.small{
-  color:#888;
-  font-size:12px
-}
-
-.sectionTitle{
-  margin:22px 2px 8px;
-  font-size:20px;
-  font-weight:900
-}
-
-button{
-  width:100%;
-  border:none;
-  border-radius:15px;
-  padding:16px;
-  font-size:16px;
-  font-weight:800;
-  cursor:pointer;
-  touch-action:manipulation
-}
-
-.primary{
-  background:var(--blue);
-  color:#fff
-}
-
-.green{
-  background:var(--green);
-  color:#fff
-}
-
-.gold{
-  background:var(--gold);
-  color:#fff
-}
-
-.gray{
-  background:#ececec;
-  color:#222
-}
-
-.red{
-  background:var(--red);
-  color:#fff
-}
-
-.purple{
-  background:var(--purple);
-  color:#fff
-}
-
-.gap{
-  height:10px
-}
-
-.statGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px
-}
-
-.stat{
-  background:#fff;
-  border-radius:18px;
-  padding:15px;
-  text-align:center;
-  box-shadow:0 5px 18px rgba(0,0,0,.05)
-}
-
-.statNumber{
-  font-size:28px;
-  font-weight:900
-}
-
-.statLabel{
-  color:#777;
-  font-size:12px;
-  margin-top:4px
-}
-
-.heroStrip{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:12px
-}
-
-.miniStat{
-  background:#f6f3ee;
-  border-radius:14px;
-  padding:10px;
-  text-align:center
-}
-
-.miniStat strong{
-  display:block;
-  font-size:18px
-}
-
-.task{
-  padding:14px 0;
-  border-bottom:1px solid #eee
-}
-
-.task:last-child{
-  border-bottom:none
-}
-
-.taskTop{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:flex-start
-}
-
-.taskTitle{
-  font-weight:800;
-  font-size:16px
-}
-
-.taskMeta{
-  font-size:12px;
-  color:#777;
-  margin-top:5px
-}
-
-.taskDone{
-  opacity:.5
-}
-
-.taskDone .taskTitle{
-  text-decoration:line-through
-}
-
-.taskActions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:10px
-}
-
-.taskButton{
-  padding:10px;
-  font-size:12px
-}
-
-.priority{
-  display:inline-block;
-  padding:3px 7px;
-  border-radius:999px;
-  font-size:10px;
-  font-weight:900;
-  margin-left:5px
-}
-
-.priority-Low{
-  background:#edf2f7;
-  color:#567
-}
-
-.priority-Normal{
-  background:#edf4ff;
-  color:#3d67a4
-}
-
-.priority-High{
-  background:#fff2cf;
-  color:#805f00
-}
-
-.priority-Emergency{
-  background:#ffe2df;
-  color:#9b2c25
-}
-
-.overdue{
-  color:#c92a2a;
-  font-weight:900
-}
-
-.classCard{
-  background:#fff;
-  border-radius:20px;
-  padding:16px;
-  margin:10px 0;
-  box-shadow:0 5px 18px rgba(0,0,0,.05)
-}
-
-.className{
-  font-size:18px;
-  font-weight:900
-}
-
-.progressBar{
-  margin-top:10px;
-  height:8px;
-  background:#eee;
-  border-radius:999px;
-  overflow:hidden
-}
-
-.progressFill{
-  height:100%;
-  background:var(--blue)
-}
-
-.reward{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  align-items:center;
-  padding:13px 0;
-  border-bottom:1px solid #eee
-}
-
-.reward:last-child{
-  border-bottom:none
-}
-
-.rewardName{
-  font-weight:800
-}
-
-.rewardButton{
-  width:auto;
-  padding:10px 12px;
-  font-size:12px
-}
-
-.overlay{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  z-index:1000;
-  align-items:flex-end;
-  justify-content:center
-}
-
-.overlay.show{
-  display:flex
-}
-
-.sheet{
-  width:100%;
-  max-width:680px;
-  max-height:88vh;
-  overflow-y:auto;
-  background:#fff;
-  border-radius:24px 24px 0 0;
-  padding:20px 16px calc(22px + env(safe-area-inset-bottom))
-}
-
-input,
-select,
-textarea{
-  width:100%;
-  border:1px solid #ddd;
-  border-radius:12px;
-  padding:14px;
-  font-size:16px;
-  background:#fff;
-  margin:6px 0 12px;
-  font-family:inherit
-}
-
-textarea{
-  min-height:90px;
-  resize:vertical
-}
-
-label{
-  display:block;
-  font-size:12px;
-  font-weight:800;
-  margin-top:8px
-}
-
-.empty{
-  text-align:center;
-  color:#888;
-  padding:24px 8px
-}
-
-.badge{
-  display:inline-block;
-  background:#f0eee9;
-  padding:7px 10px;
-  border-radius:999px;
-  margin:3px;
-  font-size:12px;
-  font-weight:800
-}
-
-.countdown{
-  background:#fff7dd;
-  border:1px solid #f0d879;
-  border-radius:18px;
-  padding:14px;
-  margin:12px 0
-}
-
-.countdown strong{
-  font-size:18px
-}
-
-.calendarHeader{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:10px
-}
-
-.calendarArrow{
-  width:44px;
-  height:44px;
-  padding:0;
-  border-radius:50%;
-  background:#ececec;
-  color:#222;
-  font-size:26px
-}
-
-.calendarMonthTitle{
-  font-size:20px;
-  font-weight:900
-}
-
-.calendarWeekdays,
-.calendarGrid{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:5px
-}
-
-.calendarWeekdays div{
-  text-align:center;
-  color:#888;
-  font-size:11px;
-  font-weight:800
-}
-
-.calendarDay{
-  min-height:64px;
-  border-radius:12px;
-  background:#f4f4f4;
-  padding:6px 3px;
-  text-align:center;
-  cursor:pointer
-}
-
-.calendarBlank{
-  background:transparent;
-  cursor:default
-}
-
-.calendarDate{
-  font-size:12px;
-  font-weight:800
-}
-
-.calendarDots{
-  font-size:12px;
-  margin-top:5px
-}
-
-.calendarToday{
-  outline:2px solid var(--blue)
-}
-
-.calendarComplete{
-  background:#e8f7ee
-}
-
-.calendarBusy{
-  background:#fff5d9
-}
-
-.calendarOverdue{
-  background:#ffe9e5
-}
-
-.focusClock{
-  font-size:54px;
-  font-weight:900;
-  text-align:center;
-  margin:18px 0
-}
-
-.focusTask{
-  text-align:center;
-  font-weight:800
-}
-
-.caseClosed{
-  text-align:center;
-  padding:20px
-}
-
-.caseClosedIcon{
-  font-size:72px
-}
-
-.caseClosed h2{
-  font-size:30px;
-  margin:8px 0
-}
-
-.caseClosedBonus{
-  font-size:18px;
-  font-weight:900
-}
-
-.dataButtons{
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
+body{padding-bottom:100px}
+header{text-align:center;padding:22px 16px 10px}
+header h1{margin:0;font-size:30px;font-weight:900}
+header p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.page{display:none;padding:0 16px 26px;max-width:680px;margin:auto}
+.page.active{display:block}
+.card{background:var(--card);border-radius:22px;padding:18px;margin:12px 0;box-shadow:0 5px 20px rgba(0,0,0,.07)}
+.center{text-align:center}
+.heroAvatar{width:100%;max-width:330px;height:340px;object-fit:contain;display:block;margin:2px auto 10px;border-radius:18px}
+.rating{font-size:62px;line-height:1;font-weight:900}
+.status{font-size:20px;font-weight:900;margin-top:8px}
+.muted{color:var(--muted)}
+.small{color:#888;font-size:12px}
+.sectionTitle{margin:22px 2px 8px;font-size:20px;font-weight:900}
+button{width:100%;border:none;border-radius:15px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;touch-action:manipulation}
+.primary{background:var(--blue);color:#fff}
+.green{background:var(--green);color:#fff}
+.gold{background:var(--gold);color:#fff}
+.gray{background:#ececec;color:#222}
+.red{background:var(--red);color:#fff}
+.purple{background:var(--purple);color:#fff}
+.gap{height:10px}
+.statGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#fff;border-radius:18px;padding:15px;text-align:center;box-shadow:0 5px 18px rgba(0,0,0,.05)}
+.statNumber{font-size:28px;font-weight:900}
+.statLabel{color:#777;font-size:12px;margin-top:4px}
+.heroStrip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.miniStat{background:#f6f3ee;border-radius:14px;padding:10px;text-align:center}
+.miniStat strong{display:block;font-size:18px}
+.task{padding:14px 0;border-bottom:1px solid #eee}
+.task:last-child{border-bottom:none}
+.taskTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.taskTitle{font-weight:800;font-size:16px}
+.taskMeta{font-size:12px;color:#777;margin-top:5px}
+.taskDone{opacity:.5}
+.taskDone .taskTitle{text-decoration:line-through}
+.taskActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.taskButton{padding:10px;font-size:12px}
+.priority{display:inline-block;padding:3px 7px;border-radius:999px;font-size:10px;font-weight:900;margin-left:5px}
+.priority-Low{background:#edf2f7;color:#567}
+.priority-Normal{background:#edf4ff;color:#3d67a4}
+.priority-High{background:#fff2cf;color:#805f00}
+.priority-Emergency{background:#ffe2df;color:#9b2c25}
+.overdue{color:#c92a2a;font-weight:900}
+.classCard{background:#fff;border-radius:20px;padding:16px;margin:10px 0;box-shadow:0 5px 18px rgba(0,0,0,.05)}
+.className{font-size:18px;font-weight:900}
+.progressBar{margin-top:10px;height:8px;background:#eee;border-radius:999px;overflow:hidden}
+.progressFill{height:100%;background:var(--blue)}
+.reward{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #eee}
+.reward:last-child{border-bottom:none}
+.rewardName{font-weight:800}
+.rewardButton{width:auto;padding:10px 12px;font-size:12px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:flex-end;justify-content:center}
+.overlay.show{display:flex}
+.sheet{width:100%;max-width:680px;max-height:88vh;overflow-y:auto;background:#fff;border-radius:24px 24px 0 0;padding:20px 16px calc(22px + env(safe-area-inset-bottom))}
+input,select,textarea{width:100%;border:1px solid #ddd;border-radius:12px;padding:14px;font-size:16px;background:#fff;margin:6px 0 12px;font-family:inherit}
+textarea{min-height:90px;resize:vertical}
+label{display:block;font-size:12px;font-weight:800;margin-top:8px}
+.empty{text-align:center;color:#888;padding:24px 8px}
+.badge{display:inline-block;background:#f0eee9;padding:7px 10px;border-radius:999px;margin:3px;font-size:12px;font-weight:800}
+.countdown{background:#fff7dd;border:1px solid #f0d879;border-radius:18px;padding:14px;margin:12px 0}
+.countdown strong{font-size:18px}
+.calendarHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.calendarArrow{width:44px;height:44px;padding:0;border-radius:50%;background:#ececec;color:#222;font-size:26px}
+.calendarMonthTitle{font-size:20px;font-weight:900}
+.calendarWeekdays,.calendarGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.calendarWeekdays div{text-align:center;color:#888;font-size:11px;font-weight:800}
+.calendarDay{min-height:64px;border-radius:12px;background:#f4f4f4;padding:6px 3px;text-align:center;cursor:pointer}
+.calendarBlank{background:transparent;cursor:default}
+.calendarDate{font-size:12px;font-weight:800}
+.calendarDots{font-size:12px;margin-top:5px}
+.calendarToday{outline:2px solid var(--blue)}
+.calendarComplete{background:#e8f7ee}
+.calendarBusy{background:#fff5d9}
+.calendarOverdue{background:#ffe9e5}
+.focusClock{font-size:54px;font-weight:900;text-align:center;margin:18px 0}
+.focusTask{text-align:center;font-weight:800}
+.caseClosed{text-align:center;padding:20px}
+.caseClosedIcon{font-size:72px}
+.caseClosed h2{font-size:30px;margin:8px 0}
+.caseClosedBonus{font-size:18px;font-weight:900}
+.dataButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hiddenFile{display:none}
+
+.triageGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:8px
 }
-
-.hiddenFile{
-  display:none
+.triageCard{
+  border-radius:16px;
+  padding:13px;
+  background:#fff;
+  border:1px solid var(--line)
 }
-
-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  z-index:999;
-  display:flex;
-  height:calc(76px + env(safe-area-inset-bottom));
-  padding-bottom:env(safe-area-inset-bottom);
-  background:rgba(255,255,255,.98);
-  border-top:1px solid #ddd
-}
-
-.navButton{
-  flex:1;
-  border-radius:0;
-  background:transparent;
-  color:#777;
-  padding:8px 1px;
-  font-size:10px
-}
-
-.navButton span{
+.triageCard strong{
   display:block;
-  font-size:21px;
-  margin-bottom:2px
+  font-size:20px;
+  margin-bottom:3px
 }
+.triageRed{background:#fff0ee;border-color:#f2c2bd}
+.triageGold{background:#fff8df;border-color:#eedb91}
+.triageGreen{background:#edf8f1;border-color:#c5e8d1}
+.missionCard{
+  background:linear-gradient(135deg,#f6f0ff,#fff);
+  border:1px solid #d8c8f0;
+  border-radius:20px;
+  padding:18px;
+  margin:12px 0
+}
+.missionKicker{
+  color:#72579b;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.8px
+}
+.missionTitle{
+  font-size:22px;
+  font-weight:900;
+  margin:6px 0
+}
+.finalsCard{
+  background:#fff;
+  border-radius:18px;
+  padding:14px;
+  margin:8px 0;
+  box-shadow:0 4px 14px rgba(0,0,0,.05)
+}
+.finalsRow{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center
+}
+.finalsDays{
+  font-size:25px;
+  font-weight:900;
+  white-space:nowrap
+}
+.finalsUrgent{border-left:5px solid #e74a45}
+.finalsSoon{border-left:5px solid #d8a91e}
+.finalsLater{border-left:5px solid #4979bd}
 
-.navButton.active{
-  color:var(--blue)
-}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(76px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #ddd}
+.navButton{flex:1;border-radius:0;background:transparent;color:#777;padding:8px 1px;font-size:10px}
+.navButton span{display:block;font-size:21px;margin-bottom:2px}
+.navButton.active{color:var(--blue)}
 </style>
 </head>
 
@@ -573,6116 +182,1205 @@ nav{
 <p>Law Student Performance Management System</p>
 </header>
 
-
-<!-- TODAY -->
-
 <section id="todayPage" class="page active">
+  <div class="card center">
+    <img id="avatar" class="heroAvatar" src="GoodStanding.png" alt="Good Standing avatar">
+    <div id="rating" class="rating">75</div>
+    <div class="small">ACADEMIC RATING</div>
+    <div id="status" class="status">💼 GOOD STANDING</div>
+    <div id="statusMessage" class="muted">Counsel is adequately prepared.</div>
 
-<div class="card center">
+    <div class="heroStrip">
+      <div class="miniStat"><strong id="weekPointsMini">0</strong><span class="small">⭐ Week</span></div>
+      <div class="miniStat"><strong id="xpMini">0</strong><span class="small">✨ XP</span></div>
+      <div class="miniStat"><strong id="streakMini">0</strong><span class="small">🔥 Streak</span></div>
+    </div>
+  </div>
 
-<img
-id="avatar"
-class="heroAvatar"
-src="GoodStanding.png"
-alt="Good Standing avatar"
->
+  <div id="nextDeadline"></div>
 
-<div id="rating" class="rating">75</div>
+  <div class="sectionTitle">🚨 Academic Triage</div>
+  <div id="triagePanel"></div>
 
-<div class="small">
-ACADEMIC RATING
-</div>
+  <div class="sectionTitle">🎯 What Should I Do Next?</div>
+  <div id="nextMission"></div>
 
-<div id="status" class="status">
-💼 GOOD STANDING
-</div>
+  <div class="sectionTitle">🎓 Finals Countdown</div>
+  <div id="finalsCountdown"></div>
 
-<div id="statusMessage" class="muted">
-Counsel is adequately prepared.
-</div>
+  <div class="statGrid">
+    <div class="stat"><div id="cashDisplay" class="statNumber">$0</div><div class="statLabel">💵 Counsel Cash</div></div>
+    <div class="stat"><div id="todayStudy" class="statNumber">0m</div><div class="statLabel">⏱ Study Today</div></div>
+  </div>
 
-<div class="heroStrip">
+  <div class="sectionTitle">⚖️ Today's Docket</div>
+  <div class="card"><div id="todayTasks"></div></div>
 
-<div class="miniStat">
-<strong id="weekPointsMini">0</strong>
-<span class="small">⭐ Week</span>
-</div>
-
-<div class="miniStat">
-<strong id="xpMini">0</strong>
-<span class="small">✨ XP</span>
-</div>
-
-<div class="miniStat">
-<strong id="streakMini">0</strong>
-<span class="small">🔥 Streak</span>
-</div>
-
-</div>
-
-</div>
-
-
-<div id="nextDeadline"></div>
-
-
-<div class="statGrid">
-
-<div class="stat">
-<div id="cashDisplay" class="statNumber">$0</div>
-<div class="statLabel">💵 Counsel Cash</div>
-</div>
-
-<div class="stat">
-<div id="todayStudy" class="statNumber">0m</div>
-<div class="statLabel">⏱ Study Today</div>
-</div>
-
-</div>
-
-
-<div class="sectionTitle">
-⚖️ Today's Docket
-</div>
-
-<div class="card">
-<div id="todayTasks"></div>
-</div>
-
-
-<button
-class="gold"
-onclick="giveThirtyMinuteTask()"
->
-⏱ I HAVE 30 MINUTES
-</button>
-
-<div class="gap"></div>
-
-<button
-class="purple"
-onclick="openFocusModal()"
->
-🎯 FOCUS MODE
-</button>
-
-<div class="gap"></div>
-
-<button
-class="primary"
-onclick="openTaskModal()"
->
-＋ ADD TASK
-</button>
-
+  <button class="gold" onclick="giveThirtyMinuteTask()">⏱ I HAVE 30 MINUTES</button>
+  <div class="gap"></div>
+  <button class="purple" onclick="openFocusModal()">🎯 FOCUS MODE</button>
+  <div class="gap"></div>
+  <button class="primary" onclick="openTaskModal()">＋ ADD TASK</button>
 </section>
-
-
-<!-- CALENDAR -->
 
 <section id="calendarPage" class="page">
-
-<div class="sectionTitle">
-📅 Semester Calendar
-</div>
-
-<div class="card">
-
-<div class="calendarHeader">
-
-<button
-class="calendarArrow"
-onclick="changeMonth(-1)"
->
-‹
-</button>
-
-<div
-id="calendarMonthTitle"
-class="calendarMonthTitle"
-></div>
-
-<button
-class="calendarArrow"
-onclick="changeMonth(1)"
->
-›
-</button>
-
-</div>
-
-
-<div class="calendarWeekdays">
-<div>Sun</div>
-<div>Mon</div>
-<div>Tue</div>
-<div>Wed</div>
-<div>Thu</div>
-<div>Fri</div>
-<div>Sat</div>
-</div>
-
-<div
-id="calendarGrid"
-class="calendarGrid"
-></div>
-
-</div>
-
-
-<div
-id="calendarDetails"
-class="card"
->
-<div class="empty">
-Tap a date to inspect the docket.
-</div>
-</div>
-
+  <div class="sectionTitle">📅 Semester Calendar</div>
+  <div class="card">
+    <div class="calendarHeader">
+      <button class="calendarArrow" onclick="changeMonth(-1)">‹</button>
+      <div id="calendarMonthTitle" class="calendarMonthTitle"></div>
+      <button class="calendarArrow" onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="calendarWeekdays">
+      <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+    </div>
+    <div id="calendarGrid" class="calendarGrid"></div>
+  </div>
+  <div id="calendarDetails" class="card"><div class="empty">Tap a date to inspect the docket.</div></div>
 </section>
-
-
-<!-- CLASSES -->
 
 <section id="classesPage" class="page">
-
-<div class="sectionTitle">
-📚 Classes
-</div>
-
-<div id="classesList"></div>
-
-<button
-class="primary"
-onclick="openClassModal()"
->
-＋ ADD CLASS
-</button>
-
+  <div class="sectionTitle">📚 Classes</div>
+  <div id="classesList"></div>
+  <button class="primary" onclick="openClassModal()">＋ ADD CLASS</button>
 </section>
-
-
-<!-- TASKS -->
 
 <section id="tasksPage" class="page">
-
-<div class="sectionTitle">
-✅ All Tasks
-</div>
-
-<div class="card">
-
-<label>
-Filter
-</label>
-
-<select
-id="taskFilter"
-onchange="renderTasks()"
->
-<option value="open">Open Tasks</option>
-<option value="all">All Tasks</option>
-<option value="done">Completed</option>
-<option value="overdue">Overdue</option>
-<option value="major">Major Deadlines</option>
-</select>
-
-<div id="allTasks"></div>
-
-</div>
-
-
-<button
-class="primary"
-onclick="openTaskModal()"
->
-＋ ADD TASK
-</button>
-
+  <div class="sectionTitle">✅ All Tasks</div>
+  <div class="card">
+    <label>Filter</label>
+    <select id="taskFilter" onchange="renderTasks()">
+      <option value="open">Open Tasks</option>
+      <option value="all">All Tasks</option>
+      <option value="done">Completed</option>
+      <option value="overdue">Overdue</option>
+      <option value="major">Major Deadlines</option>
+    </select>
+    <div id="allTasks"></div>
+  </div>
+  <button class="primary" onclick="openTaskModal()">＋ ADD TASK</button>
 </section>
-
-
-<!-- ME -->
 
 <section id="mePage" class="page">
+  <div class="sectionTitle">👩‍⚖️ Counsel Profile</div>
+  <div class="card center">
+    <img id="meAvatar" class="heroAvatar" src="GoodStanding.png" alt="Good Standing avatar">
+    <div id="meStatus" class="status"></div>
+    <div id="meXP" class="muted"></div>
+  </div>
 
-<div class="sectionTitle">
-👩🏻‍🦰 Counsel Profile
-</div>
+  <div class="sectionTitle">📊 Performance Analytics</div>
+  <div id="progressStats" class="statGrid"></div>
 
-<div class="card center">
+  <div class="sectionTitle">🏆 Academic Record</div>
+  <div class="card"><div id="weeklyHistory"></div></div>
 
-<img
-id="meAvatar"
-class="heroAvatar"
-src="GoodStanding.png"
-alt="Good Standing avatar"
->
+  <div class="sectionTitle">🎖 Achievements</div>
+  <div class="card"><div id="achievements"></div></div>
 
-<div
-id="meStatus"
-class="status"
-></div>
+  <div class="sectionTitle">💰 Rewards Store</div>
+  <div class="card"><div id="rewardList"></div></div>
+  <button class="primary" onclick="openRewardModal()">＋ ADD REWARD</button>
 
-<div
-id="meXP"
-class="muted"
-></div>
+  <div class="sectionTitle">🗓 Weekly Administration</div>
+  <button class="green" onclick="startNewWeek()">📁 ARCHIVE WEEK & START FRESH</button>
 
-</div>
-
-
-<div class="sectionTitle">
-📊 Performance Analytics
-</div>
-
-<div
-id="progressStats"
-class="statGrid"
-></div>
-
-
-<div class="sectionTitle">
-🏆 Academic Record
-</div>
-
-<div class="card">
-<div id="weeklyHistory"></div>
-</div>
-
-
-<div class="sectionTitle">
-🎖 Achievements
-</div>
-
-<div class="card">
-<div id="achievements"></div>
-</div>
-
-
-<div class="sectionTitle">
-💰 Rewards Store
-</div>
-
-<div class="card">
-<div id="rewardList"></div>
-</div>
-
-<button
-class="primary"
-onclick="openRewardModal()"
->
-＋ ADD REWARD
-</button>
-
-
-<div class="sectionTitle">
-🗓 Weekly Administration
-</div>
-
-<button
-class="green"
-onclick="startNewWeek()"
->
-📁 ARCHIVE WEEK & START FRESH
-</button>
-
-
-<div class="sectionTitle">
-💾 Data Backup
-</div>
-
-<div class="dataButtons">
-
-<button
-class="gray"
-onclick="exportData()"
->
-EXPORT
-</button>
-
-<button
-class="gray"
-onclick="document.getElementById('importFile').click()"
->
-IMPORT
-</button>
-
-</div>
-
-<input
-id="importFile"
-class="hiddenFile"
-type="file"
-accept=".json,application/json"
-onchange="importData(event)"
->
-
+  <div class="sectionTitle">💾 Data Backup</div>
+  <div class="dataButtons">
+    <button class="gray" onclick="exportData()">EXPORT</button>
+    <button class="gray" onclick="document.getElementById('importFile').click()">IMPORT</button>
+  </div>
+  <input id="importFile" class="hiddenFile" type="file" accept=".json,application/json" onchange="importData(event)">
 </section>
 
-
 <!-- TASK MODAL -->
+<div id="taskOverlay" class="overlay">
+  <div class="sheet">
+    <h2 id="taskModalTitle">Add Law School Task</h2>
+    <input id="editingTaskId" type="hidden">
 
-<div
-id="taskOverlay"
-class="overlay"
->
+    <label>Task</label>
+    <input id="taskName" placeholder="e.g. Read Evidence pp. 83–107">
 
-<div class="sheet">
+    <label>Class</label>
+    <select id="taskClass"></select>
 
-<h2 id="taskModalTitle">
-Add Law School Task
-</h2>
+    <label>Due Date</label>
+    <input id="taskDue" type="date">
 
-<input
-id="editingTaskId"
-type="hidden"
->
+    <label>Type</label>
+    <select id="taskType">
+      <option>Reading</option>
+      <option>Case Brief</option>
+      <option>Outline</option>
+      <option>Review</option>
+      <option>Office Hours</option>
+      <option>Email / Admin</option>
+      <option>Exam Prep</option>
+      <option>Assignment</option>
+      <option>Memo / Paper</option>
+      <option>Exam</option>
+      <option>Other</option>
+    </select>
 
-<label>Task</label>
+    <label>Priority</label>
+    <select id="taskPriority">
+      <option>Normal</option>
+      <option>Low</option>
+      <option>High</option>
+      <option>Emergency</option>
+    </select>
 
-<input
-id="taskName"
-placeholder="e.g. Read Evidence pp. 83–107"
->
+    <label>Recurrence</label>
+    <select id="taskRecurrence">
+      <option value="none">Does not repeat</option>
+      <option value="daily">Daily</option>
+      <option value="weekly">Weekly</option>
+    </select>
 
+    <label>Estimated Minutes</label>
+    <input id="taskMinutes" type="number" value="30" min="1">
 
-<label>Class</label>
+    <label>Academic Points</label>
+    <input id="taskPoints" type="number" value="10" min="1">
 
-<select id="taskClass"></select>
+    <label>Counsel Cash</label>
+    <input id="taskCash" type="number" value="5" min="0">
 
+    <label>Notes</label>
+    <textarea id="taskNotes" placeholder="Case names, pages, professor instructions, etc."></textarea>
 
-<label>Due Date</label>
-
-<input
-id="taskDue"
-type="date"
->
-
-
-<label>Type</label>
-
-<select id="taskType">
-
-<option>Reading</option>
-<option>Case Brief</option>
-<option>Outline</option>
-<option>Review</option>
-<option>Office Hours</option>
-<option>Email / Admin</option>
-<option>Exam Prep</option>
-<option>Assignment</option>
-<option>Memo / Paper</option>
-<option>Exam</option>
-<option>Other</option>
-
-</select>
-
-
-<label>Priority</label>
-
-<select id="taskPriority">
-
-<option>Normal</option>
-<option>Low</option>
-<option>High</option>
-<option>Emergency</option>
-
-</select>
-
-
-<label>Recurrence</label>
-
-<select id="taskRecurrence">
-
-<option value="none">
-Does not repeat
-</option>
-
-<option value="daily">
-Daily
-</option>
-
-<option value="weekly">
-Weekly
-</option>
-
-</select>
-
-
-<label>Estimated Minutes</label>
-
-<input
-id="taskMinutes"
-type="number"
-value="30"
-min="1"
->
-
-
-<label>Academic Points</label>
-
-<input
-id="taskPoints"
-type="number"
-value="10"
-min="1"
->
-
-
-<label>Counsel Cash</label>
-
-<input
-id="taskCash"
-type="number"
-value="5"
-min="0"
->
-
-
-<label>Notes</label>
-
-<textarea
-id="taskNotes"
-placeholder="Case names, pages, professor instructions, etc."
-></textarea>
-
-
-<button
-class="green"
-onclick="saveTask()"
->
-SAVE TO DOCKET
-</button>
-
-<div class="gap"></div>
-
-<button
-class="gray"
-onclick="closeTaskModal()"
->
-Cancel
-</button>
-
+    <button class="green" onclick="saveTask()">SAVE TO DOCKET</button>
+    <div class="gap"></div>
+    <button class="gray" onclick="closeTaskModal()">Cancel</button>
+  </div>
 </div>
-
-</div>
-
 
 <!-- CLASS MODAL -->
+<div id="classOverlay" class="overlay">
+  <div class="sheet">
+    <h2 id="classModalTitle">Add Class</h2>
+    <input id="editingClassId" type="hidden">
 
-<div
-id="classOverlay"
-class="overlay"
->
+    <label>Class Name</label>
+    <input id="className" placeholder="Evidence">
 
-<div class="sheet">
+    <label>Professor</label>
+    <input id="classProfessor" placeholder="Professor name">
 
-<h2 id="classModalTitle">
-Add Class
-</h2>
+    <label>Meeting Days / Time</label>
+    <input id="classSchedule" placeholder="Mon/Wed 10:00–11:20">
 
-<input
-id="editingClassId"
-type="hidden"
->
+    <label>Total Reading Assignments</label>
+    <input id="classTotalReadings" type="number" value="20" min="0">
 
-
-<label>Class Name</label>
-
-<input
-id="className"
-placeholder="Evidence"
->
-
-
-<label>Professor</label>
-
-<input
-id="classProfessor"
-placeholder="Professor name"
->
-
-
-<label>Meeting Days / Time</label>
-
-<input
-id="classSchedule"
-placeholder="Mon/Wed 10:00–11:20"
->
-
-
-<label>Total Reading Assignments</label>
-
-<input
-id="classTotalReadings"
-type="number"
-value="20"
-min="0"
->
-
-
-<button
-class="green"
-onclick="saveClass()"
->
-SAVE CLASS
-</button>
-
-<div class="gap"></div>
-
-<button
-class="gray"
-onclick="closeClassModal()"
->
-Cancel
-</button>
-
+    <button class="green" onclick="saveClass()">SAVE CLASS</button>
+    <div class="gap"></div>
+    <button class="gray" onclick="closeClassModal()">Cancel</button>
+  </div>
 </div>
-
-</div>
-
 
 <!-- REWARD MODAL -->
+<div id="rewardOverlay" class="overlay">
+  <div class="sheet">
+    <h2 id="rewardModalTitle">Add Reward</h2>
+    <input id="editingRewardIndex" type="hidden">
 
-<div
-id="rewardOverlay"
-class="overlay"
->
+    <label>Reward</label>
+    <input id="rewardName" placeholder="Fancy coffee">
 
-<div class="sheet">
+    <label>Cost in Counsel Cash</label>
+    <input id="rewardCost" type="number" value="30" min="1">
 
-<h2 id="rewardModalTitle">
-Add Reward
-</h2>
-
-<input
-id="editingRewardIndex"
-type="hidden"
->
-
-
-<label>Reward</label>
-
-<input
-id="rewardName"
-placeholder="Fancy coffee"
->
-
-
-<label>Cost in Counsel Cash</label>
-
-<input
-id="rewardCost"
-type="number"
-value="30"
-min="1"
->
-
-
-<button
-class="green"
-onclick="saveReward()"
->
-SAVE REWARD
-</button>
-
-<div class="gap"></div>
-
-<button
-class="gray"
-onclick="closeRewardModal()"
->
-Cancel
-</button>
-
+    <button class="green" onclick="saveReward()">SAVE REWARD</button>
+    <div class="gap"></div>
+    <button class="gray" onclick="closeRewardModal()">Cancel</button>
+  </div>
 </div>
-
-</div>
-
 
 <!-- FOCUS MODAL -->
+<div id="focusOverlay" class="overlay">
+  <div class="sheet">
+    <h2>🎯 Focus Mode</h2>
+    <label>Task</label>
+    <select id="focusTask"></select>
 
-<div
-id="focusOverlay"
-class="overlay"
->
+    <label>Session Length</label>
+    <select id="focusMinutes">
+      <option value="15">15 minutes</option>
+      <option value="30" selected>30 minutes</option>
+      <option value="45">45 minutes</option>
+      <option value="60">60 minutes</option>
+    </select>
 
-<div class="sheet">
+    <div id="focusTaskLabel" class="focusTask"></div>
+    <div id="focusClock" class="focusClock">30:00</div>
 
-<h2>
-🎯 Focus Mode
-</h2>
-
-
-<label>Task</label>
-
-<select id="focusTask"></select>
-
-
-<label>Session Length</label>
-
-<select id="focusMinutes">
-
-<option value="15">
-15 minutes
-</option>
-
-<option value="30" selected>
-30 minutes
-</option>
-
-<option value="45">
-45 minutes
-</option>
-
-<option value="60">
-60 minutes
-</option>
-
-</select>
-
-
-<div
-id="focusTaskLabel"
-class="focusTask"
-></div>
-
-<div
-id="focusClock"
-class="focusClock"
->
-30:00
+    <button id="focusStartButton" class="purple" onclick="startFocus()">START FOCUS SESSION</button>
+    <div class="gap"></div>
+    <button class="gray" onclick="closeFocusModal()">Close</button>
+  </div>
 </div>
 
-
-<button
-id="focusStartButton"
-class="purple"
-onclick="startFocus()"
->
-START FOCUS SESSION
-</button>
-
-<div class="gap"></div>
-
-<button
-class="gray"
-onclick="closeFocusModal()"
->
-Close
-</button>
-
+<!-- CASE CLOSED MODAL -->
+<div id="caseClosedOverlay" class="overlay">
+  <div class="sheet">
+    <div class="caseClosed">
+      <div class="caseClosedIcon">⚖️🎉</div>
+      <h2>CASE CLOSED</h2>
+      <div id="caseClosedName" class="status"></div>
+      <div id="caseClosedBonus" class="caseClosedBonus"></div>
+      <p class="muted">Counsel may rest. Briefly.</p>
+      <button class="gold" onclick="closeCaseClosed()">ENTER JUDGMENT</button>
+    </div>
+  </div>
 </div>
-
-</div>
-
-
-<!-- CASE CLOSED -->
-
-<div
-id="caseClosedOverlay"
-class="overlay"
->
-
-<div class="sheet">
-
-<div class="caseClosed">
-
-<div class="caseClosedIcon">
-⚖️🎉
-</div>
-
-<h2>
-CASE CLOSED
-</h2>
-
-<div
-id="caseClosedName"
-class="status"
-></div>
-
-<div
-id="caseClosedBonus"
-class="caseClosedBonus"
-></div>
-
-<p class="muted">
-Counsel may rest. Briefly.
-</p>
-
-<button
-class="gold"
-onclick="closeCaseClosed()"
->
-ENTER JUDGMENT
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- NAVIGATION -->
 
 <nav>
-
-<button
-id="todayTab"
-class="navButton active"
-onclick="showPage('todayPage','todayTab')"
->
-<span>🏠</span>
-Today
-</button>
-
-
-<button
-id="calendarTab"
-class="navButton"
-onclick="showPage('calendarPage','calendarTab')"
->
-<span>📅</span>
-Calendar
-</button>
-
-
-<button
-id="classesTab"
-class="navButton"
-onclick="showPage('classesPage','classesTab')"
->
-<span>📚</span>
-Classes
-</button>
-
-
-<button
-id="tasksTab"
-class="navButton"
-onclick="showPage('tasksPage','tasksTab')"
->
-<span>✅</span>
-Tasks
-</button>
-
-
-<button
-id="meTab"
-class="navButton"
-onclick="showPage('mePage','meTab')"
->
-<span>👩🏻‍🦰</span>
-Me
-</button>
-
+  <button id="todayTab" class="navButton active" onclick="showPage('todayPage','todayTab')"><span>🏠</span>Today</button>
+  <button id="calendarTab" class="navButton" onclick="showPage('calendarPage','calendarTab')"><span>📅</span>Calendar</button>
+  <button id="classesTab" class="navButton" onclick="showPage('classesPage','classesTab')"><span>📚</span>Classes</button>
+  <button id="tasksTab" class="navButton" onclick="showPage('tasksPage','tasksTab')"><span>✅</span>Tasks</button>
+  <button id="meTab" class="navButton" onclick="showPage('mePage','meTab')"><span>👩🏻‍🦰</span>Me</button>
 </nav>
 
-
 <script>
-
 var BASE_RATING = 75;
+var MAJOR_TYPES = ["Assignment","Memo / Paper","Exam"];
 
-var MAJOR_TYPES = [
-  "Assignment",
-  "Memo / Paper",
-  "Exam"
-];
-
-
-/* STORAGE */
-
-function readJSON(
-  key,
-  fallback
-){
-
+function readJSON(key,fallback){
   try{
-
-    var value =
-      localStorage.getItem(
-        key
-      );
-
-    return value
-      ? JSON.parse(value)
-      : fallback;
-
-  }catch(e){
-
-    return fallback;
-  }
+    var value=localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  }catch(e){ return fallback; }
 }
 
+var rating=parseInt(localStorage.getItem("lawRating"),10);
+if(isNaN(rating)) rating=BASE_RATING;
 
-var rating =
-  parseInt(
-    localStorage.getItem(
-      "lawRating"
-    ),
-    10
-  );
+var weekPoints=parseInt(localStorage.getItem("lawWeekPoints"),10);
+if(isNaN(weekPoints)) weekPoints=0;
 
-if(
-  isNaN(rating)
-){
+var counselCash=parseInt(localStorage.getItem("lawCounselCash"),10);
+if(isNaN(counselCash)) counselCash=0;
 
-  rating =
-    BASE_RATING;
-}
+var xp=parseInt(localStorage.getItem("lawXP"),10);
+if(isNaN(xp)) xp=0;
 
+var classes=readJSON("lawClasses",[]);
+var tasks=readJSON("lawTasks",[]);
+var rewards=readJSON("lawRewards",[]);
+var weekArchive=readJSON("lawWeekArchive",[]);
+var focusSessions=readJSON("lawFocusSessions",[]);
 
-var weekPoints =
-  parseInt(
-    localStorage.getItem(
-      "lawWeekPoints"
-    ),
-    10
-  );
+if(!Array.isArray(classes)) classes=[];
+if(!Array.isArray(tasks)) tasks=[];
+if(!Array.isArray(rewards)) rewards=[];
+if(!Array.isArray(weekArchive)) weekArchive=[];
+if(!Array.isArray(focusSessions)) focusSessions=[];
 
-if(
-  isNaN(weekPoints)
-){
-
-  weekPoints =
-    0;
-}
-
-
-var counselCash =
-  parseInt(
-    localStorage.getItem(
-      "lawCounselCash"
-    ),
-    10
-  );
-
-if(
-  isNaN(counselCash)
-){
-
-  counselCash =
-    0;
-}
-
-
-var xp =
-  parseInt(
-    localStorage.getItem(
-      "lawXP"
-    ),
-    10
-  );
-
-if(
-  isNaN(xp)
-){
-
-  xp =
-    0;
-}
-
-
-var classes =
-  readJSON(
-    "lawClasses",
-    []
-  );
-
-
-var tasks =
-  readJSON(
-    "lawTasks",
-    []
-  );
-
-
-var rewards =
-  readJSON(
-    "lawRewards",
-    []
-  );
-
-
-var weekArchive =
-  readJSON(
-    "lawWeekArchive",
-    []
-  );
-
-
-var focusSessions =
-  readJSON(
-    "lawFocusSessions",
-    []
-  );
-
-
-if(
-  !Array.isArray(classes)
-){
-  classes=[];
-}
-
-if(
-  !Array.isArray(tasks)
-){
-  tasks=[];
-}
-
-if(
-  !Array.isArray(rewards)
-){
-  rewards=[];
-}
-
-if(
-  !Array.isArray(weekArchive)
-){
-  weekArchive=[];
-}
-
-if(
-  !Array.isArray(focusSessions)
-){
-  focusSessions=[];
-}
-
-
-/* DEFAULT REWARDS */
-
-if(
-  rewards.length === 0
-){
-
-  rewards = [
-
-    {
-      name:"Fancy Coffee",
-      cost:30
-    },
-
-    {
-      name:"Guilt-Free TV Episode",
-      cost:40
-    },
-
-    {
-      name:"Cocktail",
-      cost:60
-    },
-
-    {
-      name:"$25 Fun Purchase",
-      cost:150
-    },
-
-    {
-      name:"New Yarn",
-      cost:175
-    },
-
-    {
-      name:"Manicure",
-      cost:250
-    },
-
-    {
-      name:"Guilt-Free Lazy Afternoon",
-      cost:300
-    }
-
+if(rewards.length===0){
+  rewards=[
+    {name:"Fancy Coffee",cost:30},
+    {name:"Guilt-Free TV Episode",cost:40},
+    {name:"Cocktail",cost:60},
+    {name:"$25 Fun Purchase",cost:150},
+    {name:"New Yarn",cost:175},
+    {name:"Manicure",cost:250},
+    {name:"Guilt-Free Lazy Afternoon",cost:300}
   ];
 }
 
-
-/* UPGRADE EXISTING TASKS */
-
-tasks =
-  tasks.map(
-    function(t){
-
-      return Object.assign(
-
-        {
-          priority:"Normal",
-          recurrence:"none",
-          notes:"",
-          minutes:30,
-          points:10,
-          cash:5,
-          done:false
-        },
-
-        t
-
-      );
-    }
-  );
-
+tasks=tasks.map(function(t){
+  return Object.assign({
+    priority:"Normal",
+    recurrence:"none",
+    notes:"",
+    minutes:30,
+    points:10,
+    cash:5,
+    done:false
+  },t);
+});
 
 function save(){
-
-  localStorage.setItem(
-    "lawRating",
-    String(rating)
-  );
-
-  localStorage.setItem(
-    "lawWeekPoints",
-    String(weekPoints)
-  );
-
-  localStorage.setItem(
-    "lawCounselCash",
-    String(counselCash)
-  );
-
-  localStorage.setItem(
-    "lawXP",
-    String(xp)
-  );
-
-  localStorage.setItem(
-    "lawClasses",
-    JSON.stringify(classes)
-  );
-
-  localStorage.setItem(
-    "lawTasks",
-    JSON.stringify(tasks)
-  );
-
-  localStorage.setItem(
-    "lawRewards",
-    JSON.stringify(rewards)
-  );
-
-  localStorage.setItem(
-    "lawWeekArchive",
-    JSON.stringify(weekArchive)
-  );
-
-  localStorage.setItem(
-    "lawFocusSessions",
-    JSON.stringify(
-      focusSessions
-    )
-  );
+  localStorage.setItem("lawRating",String(rating));
+  localStorage.setItem("lawWeekPoints",String(weekPoints));
+  localStorage.setItem("lawCounselCash",String(counselCash));
+  localStorage.setItem("lawXP",String(xp));
+  localStorage.setItem("lawClasses",JSON.stringify(classes));
+  localStorage.setItem("lawTasks",JSON.stringify(tasks));
+  localStorage.setItem("lawRewards",JSON.stringify(rewards));
+  localStorage.setItem("lawWeekArchive",JSON.stringify(weekArchive));
+  localStorage.setItem("lawFocusSessions",JSON.stringify(focusSessions));
 }
 
-
-/* ACADEMIC TIERS */
-
-function getStatus(
-  value
-){
-
-  if(
-    value >= 100
-  ){
-
-    return {
-
-      title:
-        "🏆 ACADEMIC WEAPON",
-
-      message:
-        "Counsel is operating at an unreasonable level of preparedness.",
-
-      image:
-        "AcademicWeapon.png"
-
-    };
-  }
-
-
-  if(
-    value >= 85
-  ){
-
-    return {
-
-      title:
-        "🔥 PREPARED & DANGEROUS",
-
-      message:
-        "Opposing counsel should be concerned.",
-
-      image:
-        "PreparedAndDangerous.png"
-
-    };
-  }
-
-
-  if(
-    value >= 70
-  ){
-
-    return {
-
-      title:
-        "💼 GOOD STANDING",
-
-      message:
-        "Counsel is adequately prepared.",
-
-      image:
-        "GoodStanding.png"
-
-    };
-  }
-
-
-  if(
-    value >= 55
-  ){
-
-    return {
-
-      title:
-        "📚 PLAYING CATCH-UP",
-
-      message:
-        "A strategic encounter with the casebook is recommended.",
-
-      image:
-        "PlayingCatchUp.png"
-
-    };
-  }
-
-
-  if(
-    value >= 40
-  ){
-
-    return {
-
-      title:
-        "⚠️ ACADEMIC PROBATION",
-
-      message:
-        "Management has identified several preparedness deficiencies.",
-
-      image:
-        "AcademicProbation.png"
-
-    };
-  }
-
-
-  return {
-
-    title:
-      "🚨 LAW SCHOOL JAIL",
-
-    message:
-      "Counsel has been remanded to the library.",
-
-    image:
-      "LawSchoolJail.png"
-
-  };
+function getStatus(value){
+  if(value>=100) return {title:"🏆 ACADEMIC WEAPON",message:"Counsel is operating at an unreasonable level of preparedness.",image:"AcademicWeapon.png"};
+  if(value>=85) return {title:"🔥 PREPARED & DANGEROUS",message:"Opposing counsel should be concerned.",image:"PreparedAndDangerous.png"};
+  if(value>=70) return {title:"💼 GOOD STANDING",message:"Counsel is adequately prepared.",image:"GoodStanding.png"};
+  if(value>=55) return {title:"📚 PLAYING CATCH-UP",message:"A strategic encounter with the casebook is recommended.",image:"PlayingCatchUp.png"};
+  if(value>=40) return {title:"⚠️ ACADEMIC PROBATION",message:"Management has identified several preparedness deficiencies.",image:"AcademicProbation.png"};
+  return {title:"🚨 LAW SCHOOL JAIL",message:"Counsel has been remanded to the library.",image:"LawSchoolJail.png"};
 }
 
-
-/* DATE HELPERS */
-
-function dateString(
-  d
-){
-
-  return (
-
-    d.getFullYear()
-
-    +
-
-    "-"
-
-    +
-
-    String(
-      d.getMonth()+1
-    )
-    .padStart(
-      2,
-      "0"
-    )
-
-    +
-
-    "-"
-
-    +
-
-    String(
-      d.getDate()
-    )
-    .padStart(
-      2,
-      "0"
-    )
-
-  );
+function dateString(d){
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
-
-
-function todayString(){
-
-  return dateString(
-    new Date()
-  );
+function todayString(){ return dateString(new Date()); }
+function escapeHTML(text){ var d=document.createElement("div"); d.textContent=String(text); return d.innerHTML; }
+function addDays(dateStr,days){
+  var d=dateStr ? new Date(dateStr+"T12:00:00") : new Date();
+  d.setDate(d.getDate()+days);
+  return dateString(d);
 }
-
-
-function escapeHTML(
-  text
-){
-
-  var d =
-    document.createElement(
-      "div"
-    );
-
-  d.textContent =
-    String(text);
-
-  return d.innerHTML;
-}
-
-
-function addDays(
-  dateStr,
-  days
-){
-
-  var d =
-    dateStr
-    ? new Date(
-        dateStr+
-        "T12:00:00"
-      )
-    : new Date();
-
-
-  d.setDate(
-    d.getDate()
-    +
-    days
-  );
-
-
-  return dateString(
-    d
-  );
-}
-
-
-/* PRIORITIES */
-
-function priorityWeight(
-  p
-){
-
-  return p === "Emergency"
-    ? 4
-    : p === "High"
-    ? 3
-    : p === "Normal"
-    ? 2
-    : 1;
-}
-
-
-/* OVERDUE PENALTY */
-
+function priorityWeight(p){ return p==="Emergency"?4:p==="High"?3:p==="Normal"?2:1; }
 function overdueTasks(){
-
-  var today =
-    todayString();
-
-
-  return tasks.filter(
-    function(t){
-
-      return (
-        !t.done
-        &&
-        t.due
-        &&
-        t.due < today
-      );
-    }
-  );
+  var today=todayString();
+  return tasks.filter(function(t){ return !t.done && t.due && t.due<today; });
 }
-
-
 function overduePenalty(){
-
-  return overdueTasks()
-    .reduce(
-      function(
-        sum,
-        t
-      ){
-
-        return (
-          sum
-          +
-          (
-            t.priority === "Emergency"
-            ? 5
-            : t.priority === "High"
-            ? 3
-            : 2
-          )
-        );
-      },
-      0
-    );
+  return overdueTasks().reduce(function(sum,t){
+    return sum+(t.priority==="Emergency"?5:t.priority==="High"?3:2);
+  },0);
 }
-
-
-function displayRating(){
-
-  return Math.max(
-    0,
-    rating
-    -
-    overduePenalty()
-  );
-}
-
-
-/* STREAKS */
+function displayRating(){ return Math.max(0,rating-overduePenalty()); }
 
 function completionDateSet(){
-
-  var set =
-    {};
-
-
-  tasks.forEach(
-    function(t){
-
-      if(
-        t.done
-        &&
-        t.completedAt
-      ){
-
-        set[
-          dateString(
-            new Date(
-              t.completedAt
-            )
-          )
-        ] =
-        true;
-      }
-    }
-  );
-
-
-  focusSessions.forEach(
-    function(s){
-
-      if(
-        s.completedAt
-      ){
-
-        set[
-          dateString(
-            new Date(
-              s.completedAt
-            )
-          )
-        ] =
-        true;
-      }
-    }
-  );
-
-
+  var set={};
+  tasks.forEach(function(t){
+    if(t.done && t.completedAt) set[dateString(new Date(t.completedAt))]=true;
+  });
+  focusSessions.forEach(function(s){
+    if(s.completedAt) set[dateString(new Date(s.completedAt))]=true;
+  });
   return set;
+}
+function streakStats(){
+  var set=completionDateSet();
+  var keys=Object.keys(set).sort();
+  if(!keys.length) return {current:0,longest:0};
+
+  var longest=1,run=1;
+  for(var i=1;i<keys.length;i++){
+    var prev=new Date(keys[i-1]+"T12:00:00");
+    var cur=new Date(keys[i]+"T12:00:00");
+    var diff=Math.round((cur-prev)/86400000);
+    if(diff===1){ run++; longest=Math.max(longest,run); } else if(diff>1){ run=1; }
+  }
+
+  var current=0;
+  var d=new Date();
+  var today=todayString();
+  var yesterday=addDays(today,-1);
+  if(!set[today] && !set[yesterday]) return {current:0,longest:longest};
+  if(!set[today]) d.setDate(d.getDate()-1);
+
+  while(set[dateString(d)]){
+    current++;
+    d.setDate(d.getDate()-1);
+  }
+  return {current:current,longest:longest};
+}
+
+function studyMinutesFor(dateStr){
+  return focusSessions.filter(function(s){
+    return s.completedAt && dateString(new Date(s.completedAt))===dateStr;
+  }).reduce(function(sum,s){ return sum+Number(s.minutes||0); },0);
+}
+
+function taskHTML(task){
+  var doneClass=task.done?" taskDone":"";
+  var today=todayString();
+  var overdue=!task.done && task.due && task.due<today;
+  var dueText=task.due || "No date";
+  var notes=task.notes ? '<div class="taskMeta">'+escapeHTML(task.notes)+'</div>' : '';
+  var recurrence=task.recurrence && task.recurrence!=="none" ? " • ↻ "+task.recurrence : "";
+
+  var html='<div class="task'+doneClass+'">'+
+    '<div class="taskTop"><div>'+
+    '<div class="taskTitle">'+escapeHTML(task.name)+' <span class="priority priority-'+escapeHTML(task.priority)+'">'+escapeHTML(task.priority)+'</span></div>'+
+    '<div class="taskMeta">'+escapeHTML(task.className||"General")+" • "+escapeHTML(task.type)+" • "+Number(task.minutes||0)+" min"+recurrence+'</div>'+
+    '<div class="taskMeta '+(overdue?"overdue":"")+'">'+(overdue?"OVERDUE • ":"Due: ")+escapeHTML(dueText)+'</div>'+
+    notes+
+    '</div><strong>'+(task.done?"✅":"⭐ "+task.points)+'</strong></div>';
+
+  if(!task.done){
+    html+='<div class="taskActions">'+
+      '<button class="green taskButton" onclick="completeTask(\''+task.id+'\')">COMPLETE</button>'+
+      '<button class="gray taskButton" onclick="editTask(\''+task.id+'\')">EDIT</button>'+
+      '</div>';
+  }else{
+    html+='<div class="taskActions">'+
+      '<button class="gray taskButton" onclick="editTask(\''+task.id+'\')">EDIT</button>'+
+      '<button class="red taskButton" onclick="deleteTask(\''+task.id+'\')">DELETE</button>'+
+      '</div>';
+  }
+  return html+'</div>';
+}
+
+function renderHeader(){
+  var shownRating=displayRating();
+  var status=getStatus(shownRating);
+  var streak=streakStats();
+
+  document.getElementById("rating").textContent=shownRating;
+  document.getElementById("status").textContent=status.title;
+  document.getElementById("statusMessage").textContent=status.message+(overduePenalty() ? " • "+overduePenalty()+" temporary overdue-point penalty." : "");
+  document.getElementById("avatar").src=status.image;
+  document.getElementById("avatar").alt=status.title+" avatar";
+
+  document.getElementById("meStatus").textContent=status.title;
+  document.getElementById("meAvatar").src=status.image;
+  document.getElementById("meAvatar").alt=status.title+" avatar";
+  document.getElementById("meXP").textContent=xp+" cumulative XP • "+counselCash+" Counsel Cash";
+
+  document.getElementById("weekPointsMini").textContent=weekPoints;
+  document.getElementById("xpMini").textContent=xp;
+  document.getElementById("streakMini").textContent=streak.current;
+  document.getElementById("cashDisplay").textContent="$"+counselCash;
+  document.getElementById("todayStudy").textContent=studyMinutesFor(todayString())+"m";
+}
+
+function upcomingMajor(){
+  var today=todayString();
+  return tasks.filter(function(t){
+    return !t.done && t.due && t.due>=today && MAJOR_TYPES.indexOf(t.type)>=0;
+  }).sort(function(a,b){ return a.due.localeCompare(b.due); })[0];
+}
+function renderDeadline(){
+  var box=document.getElementById("nextDeadline");
+  var major=upcomingMajor();
+  if(!major){ box.innerHTML=""; return; }
+  var today=new Date(todayString()+"T12:00:00");
+  var due=new Date(major.due+"T12:00:00");
+  var days=Math.ceil((due-today)/86400000);
+  box.innerHTML='<div class="countdown"><strong>⏳ '+escapeHTML(major.name)+' — '+days+' day'+(days===1?"":"s")+'</strong><div class="small">'+escapeHTML(major.className||"General")+' • '+escapeHTML(major.type)+' • due '+escapeHTML(major.due)+'</div></div>';
 }
 
 
-function streakStats(){
+function daysUntil(dateStr){
+  if(!dateStr) return null;
+  var today=new Date(todayString()+"T12:00:00");
+  var due=new Date(dateStr+"T12:00:00");
+  return Math.ceil((due-today)/86400000);
+}
 
-  var set =
-    completionDateSet();
+function triageData(){
+  var today=todayString();
+  var tomorrow=addDays(today,1);
 
+  var overdue=tasks.filter(function(t){
+    return !t.done && t.due && t.due<today;
+  });
 
-  var keys =
-    Object.keys(
-      set
-    )
-    .sort();
+  var dueToday=tasks.filter(function(t){
+    return !t.done && t.due===today;
+  });
 
+  var dueTomorrow=tasks.filter(function(t){
+    return !t.done && t.due===tomorrow;
+  });
 
-  if(
-    !keys.length
-  ){
-
-    return {
-      current:0,
-      longest:0
-    };
-  }
-
-
-  var longest =
-    1;
-
-  var run =
-    1;
-
-
-  for(
-    var i = 1;
-    i < keys.length;
-    i++
-  ){
-
-    var prev =
-      new Date(
-        keys[i-1]
-        +
-        "T12:00:00"
-      );
-
-
-    var cur =
-      new Date(
-        keys[i]
-        +
-        "T12:00:00"
-      );
-
-
-    var diff =
-      Math.round(
-        (
-          cur
-          -
-          prev
-        )
-        /
-        86400000
-      );
-
-
-    if(
-      diff === 1
-    ){
-
-      run++;
-
-      longest =
-        Math.max(
-          longest,
-          run
-        );
-
-    }else if(
-      diff > 1
-    ){
-
-      run =
-        1;
-    }
-  }
-
-
-  var current =
-    0;
-
-
-  var d =
-    new Date();
-
-
-  var today =
-    todayString();
-
-
-  var yesterday =
-    addDays(
-      today,
-      -1
-    );
-
-
-  if(
-    !set[today]
-    &&
-    !set[yesterday]
-  ){
-
-    return {
-      current:0,
-      longest:longest
-    };
-  }
-
-
-  if(
-    !set[today]
-  ){
-
-    d.setDate(
-      d.getDate()
-      -
-      1
-    );
-  }
-
-
-  while(
-    set[
-      dateString(d)
-    ]
-  ){
-
-    current++;
-
-    d.setDate(
-      d.getDate()
-      -
-      1
-    );
-  }
-
+  var nextSeven=tasks.filter(function(t){
+    if(t.done || !t.due) return false;
+    var d=daysUntil(t.due);
+    return d!==null && d>=2 && d<=7;
+  });
 
   return {
-    current:current,
-    longest:longest
+    overdue:overdue,
+    today:dueToday,
+    tomorrow:dueTomorrow,
+    week:nextSeven
   };
 }
 
-
-/* STUDY TIME */
-
-function studyMinutesFor(
-  dateStr
-){
-
-  return focusSessions
-
-    .filter(
-      function(s){
-
-        return (
-          s.completedAt
-          &&
-          dateString(
-            new Date(
-              s.completedAt
-            )
-          )
-          ===
-          dateStr
-        );
-      }
-    )
-
-    .reduce(
-      function(
-        sum,
-        s
-      ){
-
-        return (
-          sum
-          +
-          Number(
-            s.minutes
-            ||
-            0
-          )
-        );
-      },
-      0
-    );
-}
-
-
-/* TASK SORTING */
-
-function taskSort(
-  a,
-  b
-){
-
-  var ap =
-    priorityWeight(
-      a.priority
-    );
-
-
-  var bp =
-    priorityWeight(
-      b.priority
-    );
-
-
-  if(
-    ap !== bp
-  ){
-
-    return (
-      bp
-      -
-      ap
-    );
-  }
-
-
-  var ad =
-    a.due
-    ||
-    "9999-12-31";
-
-
-  var bd =
-    b.due
-    ||
-    "9999-12-31";
-
-
-  return ad
-    .localeCompare(
-      bd
-    );
-}
-
-
-/* TASK HTML */
-
-function taskHTML(
-  task
-){
-
-  var doneClass =
-    task.done
-    ? " taskDone"
-    : "";
-
-
-  var today =
-    todayString();
-
-
-  var overdue =
-    !task.done
-    &&
-    task.due
-    &&
-    task.due < today;
-
-
-  var dueText =
-    task.due
-    ||
-    "No date";
-
-
-  var notes =
-    task.notes
-
-    ? '<div class="taskMeta">' +
-      escapeHTML(
-        task.notes
-      ) +
-      '</div>'
-
-    : '';
-
-
-  var recurrence =
-    task.recurrence
-    &&
-    task.recurrence !== "none"
-
-    ? " • ↻ " +
-      task.recurrence
-
-    : "";
-
-
-  var html =
-
-    '<div class="task' +
-    doneClass +
-    '">' +
-
-      '<div class="taskTop">' +
-
-        '<div>' +
-
-          '<div class="taskTitle">' +
-
-            escapeHTML(
-              task.name
-            ) +
-
-            ' <span class="priority priority-' +
-            escapeHTML(
-              task.priority
-            ) +
-            '">' +
-
-            escapeHTML(
-              task.priority
-            ) +
-
-            '</span>' +
-
-          '</div>' +
-
-          '<div class="taskMeta">' +
-
-            escapeHTML(
-              task.className
-              ||
-              "General"
-            ) +
-
-            " • " +
-
-            escapeHTML(
-              task.type
-            ) +
-
-            " • " +
-
-            Number(
-              task.minutes
-              ||
-              0
-            ) +
-
-            " min" +
-
-            recurrence +
-
-          '</div>' +
-
-          '<div class="taskMeta ' +
-          (
-            overdue
-            ? "overdue"
-            : ""
-          )
-          +
-          '">' +
-
-            (
-              overdue
-              ? "OVERDUE • "
-              : "Due: "
-            ) +
-
-            escapeHTML(
-              dueText
-            ) +
-
-          '</div>' +
-
-          notes +
-
-        '</div>' +
-
-        '<strong>' +
-
-          (
-            task.done
-            ? "✅"
-            : "⭐ " +
-              task.points
-          ) +
-
-        '</strong>' +
-
-      '</div>';
-
-
-  if(
-    !task.done
-  ){
-
-    html +=
-
-      '<div class="taskActions">' +
-
-        '<button ' +
-        'class="green taskButton" ' +
-        'onclick="completeTask(\'' +
-        task.id +
-        '\')">' +
-        'COMPLETE' +
-        '</button>' +
-
-        '<button ' +
-        'class="gray taskButton" ' +
-        'onclick="editTask(\'' +
-        task.id +
-        '\')">' +
-        'EDIT' +
-        '</button>' +
-
-      '</div>';
-
+function renderTriage(){
+  var panel=document.getElementById("triagePanel");
+  if(!panel) return;
+
+  var data=triageData();
+  var total=data.overdue.length+data.today.length+data.tomorrow.length;
+
+  var html='<div class="triageGrid">'+
+    '<div class="triageCard '+(data.overdue.length?"triageRed":"triageGreen")+'"><strong>'+data.overdue.length+'</strong><span class="small">🚨 Overdue</span></div>'+
+    '<div class="triageCard '+(data.today.length?"triageGold":"triageGreen")+'"><strong>'+data.today.length+'</strong><span class="small">📌 Due Today</span></div>'+
+    '<div class="triageCard '+(data.tomorrow.length?"triageGold":"triageGreen")+'"><strong>'+data.tomorrow.length+'</strong><span class="small">⏰ Due Tomorrow</span></div>'+
+    '<div class="triageCard"><strong>'+data.week.length+'</strong><span class="small">📅 Due in 2–7 Days</span></div>'+
+    '</div>';
+
+  if(total===0){
+    html+='<div class="card center"><strong>✅ No academic emergency detected.</strong><div class="small" style="margin-top:5px">Counsel remains in control of the docket.</div></div>';
   }else{
-
-    html +=
-
-      '<div class="taskActions">' +
-
-        '<button ' +
-        'class="gray taskButton" ' +
-        'onclick="editTask(\'' +
-        task.id +
-        '\')">' +
-        'EDIT' +
-        '</button>' +
-
-        '<button ' +
-        'class="red taskButton" ' +
-        'onclick="deleteTask(\'' +
-        task.id +
-        '\')">' +
-        'DELETE' +
-        '</button>' +
-
-      '</div>';
+    var mostUrgent=data.overdue[0]||data.today[0]||data.tomorrow[0];
+    if(mostUrgent){
+      html+='<div class="card"><strong>Most urgent:</strong> '+escapeHTML(mostUrgent.name)+
+        '<div class="small">'+escapeHTML(mostUrgent.className||"General")+' • '+escapeHTML(mostUrgent.priority||"Normal")+'</div></div>';
+    }
   }
 
-
-  return (
-    html
-    +
-    '</div>'
-  );
+  panel.innerHTML=html;
 }
 
+function missionScore(task){
+  if(task.done) return -9999;
 
-/* HEADER */
+  var score=0;
+  var d=daysUntil(task.due);
 
-function renderHeader(){
+  if(d!==null){
+    if(d<0) score+=120+Math.abs(d)*4;
+    else if(d===0) score+=100;
+    else if(d===1) score+=80;
+    else if(d<=3) score+=55;
+    else if(d<=7) score+=30;
+    else score+=10;
+  }
 
-  var shownRating =
-    displayRating();
+  score+=priorityWeight(task.priority||"Normal")*15;
 
+  if(task.type==="Exam") score+=25;
+  if(task.type==="Memo / Paper"||task.type==="Assignment") score+=20;
+  if(task.type==="Reading") score+=8;
 
-  var status =
-    getStatus(
-      shownRating
-    );
+  // Small bias toward tasks that fit into a manageable work block.
+  if(Number(task.minutes||0)<=60) score+=8;
 
-
-  var streak =
-    streakStats();
-
-
-  document
-    .getElementById(
-      "rating"
-    )
-    .textContent =
-    shownRating;
-
-
-  document
-    .getElementById(
-      "status"
-    )
-    .textContent =
-    status.title;
-
-
-  document
-    .getElementById(
-      "statusMessage"
-    )
-    .textContent =
-
-    status.message
-
-    +
-
-    (
-      overduePenalty()
-
-      ? " • " +
-        overduePenalty() +
-        " temporary overdue-point penalty."
-
-      : ""
-    );
-
-
-  document
-    .getElementById(
-      "avatar"
-    )
-    .src =
-    status.image;
-
-
-  document
-    .getElementById(
-      "avatar"
-    )
-    .alt =
-    status.title +
-    " avatar";
-
-
-  document
-    .getElementById(
-      "meStatus"
-    )
-    .textContent =
-    status.title;
-
-
-  document
-    .getElementById(
-      "meAvatar"
-    )
-    .src =
-    status.image;
-
-
-  document
-    .getElementById(
-      "meAvatar"
-    )
-    .alt =
-    status.title +
-    " avatar";
-
-
-  document
-    .getElementById(
-      "meXP"
-    )
-    .textContent =
-
-    xp +
-    " cumulative XP • " +
-    counselCash +
-    " Counsel Cash";
-
-
-  document
-    .getElementById(
-      "weekPointsMini"
-    )
-    .textContent =
-    weekPoints;
-
-
-  document
-    .getElementById(
-      "xpMini"
-    )
-    .textContent =
-    xp;
-
-
-  document
-    .getElementById(
-      "streakMini"
-    )
-    .textContent =
-    streak.current;
-
-
-  document
-    .getElementById(
-      "cashDisplay"
-    )
-    .textContent =
-    "$" +
-    counselCash;
-
-
-  document
-    .getElementById(
-      "todayStudy"
-    )
-    .textContent =
-
-    studyMinutesFor(
-      todayString()
-    )
-    +
-    "m";
+  return score;
 }
 
+function bestNextTask(){
+  var open=tasks.filter(function(t){return !t.done;});
+  if(!open.length) return null;
 
-/* DEADLINE COUNTDOWN */
-
-function upcomingMajor(){
-
-  var today =
-    todayString();
-
-
-  return tasks
-
-    .filter(
-      function(t){
-
-        return (
-          !t.done
-          &&
-          t.due
-          &&
-          t.due >= today
-          &&
-          MAJOR_TYPES.indexOf(
-            t.type
-          )
-          >=
-          0
-        );
-      }
-    )
-
-    .sort(
-      function(
-        a,
-        b
-      ){
-
-        return a.due
-          .localeCompare(
-            b.due
-          );
-      }
-    )[0];
+  return open.slice().sort(function(a,b){
+    var diff=missionScore(b)-missionScore(a);
+    if(diff!==0) return diff;
+    return taskSort(a,b);
+  })[0];
 }
 
+function renderNextMission(){
+  var box=document.getElementById("nextMission");
+  if(!box) return;
 
-function renderDeadline(){
-
-  var box =
-    document.getElementById(
-      "nextDeadline"
-    );
-
-
-  var major =
-    upcomingMajor();
-
-
-  if(
-    !major
-  ){
-
-    box.innerHTML =
-      "";
-
+  var task=bestNextTask();
+  if(!task){
+    box.innerHTML='<div class="missionCard center"><div class="missionTitle">Docket Clear 🎉</div><div class="muted">There is currently nothing for the algorithm to yell at you about.</div></div>';
     return;
   }
 
+  var d=daysUntil(task.due);
+  var dueText=!task.due
+    ? "No fixed deadline"
+    : d<0
+      ? Math.abs(d)+" day"+(Math.abs(d)===1?"":"s")+" overdue"
+      : d===0
+        ? "Due today"
+        : d===1
+          ? "Due tomorrow"
+          : "Due in "+d+" days";
 
-  var today =
-    new Date(
-      todayString()
-      +
-      "T12:00:00"
-    );
-
-
-  var due =
-    new Date(
-      major.due
-      +
-      "T12:00:00"
-    );
-
-
-  var days =
-    Math.ceil(
-      (
-        due
-        -
-        today
-      )
-      /
-      86400000
-    );
-
-
-  box.innerHTML =
-
-    '<div class="countdown">' +
-
-      '<strong>' +
-
-        '⏳ ' +
-
-        escapeHTML(
-          major.name
-        ) +
-
-        ' — ' +
-
-        days +
-
-        ' day' +
-
-        (
-          days === 1
-          ? ""
-          : "s"
-        ) +
-
-      '</strong>' +
-
-      '<div class="small">' +
-
-        escapeHTML(
-          major.className
-          ||
-          "General"
-        ) +
-
-        ' • ' +
-
-        escapeHTML(
-          major.type
-        ) +
-
-        ' • due ' +
-
-        escapeHTML(
-          major.due
-        ) +
-
-      '</div>' +
-
+  box.innerHTML=
+    '<div class="missionCard">'+
+      '<div class="missionKicker">YOUR ORDERS</div>'+
+      '<div class="missionTitle">'+escapeHTML(task.name)+'</div>'+
+      '<div class="muted">'+escapeHTML(task.className||"General")+' • '+escapeHTML(task.type)+'</div>'+
+      '<div style="margin:10px 0"><span class="badge">⏱ '+Number(task.minutes||30)+' min</span><span class="badge">⭐ +'+Number(task.points||0)+'</span><span class="badge">'+escapeHTML(dueText)+'</span></div>'+
+      '<button class="purple" onclick="beginMission(\''+task.id+'\')">BEGIN MISSION</button>'+
     '</div>';
 }
 
+function beginMission(id){
+  var task=tasks.find(function(t){return t.id===id;});
+  if(!task) return;
 
-/* TODAY */
+  openFocusModal();
 
-function renderToday(){
+  var taskSelect=document.getElementById("focusTask");
+  taskSelect.value=id;
 
-  var today =
-    todayString();
+  var mins=Number(task.minutes||30);
+  var options=[15,30,45,60];
+  var closest=options.reduce(function(best,x){
+    return Math.abs(x-mins)<Math.abs(best-mins)?x:best;
+  },30);
 
+  document.getElementById("focusMinutes").value=String(closest);
+  document.getElementById("focusClock").textContent=String(closest).padStart(2,"0")+":00";
+  document.getElementById("focusTaskLabel").textContent=task.name;
+}
 
-  var shown =
-    tasks.filter(
-      function(t){
+function finalsTasks(){
+  var today=todayString();
 
-        return (
-          !t.done
-          &&
-          t.due
-          &&
-          t.due <= today
-        );
-      }
-    );
+  return tasks.filter(function(t){
+    return !t.done && t.type==="Exam" && t.due && t.due>=today;
+  }).sort(function(a,b){
+    return a.due.localeCompare(b.due);
+  });
+}
 
+function renderFinalsCountdown(){
+  var box=document.getElementById("finalsCountdown");
+  if(!box) return;
 
-  if(
-    !shown.length
-  ){
+  var finals=finalsTasks();
 
-    shown =
-      tasks
-
-      .filter(
-        function(t){
-
-          return !t.done;
-        }
-      )
-
-      .sort(
-        taskSort
-      )
-
-      .slice(
-        0,
-        4
-      );
-
-  }else{
-
-    shown.sort(
-      taskSort
-    );
+  if(!finals.length){
+    box.innerHTML='<div class="card empty">No finals entered yet. Add each final as a task with Type = Exam and its exam date as the due date.</div>';
+    return;
   }
 
+  box.innerHTML=finals.map(function(exam){
+    var days=daysUntil(exam.due);
+    var urgency=days<=7?"finalsUrgent":days<=21?"finalsSoon":"finalsLater";
+    var dayLabel=days===0?"TODAY":days+" DAY"+(days===1?"":"S");
 
-  document
-    .getElementById(
-      "todayTasks"
-    )
-    .innerHTML =
-
-    shown.length
-
-    ? shown
-      .map(
-        taskHTML
-      )
-      .join("")
-
-    : '<div class="empty">' +
-      'Your docket is clear. Suspiciously clear.' +
-      '</div>';
+    return '<div class="finalsCard '+urgency+'">'+
+      '<div class="finalsRow">'+
+        '<div><strong>'+escapeHTML(exam.name)+'</strong>'+
+        '<div class="small">'+escapeHTML(exam.className||"General")+' • '+escapeHTML(exam.due)+'</div></div>'+
+        '<div class="finalsDays">'+dayLabel+'</div>'+
+      '</div>'+
+    '</div>';
+  }).join("");
+}
 
 
+function renderToday(){
+  var today=todayString();
+  var shown=tasks.filter(function(t){ return !t.done && t.due && t.due<=today; });
+  if(!shown.length){
+    shown=tasks.filter(function(t){ return !t.done; })
+      .sort(taskSort)
+      .slice(0,4);
+  }else{
+    shown.sort(taskSort);
+  }
+  document.getElementById("todayTasks").innerHTML=shown.length?shown.map(taskHTML).join(""):'<div class="empty">Your docket is clear. Suspiciously clear.</div>';
   renderDeadline();
 }
 
-
-/* TASK LIST */
-
-function renderTasks(){
-
-  var filter =
-    document
-    .getElementById(
-      "taskFilter"
-    )
-
-    ? document
-      .getElementById(
-        "taskFilter"
-      )
-      .value
-
-    : "open";
-
-
-  var today =
-    todayString();
-
-
-  var list =
-    tasks.slice();
-
-
-  if(
-    filter === "open"
-  ){
-
-    list =
-      list.filter(
-        function(t){
-
-          return !t.done;
-        }
-      );
-  }
-
-
-  if(
-    filter === "done"
-  ){
-
-    list =
-      list.filter(
-        function(t){
-
-          return t.done;
-        }
-      );
-  }
-
-
-  if(
-    filter === "overdue"
-  ){
-
-    list =
-      list.filter(
-        function(t){
-
-          return (
-            !t.done
-            &&
-            t.due
-            &&
-            t.due < today
-          );
-        }
-      );
-  }
-
-
-  if(
-    filter === "major"
-  ){
-
-    list =
-      list.filter(
-        function(t){
-
-          return (
-            MAJOR_TYPES.indexOf(
-              t.type
-            )
-            >=
-            0
-          );
-        }
-      );
-  }
-
-
-  list.sort(
-    function(
-      a,
-      b
-    ){
-
-      if(
-        a.done !== b.done
-      ){
-
-        return a.done
-          ? 1
-          : -1;
-      }
-
-
-      return taskSort(
-        a,
-        b
-      );
-    }
-  );
-
-
-  document
-    .getElementById(
-      "allTasks"
-    )
-    .innerHTML =
-
-    list.length
-
-    ? list
-      .map(
-        taskHTML
-      )
-      .join("")
-
-    : '<div class="empty">' +
-      'No matching tasks.' +
-      '</div>';
+function taskSort(a,b){
+  var ap=priorityWeight(a.priority),bp=priorityWeight(b.priority);
+  if(ap!==bp) return bp-ap;
+  var ad=a.due||"9999-12-31",bd=b.due||"9999-12-31";
+  return ad.localeCompare(bd);
 }
 
+function renderTasks(){
+  var filter=document.getElementById("taskFilter")?document.getElementById("taskFilter").value:"open";
+  var today=todayString();
+  var list=tasks.slice();
+  if(filter==="open") list=list.filter(function(t){return !t.done;});
+  if(filter==="done") list=list.filter(function(t){return t.done;});
+  if(filter==="overdue") list=list.filter(function(t){return !t.done&&t.due&&t.due<today;});
+  if(filter==="major") list=list.filter(function(t){return MAJOR_TYPES.indexOf(t.type)>=0;});
+  list.sort(function(a,b){
+    if(a.done!==b.done) return a.done?1:-1;
+    return taskSort(a,b);
+  });
+  document.getElementById("allTasks").innerHTML=list.length?list.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';
+}
 
-/* READING STATUS */
-
-function readingStatus(
-  course
-){
-
-  var today =
-    todayString();
-
-
-  var readings =
-    tasks.filter(
-      function(t){
-
-        return (
-          t.className
-          ===
-          course.name
-          &&
-          t.type
-          ===
-          "Reading"
-        );
-      }
-    );
-
-
-  var overdue =
-    readings.filter(
-      function(t){
-
-        return (
-          !t.done
-          &&
-          t.due
-          &&
-          t.due < today
-        );
-      }
-    ).length;
-
-
-  var ahead =
-    readings.filter(
-      function(t){
-
-        return (
-          t.done
-          &&
-          t.due
-          &&
-          t.due > today
-        );
-      }
-    ).length;
-
-
-  if(
-    overdue
-  ){
-
-    return (
-      overdue
-      +
-      " reading"
-      +
-      (
-        overdue === 1
-        ? ""
-        : "s"
-      )
-      +
-      " behind"
-    );
-  }
-
-
-  if(
-    ahead
-  ){
-
-    return (
-      ahead
-      +
-      " reading"
-      +
-      (
-        ahead === 1
-        ? ""
-        : "s"
-      )
-      +
-      " ahead"
-    );
-  }
-
-
+function readingStatus(course){
+  var today=todayString();
+  var readings=tasks.filter(function(t){return t.className===course.name&&t.type==="Reading";});
+  var overdue=readings.filter(function(t){return !t.done&&t.due&&t.due<today;}).length;
+  var ahead=readings.filter(function(t){return t.done&&t.due&&t.due>today;}).length;
+  if(overdue) return overdue+" reading"+(overdue===1?"":"s")+" behind";
+  if(ahead) return ahead+" reading"+(ahead===1?"":"s")+" ahead";
   return "Caught up";
 }
 
-
-/* CLASSES */
-
 function renderClasses(){
-
-  if(
-    !classes.length
-  ){
-
-    document
-      .getElementById(
-        "classesList"
-      )
-      .innerHTML =
-
-      '<div class="card empty">' +
-      'Add your classes to begin building your semester command center.' +
-      '</div>';
-
+  if(!classes.length){
+    document.getElementById("classesList").innerHTML='<div class="card empty">Add your classes to begin building your semester command center.</div>';
     return;
   }
-
-
-  var html =
-    "";
-
-
-  classes.forEach(
-    function(course){
-
-      var courseTasks =
-        tasks.filter(
-          function(t){
-
-            return (
-              t.className
-              ===
-              course.name
-            );
-          }
-        );
-
-
-      var readings =
-        courseTasks.filter(
-          function(t){
-
-            return (
-              t.type
-              ===
-              "Reading"
-            );
-          }
-        );
-
-
-      var completed =
-        readings.filter(
-          function(t){
-
-            return t.done;
-          }
-        ).length;
-
-
-      var total =
-        Math.max(
-          Number(
-            course.totalReadings
-            ||
-            0
-          ),
-          readings.length
-        );
-
-
-      var percent =
-        total
-
-        ? Math.min(
-            100,
-            Math.round(
-              completed
-              /
-              total
-              *
-              100
-            )
-          )
-
-        : 0;
-
-
-      var next =
-        courseTasks
-
-        .filter(
-          function(t){
-
-            return !t.done;
-          }
-        )
-
-        .sort(
-          taskSort
-        )[0];
-
-
-      html +=
-
-        '<div class="classCard">' +
-
-          '<div class="taskTop">' +
-
-            '<div>' +
-
-              '<div class="className">' +
-                escapeHTML(
-                  course.name
-                ) +
-              '</div>' +
-
-              '<div class="small">' +
-                escapeHTML(
-                  course.professor
-                  ||
-                  ""
-                ) +
-              '</div>' +
-
-              '<div class="small">' +
-                escapeHTML(
-                  course.schedule
-                  ||
-                  ""
-                ) +
-              '</div>' +
-
-            '</div>' +
-
-            '<button ' +
-            'class="gray taskButton" ' +
-            'style="width:auto" ' +
-            'onclick="editClass(\'' +
-            course.id +
-            '\')">' +
-            'EDIT' +
-            '</button>' +
-
-          '</div>' +
-
-          '<div style="margin-top:12px">' +
-
-            '<strong>' +
-
-              '📚 ' +
-
-              escapeHTML(
-                readingStatus(
-                  course
-                )
-              ) +
-
-            '</strong>' +
-
-          '</div>' +
-
-          '<div style="margin-top:10px">' +
-
-            '<strong>' +
-
-              'Reading Progress: ' +
-
-              percent +
-
-              '%' +
-
-            '</strong>' +
-
-          '</div>' +
-
-          '<div class="progressBar">' +
-
-            '<div ' +
-            'class="progressFill" ' +
-            'style="width:' +
-            percent +
-            '%">' +
-            '</div>' +
-
-          '</div>' +
-
-          '<div class="small" style="margin-top:8px">' +
-
-            completed +
-
-            ' of ' +
-
-            total +
-
-            ' reading assignments completed' +
-
-          '</div>' +
-
-          '<div style="margin-top:12px">' +
-
-            '<strong>Next:</strong> ' +
-
-            (
-              next
-
-              ? escapeHTML(
-                  next.name
-                )
-
-              : "Nothing pending 🎉"
-            ) +
-
-          '</div>' +
-
-        '</div>';
-    }
-  );
-
-
-  document
-    .getElementById(
-      "classesList"
-    )
-    .innerHTML =
-    html;
+  var html="";
+  classes.forEach(function(course){
+    var courseTasks=tasks.filter(function(t){return t.className===course.name;});
+    var readings=courseTasks.filter(function(t){return t.type==="Reading";});
+    var completed=readings.filter(function(t){return t.done;}).length;
+    var total=Math.max(Number(course.totalReadings||0),readings.length);
+    var percent=total?Math.min(100,Math.round(completed/total*100)):0;
+    var next=courseTasks.filter(function(t){return !t.done;}).sort(taskSort)[0];
+
+    html+='<div class="classCard">'+
+      '<div class="taskTop"><div><div class="className">'+escapeHTML(course.name)+'</div>'+
+      '<div class="small">'+escapeHTML(course.professor||"")+'</div>'+
+      '<div class="small">'+escapeHTML(course.schedule||"")+'</div></div>'+
+      '<button class="gray taskButton" style="width:auto" onclick="editClass(\''+course.id+'\')">EDIT</button></div>'+
+      '<div style="margin-top:12px"><strong>📚 '+escapeHTML(readingStatus(course))+'</strong></div>'+
+      '<div style="margin-top:10px"><strong>Reading Progress: '+percent+'%</strong></div>'+
+      '<div class="progressBar"><div class="progressFill" style="width:'+percent+'%"></div></div>'+
+      '<div class="small" style="margin-top:8px">'+completed+' of '+total+' reading assignments completed</div>'+
+      '<div style="margin-top:12px"><strong>Next:</strong> '+(next?escapeHTML(next.name):"Nothing pending 🎉")+'</div>'+
+      '</div>';
+  });
+  document.getElementById("classesList").innerHTML=html;
 }
 
+var calendarMonth=new Date();
+calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth(),1);
 
-/* CALENDAR */
-
-var calendarMonth =
-  new Date();
-
-
-calendarMonth =
-  new Date(
-    calendarMonth.getFullYear(),
-    calendarMonth.getMonth(),
-    1
-  );
-
-
-function changeMonth(
-  amount
-){
-
-  calendarMonth =
-    new Date(
-
-      calendarMonth.getFullYear(),
-
-      calendarMonth.getMonth()
-      +
-      amount,
-
-      1
-
-    );
-
-
+function changeMonth(amount){
+  calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+amount,1);
   renderCalendar();
 }
-
-
-function tasksForDate(
-  key
-){
-
-  return tasks.filter(
-    function(t){
-
-      return (
-        t.due
-        ===
-        key
-      );
-    }
-  );
-}
-
+function tasksForDate(key){ return tasks.filter(function(t){return t.due===key;}); }
 
 function renderCalendar(){
-
-  var year =
-    calendarMonth.getFullYear();
-
-
-  var month =
-    calendarMonth.getMonth();
-
-
-  document
-    .getElementById(
-      "calendarMonthTitle"
-    )
-    .textContent =
-
-    calendarMonth
-    .toLocaleDateString(
-      undefined,
-      {
-        month:"long",
-        year:"numeric"
-      }
-    );
-
-
-  var grid =
-    document.getElementById(
-      "calendarGrid"
-    );
-
-
-  grid.innerHTML =
-    "";
-
-
-  var first =
-    new Date(
-      year,
-      month,
-      1
-    )
-    .getDay();
-
-
-  var days =
-    new Date(
-      year,
-      month+1,
-      0
-    )
-    .getDate();
-
-
-  for(
-    var b=0;
-    b<first;
-    b++
-  ){
-
-    var blank =
-      document.createElement(
-        "div"
-      );
-
-    blank.className =
-      "calendarDay calendarBlank";
-
-    grid.appendChild(
-      blank
-    );
+  var year=calendarMonth.getFullYear(),month=calendarMonth.getMonth();
+  document.getElementById("calendarMonthTitle").textContent=calendarMonth.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+  var grid=document.getElementById("calendarGrid");
+  grid.innerHTML="";
+  var first=new Date(year,month,1).getDay();
+  var days=new Date(year,month+1,0).getDate();
+  for(var b=0;b<first;b++){
+    var blank=document.createElement("div");blank.className="calendarDay calendarBlank";grid.appendChild(blank);
   }
-
-
-  var today =
-    todayString();
-
-
-  for(
-    var d=1;
-    d<=days;
-    d++
-  ){
-
-    var key =
-      dateString(
-        new Date(
-          year,
-          month,
-          d
-        )
-      );
-
-
-    var dayTasks =
-      tasksForDate(
-        key
-      );
-
-
-    var cell =
-      document.createElement(
-        "div"
-      );
-
-
-    cell.className =
-      "calendarDay";
-
-
-    if(
-      key === today
-    ){
-
-      cell
-      .classList
-      .add(
-        "calendarToday"
-      );
+  var today=todayString();
+  for(var d=1;d<=days;d++){
+    var key=dateString(new Date(year,month,d));
+    var dayTasks=tasksForDate(key);
+    var cell=document.createElement("div");
+    cell.className="calendarDay";
+    if(key===today) cell.classList.add("calendarToday");
+    if(dayTasks.length){
+      var open=dayTasks.filter(function(t){return !t.done;});
+      if(open.some(function(t){return key<today;})) cell.classList.add("calendarOverdue");
+      else if(open.length) cell.classList.add("calendarBusy");
+      else cell.classList.add("calendarComplete");
     }
-
-
-    if(
-      dayTasks.length
-    ){
-
-      var open =
-        dayTasks.filter(
-          function(t){
-
-            return !t.done;
-          }
-        );
-
-
-      if(
-        open.some(
-          function(){
-
-            return (
-              key
-              <
-              today
-            );
-          }
-        )
-      ){
-
-        cell
-        .classList
-        .add(
-          "calendarOverdue"
-        );
-
-      }else if(
-        open.length
-      ){
-
-        cell
-        .classList
-        .add(
-          "calendarBusy"
-        );
-
-      }else{
-
-        cell
-        .classList
-        .add(
-          "calendarComplete"
-        );
-      }
-    }
-
-
-    cell.innerHTML =
-
-      '<div class="calendarDate">' +
-      d +
-      '</div>' +
-
-      '<div class="calendarDots">' +
-
-      (
-        dayTasks.length
-        ? "📚 " +
-          dayTasks.length
-        : ""
-      ) +
-
-      '</div>';
-
-
-    cell.setAttribute(
-      "data-key",
-      key
-    );
-
-
-    cell.onclick =
-      function(){
-
-        showCalendarDay(
-          this.getAttribute(
-            "data-key"
-          )
-        );
-      };
-
-
-    grid.appendChild(
-      cell
-    );
+    cell.innerHTML='<div class="calendarDate">'+d+'</div><div class="calendarDots">'+(dayTasks.length?("📚 "+dayTasks.length):"")+'</div>';
+    cell.setAttribute("data-key",key);
+    cell.onclick=function(){showCalendarDay(this.getAttribute("data-key"));};
+    grid.appendChild(cell);
   }
 }
 
-
-function showCalendarDay(
-  key
-){
-
-  var box =
-    document.getElementById(
-      "calendarDetails"
-    );
-
-
-  var d =
-    new Date(
-      key
-      +
-      "T12:00:00"
-    );
-
-
-  var dayTasks =
-    tasksForDate(
-      key
-    )
-    .sort(
-      taskSort
-    );
-
-
-  box.innerHTML =
-
-    '<div class="className">' +
-
-      d.toLocaleDateString(
-        undefined,
-        {
-          weekday:"long",
-          month:"long",
-          day:"numeric",
-          year:"numeric"
-        }
-      ) +
-
-    '</div>' +
-
-    (
-      dayTasks.length
-
-      ? dayTasks
-        .map(
-          taskHTML
-        )
-        .join("")
-
-      : '<div class="empty">' +
-        'No docket items for this day.' +
-        '</div>'
-    );
+function showCalendarDay(key){
+  var box=document.getElementById("calendarDetails");
+  var d=new Date(key+"T12:00:00");
+  var dayTasks=tasksForDate(key).sort(taskSort);
+  box.innerHTML='<div class="className">'+d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"})+'</div>'+
+    (dayTasks.length?dayTasks.map(taskHTML).join(""):'<div class="empty">No docket items for this day.</div>');
 }
-
-
-/* ANALYTICS */
 
 function renderProgress(){
-
-  var completed =
-    tasks.filter(
-      function(t){
-
-        return t.done;
-      }
-    );
-
-
-  var totalMinutes =
-    focusSessions.reduce(
-      function(
-        sum,
-        s
-      ){
-
-        return (
-          sum
-          +
-          Number(
-            s.minutes
-            ||
-            0
-          )
-        );
-      },
-      0
-    );
-
-
-  var readingCount =
-    completed.filter(
-      function(t){
-
-        return (
-          t.type
-          ===
-          "Reading"
-        );
-      }
-    ).length;
-
-
-  var outlineCount =
-    completed.filter(
-      function(t){
-
-        return (
-          t.type
-          ===
-          "Outline"
-        );
-      }
-    ).length;
-
-
-  var streak =
-    streakStats();
-
-
-  var completionRate =
-    tasks.length
-
-    ? Math.round(
-        completed.length
-        /
-        tasks.length
-        *
-        100
-      )
-
-    : 0;
-
-
-  var byClass =
-    {};
-
-
-  completed.forEach(
-    function(t){
-
-      var key =
-        t.className
-        ||
-        "General";
-
-
-      byClass[key] =
-        (
-          byClass[key]
-          ||
-          0
-        )
-        +
-        Number(
-          t.points
-          ||
-          0
-        );
-    }
-  );
-
-
-  var topClass =
-    "—";
-
-
-  var topScore =
-    -1;
-
-
-  Object.keys(
-    byClass
-  )
-  .forEach(
-    function(k){
-
-      if(
-        byClass[k]
-        >
-        topScore
-      ){
-
-        topScore =
-          byClass[k];
-
-        topClass =
-          k;
-      }
-    }
-  );
-
-
-  var openByClass =
-    {};
-
-
-  tasks
-  .filter(
-    function(t){
-
-      return !t.done;
-    }
-  )
-  .forEach(
-    function(t){
-
-      var k =
-        t.className
-        ||
-        "General";
-
-
-      openByClass[k] =
-        (
-          openByClass[k]
-          ||
-          0
-        )
-        +
-        1;
-    }
-  );
-
-
-  var neglected =
-    "—";
-
-
-  var neglectedCount =
-    -1;
-
-
-  Object.keys(
-    openByClass
-  )
-  .forEach(
-    function(k){
-
-      if(
-        openByClass[k]
-        >
-        neglectedCount
-      ){
-
-        neglectedCount =
-          openByClass[k];
-
-        neglected =
-          k;
-      }
-    }
-  );
-
-
-  var cards = [
-
-    [
-      weekPoints,
-      "⭐ Points This Week"
-    ],
-
-    [
-      xp,
-      "✨ Cumulative XP"
-    ],
-
-    [
-      completed.length,
-      "✅ Tasks Completed"
-    ],
-
-    [
-      Math.round(
-        totalMinutes
-        /
-        60
-        *
-        10
-      )
-      /
-      10,
-      "⏱ Focus Hours"
-    ],
-
-    [
-      completionRate+
-      "%",
-      "📈 Completion Rate"
-    ],
-
-    [
-      streak.current,
-      "🔥 Current Streak"
-    ],
-
-    [
-      streak.longest,
-      "🏅 Longest Streak"
-    ],
-
-    [
-      readingCount,
-      "📚 Readings Completed"
-    ],
-
-    [
-      outlineCount,
-      "📝 Outline Sessions"
-    ],
-
-    [
-      displayRating(),
-      "⚖️ Academic Rating"
-    ],
-
-    [
-      topClass,
-      "💪 Strongest Class"
-    ],
-
-    [
-      neglected,
-      "👀 Most Open Work"
-    ]
-
+  var completed=tasks.filter(function(t){return t.done;});
+  var totalMinutes=focusSessions.reduce(function(sum,s){return sum+Number(s.minutes||0);},0);
+  var readingCount=completed.filter(function(t){return t.type==="Reading";}).length;
+  var outlineCount=completed.filter(function(t){return t.type==="Outline";}).length;
+  var streak=streakStats();
+  var completionRate=tasks.length?Math.round(completed.length/tasks.length*100):0;
+
+  var byClass={};
+  completed.forEach(function(t){
+    var key=t.className||"General";
+    byClass[key]=(byClass[key]||0)+Number(t.points||0);
+  });
+  var topClass="—";
+  var topScore=-1;
+  Object.keys(byClass).forEach(function(k){if(byClass[k]>topScore){topScore=byClass[k];topClass=k;}});
+  var openByClass={};
+  tasks.filter(function(t){return !t.done;}).forEach(function(t){var k=t.className||"General";openByClass[k]=(openByClass[k]||0)+1;});
+  var neglected="—",neglectedCount=-1;
+  Object.keys(openByClass).forEach(function(k){if(openByClass[k]>neglectedCount){neglectedCount=openByClass[k];neglected=k;}});
+
+  var cards=[
+    [weekPoints,"⭐ Points This Week"],
+    [xp,"✨ Cumulative XP"],
+    [completed.length,"✅ Tasks Completed"],
+    [Math.round(totalMinutes/60*10)/10,"⏱ Focus Hours"],
+    [completionRate+"%","📈 Completion Rate"],
+    [streak.current,"🔥 Current Streak"],
+    [streak.longest,"🏅 Longest Streak"],
+    [readingCount,"📚 Readings Completed"],
+    [outlineCount,"📝 Outline Sessions"],
+    [displayRating(),"⚖️ Academic Rating"],
+    [topClass,"💪 Strongest Class"],
+    [neglected,"👀 Most Open Work"]
   ];
-
-
-  document
-    .getElementById(
-      "progressStats"
-    )
-    .innerHTML =
-
-    cards.map(
-      function(c){
-
-        return (
-
-          '<div class="stat">' +
-
-            '<div class="statNumber">' +
-              escapeHTML(
-                c[0]
-              ) +
-            '</div>' +
-
-            '<div class="statLabel">' +
-              c[1] +
-            '</div>' +
-
-          '</div>'
-
-        );
-      }
-    )
-    .join("");
-
-
-  document
-    .getElementById(
-      "weeklyHistory"
-    )
-    .innerHTML =
-
-    weekArchive.length
-
-    ? weekArchive
-      .slice()
-      .reverse()
-      .map(
-        function(w){
-
-          return (
-
-            '<div class="task">' +
-
-              '<div class="taskTop">' +
-
-                '<div>' +
-
-                  '<div class="taskTitle">' +
-                    escapeHTML(
-                      w.date
-                    ) +
-                  '</div>' +
-
-                  '<div class="taskMeta">' +
-                    w.completed +
-                    ' completed tasks' +
-                  '</div>' +
-
-                '</div>' +
-
-                '<strong>' +
-                  w.rating +
-                '</strong>' +
-
-              '</div>' +
-
-              '<div class="taskMeta">' +
-
-                w.points +
-
-                ' points • ' +
-
-                (
-                  w.xp
-                  ||
-                  0
-                ) +
-
-                ' XP at archive' +
-
-              '</div>' +
-
-            '</div>'
-
-          );
-        }
-      )
-      .join("")
-
-    : '<div class="empty">' +
-      'No archived weeks yet.' +
-      '</div>';
-
-
-  var achievements =
-    [];
-
-
-  if(
-    xp >= 100
-  ){
-
-    achievements.push(
-      "✨ First 100 XP"
-    );
-  }
-
-
-  if(
-    xp >= 500
-  ){
-
-    achievements.push(
-      "⚖️ 500 XP Counsel"
-    );
-  }
-
-
-  if(
-    streak.current >= 3
-  ){
-
-    achievements.push(
-      "🔥 Three-Day Streak"
-    );
-  }
-
-
-  if(
-    streak.current >= 7
-  ){
-
-    achievements.push(
-      "🏆 Seven-Day Streak"
-    );
-  }
-
-
-  if(
-    completed.length >= 10
-  ){
-
-    achievements.push(
-      "✅ Docket Dominator"
-    );
-  }
-
-
-  if(
-    readingCount >= 10
-  ){
-
-    achievements.push(
-      "📚 Casebook Conqueror"
-    );
-  }
-
-
-  if(
-    outlineCount >= 3
-  ){
-
-    achievements.push(
-      "📝 Outline Operator"
-    );
-  }
-
-
-  if(
-    displayRating() >= 100
-  ){
-
-    achievements.push(
-      "🏆 Academic Weapon"
-    );
-  }
-
-
-  if(
-    tasks.some(
-      function(t){
-
-        return (
-          t.done
-          &&
-          t.due
-          &&
-          t.completedAt
-          &&
-          dateString(
-            new Date(
-              t.completedAt
-            )
-          )
-          <
-          t.due
-        );
-      }
-    )
-  ){
-
-    achievements.push(
-      "⏰ Early Filing"
-    );
-  }
-
-
-  if(
-    classes.some(
-      function(c){
-
-        return (
-          readingStatus(c)
-          .indexOf(
-            "ahead"
-          )
-          >=
-          0
-        );
-      }
-    )
-  ){
-
-    achievements.push(
-      "📖 Ahead of the Curve"
-    );
-  }
-
-
-  if(
-    completed.some(
-      function(t){
-
-        return (
-          t.type
-          ===
-          "Office Hours"
-        );
-      }
-    )
-  ){
-
-    achievements.push(
-      "👩‍🏫 Office Hours Regular"
-    );
-  }
-
-
-  if(
-    completed.filter(
-      function(t){
-
-        return (
-          MAJOR_TYPES.indexOf(
-            t.type
-          )
-          >=
-          0
-        );
-      }
-    ).length
-    >=
-    1
-  ){
-
-    achievements.push(
-      "⚖️ Case Closed"
-    );
-  }
-
-
-  document
-    .getElementById(
-      "achievements"
-    )
-    .innerHTML =
-
-    achievements.length
-
-    ? achievements
-      .map(
-        function(a){
-
-          return (
-            '<span class="badge">' +
-            a +
-            '</span>'
-          );
-        }
-      )
-      .join("")
-
-    : '<div class="empty">' +
-      'Achievements will unlock as counsel performs.' +
-      '</div>';
+  document.getElementById("progressStats").innerHTML=cards.map(function(c){
+    return '<div class="stat"><div class="statNumber">'+escapeHTML(c[0])+'</div><div class="statLabel">'+c[1]+'</div></div>';
+  }).join("");
+
+  document.getElementById("weeklyHistory").innerHTML=weekArchive.length?weekArchive.slice().reverse().map(function(w){
+    return '<div class="task"><div class="taskTop"><div><div class="taskTitle">'+escapeHTML(w.date)+'</div><div class="taskMeta">'+w.completed+' completed tasks</div></div><strong>'+w.rating+'</strong></div><div class="taskMeta">'+w.points+' points • '+(w.xp||0)+' XP at archive</div></div>';
+  }).join(""):'<div class="empty">No archived weeks yet.</div>';
+
+  var achievements=[];
+  if(xp>=100) achievements.push("✨ First 100 XP");
+  if(xp>=500) achievements.push("⚖️ 500 XP Counsel");
+  if(streak.current>=3) achievements.push("🔥 Three-Day Streak");
+  if(streak.current>=7) achievements.push("🏆 Seven-Day Streak");
+  if(completed.length>=10) achievements.push("✅ Docket Dominator");
+  if(readingCount>=10) achievements.push("📚 Casebook Conqueror");
+  if(outlineCount>=3) achievements.push("📝 Outline Operator");
+  if(displayRating()>=100) achievements.push("🏆 Academic Weapon");
+  if(tasks.some(function(t){return t.done&&t.due&&t.completedAt&&dateString(new Date(t.completedAt))<t.due;})) achievements.push("⏰ Early Filing");
+  if(classes.some(function(c){return readingStatus(c).indexOf("ahead")>=0;})) achievements.push("📖 Ahead of the Curve");
+  if(completed.some(function(t){return t.type==="Office Hours";})) achievements.push("👩‍🏫 Office Hours Regular");
+  if(completed.filter(function(t){return MAJOR_TYPES.indexOf(t.type)>=0;}).length>=1) achievements.push("⚖️ Case Closed");
+
+  document.getElementById("achievements").innerHTML=achievements.length?achievements.map(function(a){return '<span class="badge">'+a+'</span>';}).join(""):'<div class="empty">Achievements will unlock as counsel performs.</div>';
 }
-
-
-/* REWARDS */
 
 function renderRewards(){
-
-  document
-    .getElementById(
-      "rewardList"
-    )
-    .innerHTML =
-
-    rewards.length
-
-    ? rewards
-      .map(
-        function(
-          r,
-          i
-        ){
-
-          var affordable =
-            counselCash
-            >=
-            r.cost;
-
-
-          return (
-
-            '<div class="reward">' +
-
-              '<div>' +
-
-                '<div class="rewardName">' +
-                  escapeHTML(
-                    r.name
-                  ) +
-                '</div>' +
-
-                '<div class="small">' +
-
-                  '$' +
-
-                  r.cost +
-
-                  ' Counsel Cash' +
-
-                '</div>' +
-
-              '</div>' +
-
-              '<div style="display:flex;gap:6px">' +
-
-                '<button ' +
-                'class="' +
-                (
-                  affordable
-                  ? "green"
-                  : "gray"
-                ) +
-                ' rewardButton" ' +
-                'onclick="redeemReward(' +
-                i +
-                ')">' +
-
-                  (
-                    affordable
-                    ? "REDEEM"
-                    : "LOCKED"
-                  ) +
-
-                '</button>' +
-
-                '<button ' +
-                'class="gray rewardButton" ' +
-                'onclick="editReward(' +
-                i +
-                ')">' +
-                'EDIT' +
-                '</button>' +
-
-              '</div>' +
-
-            '</div>'
-
-          );
-        }
-      )
-      .join("")
-
-    : '<div class="empty">' +
-      'No rewards configured.' +
-      '</div>';
+  document.getElementById("rewardList").innerHTML=rewards.length?rewards.map(function(r,i){
+    var affordable=counselCash>=r.cost;
+    return '<div class="reward"><div><div class="rewardName">'+escapeHTML(r.name)+'</div><div class="small">$'+r.cost+' Counsel Cash</div></div>'+
+      '<div style="display:flex;gap:6px"><button class="'+(affordable?"green":"gray")+' rewardButton" onclick="redeemReward('+i+')">'+(affordable?"REDEEM":"LOCKED")+'</button>'+
+      '<button class="gray rewardButton" onclick="editReward('+i+')">EDIT</button></div></div>';
+  }).join(""):'<div class="empty">No rewards configured.</div>';
 }
 
-
-/* RENDER ALL */
-
 function renderAll(){
-
   renderHeader();
-
   renderToday();
-
+  renderTriage();
+  renderNextMission();
+  renderFinalsCountdown();
   renderTasks();
-
   renderClasses();
-
   renderCalendar();
-
   renderProgress();
-
   renderRewards();
 }
 
+function completeTask(id){
+  var task=tasks.find(function(t){return t.id===id;});
+  if(!task||task.done) return;
 
-/* COMPLETE TASK */
+  task.done=true;
+  task.completedAt=new Date().toISOString();
 
-function completeTask(
-  id
-){
+  weekPoints+=Number(task.points||0);
+  counselCash+=Number(task.cash||0);
+  xp+=Number(task.points||0);
+  rating+=Math.max(1,Math.round(Number(task.points||0)/5));
 
-  var task =
-    tasks.find(
-      function(t){
-
-        return (
-          t.id
-          ===
-          id
-        );
-      }
-    );
-
-
-  if(
-    !task
-    ||
-    task.done
-  ){
-
-    return;
-  }
-
-
-  task.done =
-    true;
-
-
-  task.completedAt =
-    new Date()
-    .toISOString();
-
-
-  weekPoints +=
-    Number(
-      task.points
-      ||
-      0
-    );
-
-
-  counselCash +=
-    Number(
-      task.cash
-      ||
-      0
-    );
-
-
-  xp +=
-    Number(
-      task.points
-      ||
-      0
-    );
-
-
-  rating +=
-    Math.max(
-      1,
-      Math.round(
-        Number(
-          task.points
-          ||
-          0
-        )
-        /
-        5
-      )
-    );
-
-
-  /* CREATE NEXT RECURRING TASK */
-
-  if(
-    task.recurrence
-    &&
-    task.recurrence
-    !==
-    "none"
-  ){
-
-    var next =
-      Object.assign(
-        {},
-        task
-      );
-
-
-    next.id =
-      "task-"
-      +
-      Date.now()
-      +
-      "-"
-      +
-      Math.random()
-      .toString(16)
-      .slice(2);
-
-
-    next.done =
-      false;
-
-
+  if(task.recurrence&&task.recurrence!=="none"){
+    var next=Object.assign({},task);
+    next.id="task-"+Date.now()+"-"+Math.random().toString(16).slice(2);
+    next.done=false;
     delete next.completedAt;
-
-
-    next.due =
-      addDays(
-
-        task.due
-        ||
-        todayString(),
-
-        task.recurrence
-        ===
-        "daily"
-
-        ? 1
-
-        : 7
-
-      );
-
-
-    tasks.push(
-      next
-    );
+    next.due=addDays(task.due||todayString(),task.recurrence==="daily"?1:7);
+    tasks.push(next);
   }
 
-
   save();
-
   renderAll();
 
-
-  if(
-    MAJOR_TYPES.indexOf(
-      task.type
-    )
-    >=
-    0
-  ){
-
-    showCaseClosed(
-      task
-    );
-
+  if(MAJOR_TYPES.indexOf(task.type)>=0){
+    showCaseClosed(task);
   }else{
-
-    alert(
-
-      "⚖️ TASK CLOSED\n\n" +
-
-      task.name +
-
-      "\n\n+" +
-
-      task.points +
-
-      " Academic Points\n+$" +
-
-      task.cash +
-
-      " Counsel Cash\n+" +
-
-      task.points +
-
-      " XP"
-
-    );
+    alert("⚖️ TASK CLOSED\n\n"+task.name+"\n\n+"+task.points+" Academic Points\n+$"+task.cash+" Counsel Cash\n+"+task.points+" XP");
   }
 }
 
-
-/* CASE CLOSED */
-
-function showCaseClosed(
-  task
-){
-
-  var bonusPoints =
-    25;
-
-
-  var bonusCash =
-    15;
-
-
-  weekPoints +=
-    bonusPoints;
-
-
-  xp +=
-    bonusPoints;
-
-
-  counselCash +=
-    bonusCash;
-
-
-  rating +=
-    5;
-
-
+function showCaseClosed(task){
+  var bonusPoints=25,bonusCash=15;
+  weekPoints+=bonusPoints;
+  xp+=bonusPoints;
+  counselCash+=bonusCash;
+  rating+=5;
   save();
-
   renderAll();
 
-
-  document
-    .getElementById(
-      "caseClosedName"
-    )
-    .textContent =
-    task.name;
-
-
-  document
-    .getElementById(
-      "caseClosedBonus"
-    )
-    .textContent =
-
-    "Major matter closed • +"
-
-    +
-
-    bonusPoints
-
-    +
-
-    " bonus XP • +$"
-
-    +
-
-    bonusCash
-
-    +
-
-    " Counsel Cash";
-
-
-  document
-    .getElementById(
-      "caseClosedOverlay"
-    )
-    .classList
-    .add(
-      "show"
-    );
+  document.getElementById("caseClosedName").textContent=task.name;
+  document.getElementById("caseClosedBonus").textContent="Major matter closed • +"+bonusPoints+" bonus XP • +$"+bonusCash+" Counsel Cash";
+  document.getElementById("caseClosedOverlay").classList.add("show");
 }
-
-
-function closeCaseClosed(){
-
-  document
-    .getElementById(
-      "caseClosedOverlay"
-    )
-    .classList
-    .remove(
-      "show"
-    );
-}
-
-
-/* 30 MINUTE TASK */
+function closeCaseClosed(){ document.getElementById("caseClosedOverlay").classList.remove("show"); }
 
 function giveThirtyMinuteTask(){
-
-  var open =
-    tasks
-
-    .filter(
-      function(t){
-
-        return (
-          !t.done
-          &&
-          Number(
-            t.minutes
-          )
-          <=
-          30
-        );
-      }
-    )
-
-    .sort(
-      taskSort
-    );
-
-
-  if(
-    !open.length
-  ){
-
-    alert(
-      "No open task fits within 30 minutes. Counsel may create a smaller assignment."
-    );
-
-    return;
-  }
-
-
-  var p =
-    open[0];
-
-
-  alert(
-
-    "⏱ 30-MINUTE ASSIGNMENT\n\n" +
-
-    p.name +
-
-    "\n\n" +
-
-    (
-      p.className
-      ||
-      "General"
-    ) +
-
-    " • " +
-
-    p.minutes +
-
-    " minutes\n\nDue: " +
-
-    (
-      p.due
-      ||
-      "No date"
-    )
-
-  );
+  var open=tasks.filter(function(t){return !t.done&&Number(t.minutes)<=30;}).sort(taskSort);
+  if(!open.length){alert("No open task fits within 30 minutes. Counsel may create a smaller assignment.");return;}
+  var p=open[0];
+  alert("⏱ 30-MINUTE ASSIGNMENT\n\n"+p.name+"\n\n"+(p.className||"General")+" • "+p.minutes+" minutes\n\nDue: "+(p.due||"No date"));
 }
 
-
-/* CLASS SELECT */
-
-function populateClassSelect(
-  selectId
-){
-
-  var select =
-    document.getElementById(
-      selectId
-    );
-
-
-  select.innerHTML =
-    '<option value="">General</option>';
-
-
-  classes.forEach(
-    function(c){
-
-      var o =
-        document.createElement(
-          "option"
-        );
-
-
-      o.value =
-        c.name;
-
-
-      o.textContent =
-        c.name;
-
-
-      select.appendChild(
-        o
-      );
-    }
-  );
+function populateClassSelect(selectId){
+  var select=document.getElementById(selectId);
+  select.innerHTML='<option value="">General</option>';
+  classes.forEach(function(c){
+    var o=document.createElement("option");o.value=c.name;o.textContent=c.name;select.appendChild(o);
+  });
 }
-
-
-/* TASK MODAL */
 
 function openTaskModal(){
-
-  populateClassSelect(
-    "taskClass"
-  );
-
-
-  document
-    .getElementById(
-      "taskModalTitle"
-    )
-    .textContent =
-    "Add Law School Task";
-
-
-  document
-    .getElementById(
-      "editingTaskId"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "taskName"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "taskClass"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "taskDue"
-    )
-    .value =
-    todayString();
-
-
-  document
-    .getElementById(
-      "taskType"
-    )
-    .value =
-    "Reading";
-
-
-  document
-    .getElementById(
-      "taskPriority"
-    )
-    .value =
-    "Normal";
-
-
-  document
-    .getElementById(
-      "taskRecurrence"
-    )
-    .value =
-    "none";
-
-
-  document
-    .getElementById(
-      "taskMinutes"
-    )
-    .value =
-    30;
-
-
-  document
-    .getElementById(
-      "taskPoints"
-    )
-    .value =
-    10;
-
-
-  document
-    .getElementById(
-      "taskCash"
-    )
-    .value =
-    5;
-
-
-  document
-    .getElementById(
-      "taskNotes"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "taskOverlay"
-    )
-    .classList
-    .add(
-      "show"
-    );
+  populateClassSelect("taskClass");
+  document.getElementById("taskModalTitle").textContent="Add Law School Task";
+  document.getElementById("editingTaskId").value="";
+  document.getElementById("taskName").value="";
+  document.getElementById("taskClass").value="";
+  document.getElementById("taskDue").value=todayString();
+  document.getElementById("taskType").value="Reading";
+  document.getElementById("taskPriority").value="Normal";
+  document.getElementById("taskRecurrence").value="none";
+  document.getElementById("taskMinutes").value=30;
+  document.getElementById("taskPoints").value=10;
+  document.getElementById("taskCash").value=5;
+  document.getElementById("taskNotes").value="";
+  document.getElementById("taskOverlay").classList.add("show");
 }
-
-
-function editTask(
-  id
-){
-
-  var t =
-    tasks.find(
-      function(x){
-
-        return (
-          x.id
-          ===
-          id
-        );
-      }
-    );
-
-
-  if(
-    !t
-  ){
-
-    return;
-  }
-
-
-  populateClassSelect(
-    "taskClass"
-  );
-
-
-  document
-    .getElementById(
-      "taskModalTitle"
-    )
-    .textContent =
-    "Edit Task";
-
-
-  document
-    .getElementById(
-      "editingTaskId"
-    )
-    .value =
-    t.id;
-
-
-  document
-    .getElementById(
-      "taskName"
-    )
-    .value =
-    t.name
-    ||
-    "";
-
-
-  document
-    .getElementById(
-      "taskClass"
-    )
-    .value =
-    t.className
-    ||
-    "";
-
-
-  document
-    .getElementById(
-      "taskDue"
-    )
-    .value =
-    t.due
-    ||
-    "";
-
-
-  document
-    .getElementById(
-      "taskType"
-    )
-    .value =
-    t.type
-    ||
-    "Other";
-
-
-  document
-    .getElementById(
-      "taskPriority"
-    )
-    .value =
-    t.priority
-    ||
-    "Normal";
-
-
-  document
-    .getElementById(
-      "taskRecurrence"
-    )
-    .value =
-    t.recurrence
-    ||
-    "none";
-
-
-  document
-    .getElementById(
-      "taskMinutes"
-    )
-    .value =
-    t.minutes
-    ||
-    30;
-
-
-  document
-    .getElementById(
-      "taskPoints"
-    )
-    .value =
-    t.points
-    ||
-    10;
-
-
-  document
-    .getElementById(
-      "taskCash"
-    )
-    .value =
-    t.cash
-    ||
-    5;
-
-
-  document
-    .getElementById(
-      "taskNotes"
-    )
-    .value =
-    t.notes
-    ||
-    "";
-
-
-  document
-    .getElementById(
-      "taskOverlay"
-    )
-    .classList
-    .add(
-      "show"
-    );
+function editTask(id){
+  var t=tasks.find(function(x){return x.id===id;});
+  if(!t) return;
+  populateClassSelect("taskClass");
+  document.getElementById("taskModalTitle").textContent="Edit Task";
+  document.getElementById("editingTaskId").value=t.id;
+  document.getElementById("taskName").value=t.name||"";
+  document.getElementById("taskClass").value=t.className||"";
+  document.getElementById("taskDue").value=t.due||"";
+  document.getElementById("taskType").value=t.type||"Other";
+  document.getElementById("taskPriority").value=t.priority||"Normal";
+  document.getElementById("taskRecurrence").value=t.recurrence||"none";
+  document.getElementById("taskMinutes").value=t.minutes||30;
+  document.getElementById("taskPoints").value=t.points||10;
+  document.getElementById("taskCash").value=t.cash||5;
+  document.getElementById("taskNotes").value=t.notes||"";
+  document.getElementById("taskOverlay").classList.add("show");
 }
-
-
-function closeTaskModal(){
-
-  document
-    .getElementById(
-      "taskOverlay"
-    )
-    .classList
-    .remove(
-      "show"
-    );
-}
-
+function closeTaskModal(){ document.getElementById("taskOverlay").classList.remove("show"); }
 
 function saveTask(){
-
-  var name =
-    document
-    .getElementById(
-      "taskName"
-    )
-    .value
-    .trim();
-
-
-  if(
-    !name
-  ){
-
-    alert(
-      "Enter a task first."
-    );
-
-    return;
-  }
-
-
-  var id =
-    document
-    .getElementById(
-      "editingTaskId"
-    )
-    .value;
-
-
-  var data = {
-
-    name:
-      name,
-
-    className:
-      document
-      .getElementById(
-        "taskClass"
-      )
-      .value,
-
-    due:
-      document
-      .getElementById(
-        "taskDue"
-      )
-      .value,
-
-    type:
-      document
-      .getElementById(
-        "taskType"
-      )
-      .value,
-
-    priority:
-      document
-      .getElementById(
-        "taskPriority"
-      )
-      .value,
-
-    recurrence:
-      document
-      .getElementById(
-        "taskRecurrence"
-      )
-      .value,
-
-    minutes:
-      Number(
-        document
-        .getElementById(
-          "taskMinutes"
-        )
-        .value
-      )
-      ||
-      30,
-
-    points:
-      Number(
-        document
-        .getElementById(
-          "taskPoints"
-        )
-        .value
-      )
-      ||
-      10,
-
-    cash:
-      Number(
-        document
-        .getElementById(
-          "taskCash"
-        )
-        .value
-      )
-      ||
-      0,
-
-    notes:
-      document
-      .getElementById(
-        "taskNotes"
-      )
-      .value
-      .trim()
-
+  var name=document.getElementById("taskName").value.trim();
+  if(!name){alert("Enter a task first.");return;}
+  var id=document.getElementById("editingTaskId").value;
+  var data={
+    name:name,
+    className:document.getElementById("taskClass").value,
+    due:document.getElementById("taskDue").value,
+    type:document.getElementById("taskType").value,
+    priority:document.getElementById("taskPriority").value,
+    recurrence:document.getElementById("taskRecurrence").value,
+    minutes:Number(document.getElementById("taskMinutes").value)||30,
+    points:Number(document.getElementById("taskPoints").value)||10,
+    cash:Number(document.getElementById("taskCash").value)||0,
+    notes:document.getElementById("taskNotes").value.trim()
   };
-
-
-  if(
-    id
-  ){
-
-    var existing =
-      tasks.find(
-        function(t){
-
-          return (
-            t.id
-            ===
-            id
-          );
-        }
-      );
-
-
-    if(
-      existing
-    ){
-
-      Object.assign(
-        existing,
-        data
-      );
-    }
-
+  if(id){
+    var existing=tasks.find(function(t){return t.id===id;});
+    if(existing) Object.assign(existing,data);
   }else{
-
-    data.id =
-      "task-"
-      +
-      Date.now()
-      +
-      "-"
-      +
-      Math.random()
-      .toString(16)
-      .slice(2);
-
-
-    data.done =
-      false;
-
-
-    data.createdAt =
-      new Date()
-      .toISOString();
-
-
-    tasks.push(
-      data
-    );
+    data.id="task-"+Date.now()+"-"+Math.random().toString(16).slice(2);
+    data.done=false;
+    data.createdAt=new Date().toISOString();
+    tasks.push(data);
   }
-
-
-  save();
-
-  closeTaskModal();
-
-  renderAll();
+  save();closeTaskModal();renderAll();
 }
-
-
-function deleteTask(
-  id
-){
-
-  if(
-    !confirm(
-      "Delete this task from the docket?"
-    )
-  ){
-
-    return;
-  }
-
-
-  tasks =
-    tasks.filter(
-      function(t){
-
-        return (
-          t.id
-          !==
-          id
-        );
-      }
-    );
-
-
-  save();
-
-  renderAll();
+function deleteTask(id){
+  if(!confirm("Delete this task from the docket?")) return;
+  tasks=tasks.filter(function(t){return t.id!==id;});
+  save();renderAll();
 }
-
-
-/* CLASS MODAL */
 
 function openClassModal(){
-
-  document
-    .getElementById(
-      "classModalTitle"
-    )
-    .textContent =
-    "Add Class";
-
-
-  document
-    .getElementById(
-      "editingClassId"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "className"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "classProfessor"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "classSchedule"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "classTotalReadings"
-    )
-    .value =
-    20;
-
-
-  document
-    .getElementById(
-      "classOverlay"
-    )
-    .classList
-    .add(
-      "show"
-    );
+  document.getElementById("classModalTitle").textContent="Add Class";
+  document.getElementById("editingClassId").value="";
+  document.getElementById("className").value="";
+  document.getElementById("classProfessor").value="";
+  document.getElementById("classSchedule").value="";
+  document.getElementById("classTotalReadings").value=20;
+  document.getElementById("classOverlay").classList.add("show");
 }
-
-
-function editClass(
-  id
-){
-
-  var c =
-    classes.find(
-      function(x){
-
-        return (
-          x.id
-          ===
-          id
-        );
-      }
-    );
-
-
-  if(
-    !c
-  ){
-
-    return;
-  }
-
-
-  document
-    .getElementById(
-      "classModalTitle"
-    )
-    .textContent =
-    "Edit Class";
-
-
-  document
-    .getElementById(
-      "editingClassId"
-    )
-    .value =
-    c.id;
-
-
-  document
-    .getElementById(
-      "className"
-    )
-    .value =
-    c.name
-    ||
-    "";
-
-
-  document
-    .getElementById(
-      "classProfessor"
-    )
-    .value =
-    c.professor
-    ||
-    "";
-
-
-  document
-    .getElementById(
-      "classSchedule"
-    )
-    .value =
-    c.schedule
-    ||
-    "";
-
-
-  document
-    .getElementById(
-      "classTotalReadings"
-    )
-    .value =
-    c.totalReadings
-    ||
-    0;
-
-
-  document
-    .getElementById(
-      "classOverlay"
-    )
-    .classList
-    .add(
-      "show"
-    );
+function editClass(id){
+  var c=classes.find(function(x){return x.id===id;}); if(!c)return;
+  document.getElementById("classModalTitle").textContent="Edit Class";
+  document.getElementById("editingClassId").value=c.id;
+  document.getElementById("className").value=c.name||"";
+  document.getElementById("classProfessor").value=c.professor||"";
+  document.getElementById("classSchedule").value=c.schedule||"";
+  document.getElementById("classTotalReadings").value=c.totalReadings||0;
+  document.getElementById("classOverlay").classList.add("show");
 }
-
-
-function closeClassModal(){
-
-  document
-    .getElementById(
-      "classOverlay"
-    )
-    .classList
-    .remove(
-      "show"
-    );
-}
-
-
+function closeClassModal(){document.getElementById("classOverlay").classList.remove("show");}
 function saveClass(){
-
-  var name =
-    document
-    .getElementById(
-      "className"
-    )
-    .value
-    .trim();
-
-
-  if(
-    !name
-  ){
-
-    alert(
-      "Enter the class name."
-    );
-
-    return;
-  }
-
-
-  var id =
-    document
-    .getElementById(
-      "editingClassId"
-    )
-    .value;
-
-
-  var data = {
-
-    name:
-      name,
-
-    professor:
-      document
-      .getElementById(
-        "classProfessor"
-      )
-      .value
-      .trim(),
-
-    schedule:
-      document
-      .getElementById(
-        "classSchedule"
-      )
-      .value
-      .trim(),
-
-    totalReadings:
-      Number(
-        document
-        .getElementById(
-          "classTotalReadings"
-        )
-        .value
-      )
-      ||
-      0
-
-  };
-
-
-  if(
-    id
-  ){
-
-    var c =
-      classes.find(
-        function(x){
-
-          return (
-            x.id
-            ===
-            id
-          );
-        }
-      );
-
-
-    if(
-      c
-    ){
-
-      var oldName =
-        c.name;
-
-
-      Object.assign(
-        c,
-        data
-      );
-
-
-      if(
-        oldName
-        !==
-        data.name
-      ){
-
-        tasks.forEach(
-          function(t){
-
-            if(
-              t.className
-              ===
-              oldName
-            ){
-
-              t.className =
-                data.name;
-            }
-          }
-        );
-      }
+  var name=document.getElementById("className").value.trim();
+  if(!name){alert("Enter the class name.");return;}
+  var id=document.getElementById("editingClassId").value;
+  var data={name:name,professor:document.getElementById("classProfessor").value.trim(),schedule:document.getElementById("classSchedule").value.trim(),totalReadings:Number(document.getElementById("classTotalReadings").value)||0};
+  if(id){
+    var c=classes.find(function(x){return x.id===id;});
+    if(c){
+      var oldName=c.name;
+      Object.assign(c,data);
+      if(oldName!==data.name) tasks.forEach(function(t){if(t.className===oldName)t.className=data.name;});
     }
-
   }else{
-
-    data.id =
-      "class-"
-      +
-      Date.now();
-
-
-    classes.push(
-      data
-    );
+    data.id="class-"+Date.now();classes.push(data);
   }
-
-
-  save();
-
-  closeClassModal();
-
-  renderAll();
+  save();closeClassModal();renderAll();
 }
-
-
-/* REWARD MODAL */
 
 function openRewardModal(){
-
-  document
-    .getElementById(
-      "rewardModalTitle"
-    )
-    .textContent =
-    "Add Reward";
-
-
-  document
-    .getElementById(
-      "editingRewardIndex"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "rewardName"
-    )
-    .value =
-    "";
-
-
-  document
-    .getElementById(
-      "rewardCost"
-    )
-    .value =
-    30;
-
-
-  document
-    .getElementById(
-      "rewardOverlay"
-    )
-    .classList
-    .add(
-      "show"
-    );
+  document.getElementById("rewardModalTitle").textContent="Add Reward";
+  document.getElementById("editingRewardIndex").value="";
+  document.getElementById("rewardName").value="";
+  document.getElementById("rewardCost").value=30;
+  document.getElementById("rewardOverlay").classList.add("show");
 }
-
-
-function editReward(
-  index
-){
-
-  var r =
-    rewards[index];
-
-
-  if(
-    !r
-  ){
-
-    return;
-  }
-
-
-  document
-    .getElementById(
-      "rewardModalTitle"
-    )
-    .textContent =
-    "Edit Reward";
-
-
-  document
-    .getElementById(
-      "editingRewardIndex"
-    )
-    .value =
-    index;
-
-
-  document
-    .getElementById(
-      "rewardName"
-    )
-    .value =
-    r.name;
-
-
-  document
-    .getElementById(
-      "rewardCost"
-    )
-    .value =
-    r.cost;
-
-
-  document
-    .getElementById(
-      "rewardOverlay"
-    )
-    .classList
-    .add(
-      "show"
-    );
+function editReward(index){
+  var r=rewards[index];if(!r)return;
+  document.getElementById("rewardModalTitle").textContent="Edit Reward";
+  document.getElementById("editingRewardIndex").value=index;
+  document.getElementById("rewardName").value=r.name;
+  document.getElementById("rewardCost").value=r.cost;
+  document.getElementById("rewardOverlay").classList.add("show");
 }
-
-
-function closeRewardModal(){
-
-  document
-    .getElementById(
-      "rewardOverlay"
-    )
-    .classList
-    .remove(
-      "show"
-    );
-}
-
-
+function closeRewardModal(){document.getElementById("rewardOverlay").classList.remove("show");}
 function saveReward(){
-
-  var name =
-    document
-    .getElementById(
-      "rewardName"
-    )
-    .value
-    .trim();
-
-
-  var cost =
-    Number(
-      document
-      .getElementById(
-        "rewardCost"
-      )
-      .value
-    );
-
-
-  if(
-    !name
-    ||
-    !cost
-  ){
-
-    alert(
-      "Add a reward and cost."
-    );
-
-    return;
-  }
-
-
-  var index =
-    document
-    .getElementById(
-      "editingRewardIndex"
-    )
-    .value;
-
-
-  if(
-    index !== ""
-  ){
-
-    rewards[
-      Number(index)
-    ] = {
-
-      name:
-        name,
-
-      cost:
-        cost
-
-    };
-
-  }else{
-
-    rewards.push({
-
-      name:
-        name,
-
-      cost:
-        cost
-
-    });
-  }
-
-
-  save();
-
-  closeRewardModal();
-
-  renderAll();
+  var name=document.getElementById("rewardName").value.trim();
+  var cost=Number(document.getElementById("rewardCost").value);
+  if(!name||!cost){alert("Add a reward and cost.");return;}
+  var index=document.getElementById("editingRewardIndex").value;
+  if(index!=="") rewards[Number(index)]={name:name,cost:cost};
+  else rewards.push({name:name,cost:cost});
+  save();closeRewardModal();renderAll();
+}
+function redeemReward(index){
+  var r=rewards[index];if(!r)return;
+  if(counselCash<r.cost){alert("Insufficient Counsel Cash.");return;}
+  if(!confirm("Redeem "+r.name+" for $"+r.cost+" Counsel Cash?"))return;
+  counselCash-=r.cost;save();renderAll();alert("🎉 REWARD AUTHORIZED\n\n"+r.name+"\n\nCounsel may proceed without guilt.");
 }
 
-
-function redeemReward(
-  index
-){
-
-  var r =
-    rewards[index];
-
-
-  if(
-    !r
-  ){
-
-    return;
-  }
-
-
-  if(
-    counselCash
-    <
-    r.cost
-  ){
-
-    alert(
-      "Insufficient Counsel Cash."
-    );
-
-    return;
-  }
-
-
-  if(
-    !confirm(
-      "Redeem "
-      +
-      r.name
-      +
-      " for $"
-      +
-      r.cost
-      +
-      " Counsel Cash?"
-    )
-  ){
-
-    return;
-  }
-
-
-  counselCash -=
-    r.cost;
-
-
-  save();
-
-  renderAll();
-
-
-  alert(
-
-    "🎉 REWARD AUTHORIZED\n\n"
-
-    +
-
-    r.name
-
-    +
-
-    "\n\nCounsel may proceed without guilt."
-
-  );
-}
-
-
-/* FOCUS MODE */
-
-var focusTimer =
-  null;
-
-
-var focusEnd =
-  0;
-
-
-var focusTotalMinutes =
-  30;
-
+var focusTimer=null;
+var focusEnd=0;
+var focusTotalMinutes=30;
 
 function openFocusModal(){
-
-  var select =
-    document.getElementById(
-      "focusTask"
-    );
-
-
-  select.innerHTML =
-    '<option value="">General Study Session</option>';
-
-
-  tasks
-
-  .filter(
-    function(t){
-
-      return !t.done;
-    }
-  )
-
-  .sort(
-    taskSort
-  )
-
-  .forEach(
-    function(t){
-
-      var o =
-        document.createElement(
-          "option"
-        );
-
-
-      o.value =
-        t.id;
-
-
-      o.textContent =
-        t.name;
-
-
-      select.appendChild(
-        o
-      );
-    }
-  );
-
-
-  document
-    .getElementById(
-      "focusMinutes"
-    )
-    .value =
-    "30";
-
-
-  document
-    .getElementById(
-      "focusClock"
-    )
-    .textContent =
-    "30:00";
-
-
-  document
-    .getElementById(
-      "focusTaskLabel"
-    )
-    .textContent =
-    "";
-
-
-  document
-    .getElementById(
-      "focusStartButton"
-    )
-    .disabled =
-    false;
-
-
-  document
-    .getElementById(
-      "focusOverlay"
-    )
-    .classList
-    .add(
-      "show"
-    );
+  var select=document.getElementById("focusTask");
+  select.innerHTML='<option value="">General Study Session</option>';
+  tasks.filter(function(t){return !t.done;}).sort(taskSort).forEach(function(t){
+    var o=document.createElement("option");o.value=t.id;o.textContent=t.name;select.appendChild(o);
+  });
+  document.getElementById("focusMinutes").value="30";
+  document.getElementById("focusClock").textContent="30:00";
+  document.getElementById("focusTaskLabel").textContent="";
+  document.getElementById("focusStartButton").disabled=false;
+  document.getElementById("focusOverlay").classList.add("show");
 }
-
-
 function closeFocusModal(){
-
-  if(
-    focusTimer
-    &&
-    !confirm(
-      "A focus session is running. Close it anyway?"
-    )
-  ){
-
-    return;
-  }
-
-
-  if(
-    focusTimer
-  ){
-
-    clearInterval(
-      focusTimer
-    );
-
-    focusTimer =
-      null;
-  }
-
-
-  document
-    .getElementById(
-      "focusOverlay"
-    )
-    .classList
-    .remove(
-      "show"
-    );
+  if(focusTimer && !confirm("A focus session is running. Close it anyway?")) return;
+  if(focusTimer){clearInterval(focusTimer);focusTimer=null;}
+  document.getElementById("focusOverlay").classList.remove("show");
 }
-
-
 function startFocus(){
-
-  if(
-    focusTimer
-  ){
-
-    return;
-  }
-
-
-  focusTotalMinutes =
-    Number(
-      document
-      .getElementById(
-        "focusMinutes"
-      )
-      .value
-    )
-    ||
-    30;
-
-
-  focusEnd =
-    Date.now()
-    +
-    focusTotalMinutes
-    *
-    60000;
-
-
-  var taskId =
-    document
-    .getElementById(
-      "focusTask"
-    )
-    .value;
-
-
-  var task =
-    tasks.find(
-      function(t){
-
-        return (
-          t.id
-          ===
-          taskId
-        );
-      }
-    );
-
-
-  document
-    .getElementById(
-      "focusTaskLabel"
-    )
-    .textContent =
-
-    task
-
-    ? task.name
-
-    : "General Study Session";
-
-
-  document
-    .getElementById(
-      "focusStartButton"
-    )
-    .disabled =
-    true;
-
+  if(focusTimer)return;
+  focusTotalMinutes=Number(document.getElementById("focusMinutes").value)||30;
+  focusEnd=Date.now()+focusTotalMinutes*60000;
+  var taskId=document.getElementById("focusTask").value;
+  var task=tasks.find(function(t){return t.id===taskId;});
+  document.getElementById("focusTaskLabel").textContent=task?task.name:"General Study Session";
+  document.getElementById("focusStartButton").disabled=true;
 
   function tick(){
-
-    var left =
-      Math.max(
-        0,
-        focusEnd
-        -
-        Date.now()
-      );
-
-
-    var secs =
-      Math.ceil(
-        left
-        /
-        1000
-      );
-
-
-    var m =
-      Math.floor(
-        secs
-        /
-        60
-      );
-
-
-    var s =
-      secs
-      %
-      60;
-
-
-    document
-      .getElementById(
-        "focusClock"
-      )
-      .textContent =
-
-      String(m)
-      .padStart(
-        2,
-        "0"
-      )
-
-      +
-
-      ":"
-
-      +
-
-      String(s)
-      .padStart(
-        2,
-        "0"
-      );
-
-
-    if(
-      left <= 0
-    ){
-
-      clearInterval(
-        focusTimer
-      );
-
-
-      focusTimer =
-        null;
-
-
-      finishFocus(
-        taskId
-      );
+    var left=Math.max(0,focusEnd-Date.now());
+    var secs=Math.ceil(left/1000);
+    var m=Math.floor(secs/60),s=secs%60;
+    document.getElementById("focusClock").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+    if(left<=0){
+      clearInterval(focusTimer);focusTimer=null;
+      finishFocus(taskId);
     }
   }
-
-
   tick();
-
-
-  focusTimer =
-    setInterval(
-      tick,
-      1000
-    );
+  focusTimer=setInterval(tick,1000);
 }
-
-
-function finishFocus(
-  taskId
-){
-
-  var bonusXP =
-    Math.max(
-      3,
-      Math.round(
-        focusTotalMinutes
-        /
-        5
-      )
-    );
-
-
-  var bonusCash =
-    Math.floor(
-      focusTotalMinutes
-      /
-      15
-    );
-
-
-  xp +=
-    bonusXP;
-
-
-  weekPoints +=
-    bonusXP;
-
-
-  counselCash +=
-    bonusCash;
-
-
-  rating +=
-    Math.max(
-      1,
-      Math.round(
-        bonusXP
-        /
-        5
-      )
-    );
-
-
-  focusSessions.push({
-
-    taskId:
-      taskId
-      ||
-      "",
-
-    minutes:
-      focusTotalMinutes,
-
-    completedAt:
-      new Date()
-      .toISOString()
-
-  });
-
-
-  save();
-
-  renderAll();
-
-
-  document
-    .getElementById(
-      "focusStartButton"
-    )
-    .disabled =
-    false;
-
-
-  alert(
-
-    "🎯 FOCUS SESSION COMPLETE\n\n"
-
-    +
-
-    focusTotalMinutes
-
-    +
-
-    " minutes logged\n+"
-
-    +
-
-    bonusXP
-
-    +
-
-    " XP\n+$"
-
-    +
-
-    bonusCash
-
-    +
-
-    " Counsel Cash"
-
-  );
+function finishFocus(taskId){
+  var bonusXP=Math.max(3,Math.round(focusTotalMinutes/5));
+  var bonusCash=Math.floor(focusTotalMinutes/15);
+  xp+=bonusXP;
+  weekPoints+=bonusXP;
+  counselCash+=bonusCash;
+  rating+=Math.max(1,Math.round(bonusXP/5));
+  focusSessions.push({taskId:taskId||"",minutes:focusTotalMinutes,completedAt:new Date().toISOString()});
+  save();renderAll();
+  document.getElementById("focusStartButton").disabled=false;
+  alert("🎯 FOCUS SESSION COMPLETE\n\n"+focusTotalMinutes+" minutes logged\n+"+bonusXP+" XP\n+$"+bonusCash+" Counsel Cash");
 }
-
-
-/* NEW WEEK */
 
 function startNewWeek(){
-
-  if(
-    !confirm(
-      "Archive this week's performance and begin a new week at an Academic Rating of 75?"
-    )
-  ){
-
-    return;
-  }
-
-
+  if(!confirm("Archive this week's performance and begin a new week at an Academic Rating of 75?"))return;
   weekArchive.push({
-
-    date:
-      new Date()
-      .toLocaleDateString(),
-
-    rating:
-      displayRating(),
-
-    points:
-      weekPoints,
-
-    completed:
-      tasks.filter(
-        function(t){
-
-          return (
-            t.done
-            &&
-            t.completedAt
-            &&
-            new Date(
-              t.completedAt
-            )
-            >
-            new Date(
-              Date.now()
-              -
-              7
-              *
-              86400000
-            )
-          );
-        }
-      ).length,
-
-    xp:
-      xp
-
+    date:new Date().toLocaleDateString(),
+    rating:displayRating(),
+    points:weekPoints,
+    completed:tasks.filter(function(t){return t.done&&t.completedAt&&new Date(t.completedAt)>new Date(Date.now()-7*86400000);}).length,
+    xp:xp
   });
-
-
-  rating =
-    BASE_RATING;
-
-
-  weekPoints =
-    0;
-
-
-  save();
-
-  renderAll();
-
-
-  alert(
-    "📁 Week archived. New academic week opened."
-  );
+  rating=BASE_RATING;
+  weekPoints=0;
+  save();renderAll();alert("📁 Week archived. New academic week opened.");
 }
-
-
-/* EXPORT DATA */
 
 function exportData(){
-
-  var data = {
-
-    version:
-      2,
-
-    exportedAt:
-      new Date()
-      .toISOString(),
-
-    rating:
-      rating,
-
-    weekPoints:
-      weekPoints,
-
-    counselCash:
-      counselCash,
-
-    xp:
-      xp,
-
-    classes:
-      classes,
-
-    tasks:
-      tasks,
-
-    rewards:
-      rewards,
-
-    weekArchive:
-      weekArchive,
-
-    focusSessions:
-      focusSessions
-
+  var data={
+    version:2,
+    exportedAt:new Date().toISOString(),
+    rating:rating,weekPoints:weekPoints,counselCash:counselCash,xp:xp,
+    classes:classes,tasks:tasks,rewards:rewards,weekArchive:weekArchive,focusSessions:focusSessions
   };
-
-
-  var blob =
-    new Blob(
-      [
-        JSON.stringify(
-          data,
-          null,
-          2
-        )
-      ],
-      {
-        type:
-          "application/json"
-      }
-    );
-
-
-  var url =
-    URL.createObjectURL(
-      blob
-    );
-
-
-  var a =
-    document.createElement(
-      "a"
-    );
-
-
-  a.href =
-    url;
-
-
-  a.download =
-    "AcademicWeaponBackup.json";
-
-
-  document.body
-  .appendChild(
-    a
-  );
-
-
-  a.click();
-
-
-  a.remove();
-
-
-  setTimeout(
-    function(){
-
-      URL.revokeObjectURL(
-        url
-      );
-    },
-    500
-  );
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="AcademicWeaponBackup.json";document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url);},500);
+}
+function importData(event){
+  var file=event.target.files&&event.target.files[0];
+  if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(){
+    try{
+      var data=JSON.parse(reader.result);
+      if(!confirm("Replace the app's current data with this backup?"))return;
+      rating=Number(data.rating||BASE_RATING);
+      weekPoints=Number(data.weekPoints||0);
+      counselCash=Number(data.counselCash||0);
+      xp=Number(data.xp||0);
+      classes=Array.isArray(data.classes)?data.classes:[];
+      tasks=Array.isArray(data.tasks)?data.tasks:[];
+      rewards=Array.isArray(data.rewards)?data.rewards:[];
+      weekArchive=Array.isArray(data.weekArchive)?data.weekArchive:[];
+      focusSessions=Array.isArray(data.focusSessions)?data.focusSessions:[];
+      save();renderAll();alert("Backup restored.");
+    }catch(e){alert("That backup file could not be read.");}
+  };
+  reader.readAsText(file);
+  event.target.value="";
 }
 
-
-/* IMPORT DATA */
-
-function importData(
-  event
-){
-
-  var file =
-    event.target.files
-    &&
-    event.target.files[0];
-
-
-  if(
-    !file
-  ){
-
-    return;
-  }
-
-
-  var reader =
-    new FileReader();
-
-
-  reader.onload =
-    function(){
-
-      try{
-
-        var data =
-          JSON.parse(
-            reader.result
-          );
-
-
-        if(
-          !confirm(
-            "Replace the app's current data with this backup?"
-          )
-        ){
-
-          return;
-        }
-
-
-        rating =
-          Number(
-            data.rating
-            ||
-            BASE_RATING
-          );
-
-
-        weekPoints =
-          Number(
-            data.weekPoints
-            ||
-            0
-          );
-
-
-        counselCash =
-          Number(
-            data.counselCash
-            ||
-            0
-          );
-
-
-        xp =
-          Number(
-            data.xp
-            ||
-            0
-          );
-
-
-        classes =
-          Array.isArray(
-            data.classes
-          )
-
-          ? data.classes
-
-          : [];
-
-
-        tasks =
-          Array.isArray(
-            data.tasks
-          )
-
-          ? data.tasks
-
-          : [];
-
-
-        rewards =
-          Array.isArray(
-            data.rewards
-          )
-
-          ? data.rewards
-
-          : [];
-
-
-        weekArchive =
-          Array.isArray(
-            data.weekArchive
-          )
-
-          ? data.weekArchive
-
-          : [];
-
-
-        focusSessions =
-          Array.isArray(
-            data.focusSessions
-          )
-
-          ? data.focusSessions
-
-          : [];
-
-
-        save();
-
-        renderAll();
-
-
-        alert(
-          "Backup restored."
-        );
-
-      }catch(e){
-
-        alert(
-          "That backup file could not be read."
-        );
-      }
-    };
-
-
-  reader.readAsText(
-    file
-  );
-
-
-  event.target.value =
-    "";
-}
-
-
-/* NAVIGATION */
-
-function showPage(
-  pageID,
-  tabID
-){
-
-  document
-    .querySelectorAll(
-      ".page"
-    )
-    .forEach(
-      function(p){
-
-        p.classList
-        .remove(
-          "active"
-        );
-      }
-    );
-
-
-  document
-    .querySelectorAll(
-      ".navButton"
-    )
-    .forEach(
-      function(t){
-
-        t.classList
-        .remove(
-          "active"
-        );
-      }
-    );
-
-
-  document
-    .getElementById(
-      pageID
-    )
-    .classList
-    .add(
-      "active"
-    );
-
-
-  document
-    .getElementById(
-      tabID
-    )
-    .classList
-    .add(
-      "active"
-    );
-
-
-  window.scrollTo(
-    0,
-    0
-  );
-
-
+function showPage(pageID,tabID){
+  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
+  document.querySelectorAll(".navButton").forEach(function(t){t.classList.remove("active");});
+  document.getElementById(pageID).classList.add("active");
+  document.getElementById(tabID).classList.add("active");
+  window.scrollTo(0,0);
   renderAll();
 }
 
-
-/* CLOSE MODALS */
-
-[
-  "taskOverlay",
-  "classOverlay",
-  "rewardOverlay",
-  "focusOverlay",
-  "caseClosedOverlay"
-]
-.forEach(
-  function(id){
-
-    var el =
-      document.getElementById(
-        id
-      );
-
-
-    el.addEventListener(
-      "click",
-      function(event){
-
-        if(
-          event.target
-          ===
-          el
-        ){
-
-          if(
-            id === "focusOverlay"
-            &&
-            focusTimer
-          ){
-
-            return;
-          }
-
-
-          el.classList
-          .remove(
-            "show"
-          );
-        }
-      }
-    );
-  }
-);
-
-
-/* START */
+["taskOverlay","classOverlay","rewardOverlay","focusOverlay","caseClosedOverlay"].forEach(function(id){
+  var el=document.getElementById(id);
+  el.addEventListener("click",function(event){
+    if(event.target===el){
+      if(id==="focusOverlay"&&focusTimer)return;
+      el.classList.remove("show");
+    }
+  });
+});
 
 save();
-
 renderAll();
-
 </script>
-
 </body>
 </html>
