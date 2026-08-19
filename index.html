@@ -185,6 +185,33 @@ label{display:block;font-size:12px;font-weight:800;margin-top:8px}
 .syllabusSummary{margin:10px 0 2px;font-size:13px;color:#666}
 .hiddenUnit{display:none}
 
+
+.familyClassDate{
+  font-size:12px;
+  font-weight:900;
+  color:#72579b;
+  margin-bottom:4px
+}
+.familyTopic{
+  font-size:14px;
+  font-weight:900;
+  margin-bottom:8px
+}
+.familyProblem{
+  font-size:12px;
+  color:#8a5b00;
+  font-weight:800
+}
+.familyNote{
+  background:#fff8df;
+  border:1px solid #eedb91;
+  border-radius:14px;
+  padding:12px;
+  margin:10px 0;
+  font-size:12px;
+  color:#6f5a13
+}
+
 nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(76px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #ddd}
 .navButton{flex:1;border-radius:0;background:transparent;color:#777;padding:8px 1px;font-size:10px}
 .navButton span{display:block;font-size:21px;margin-bottom:2px}
@@ -268,6 +295,19 @@ nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(
       <button class="gray" onclick="collapseAllEvidenceUnits()">COLLAPSE ALL</button>
     </div>
     <div id="evidenceSyllabus"></div>
+  </div>
+
+  <div class="sectionTitle">👨‍👩‍👧‍👦 Family Law Reading Checklist</div>
+  <div class="syllabusCard">
+    <div class="familyNote">
+      Professor Hazeldean notes that the schedule is tentative, dates are approximate, and you should always read 20–25 pages ahead.
+    </div>
+    <div id="familySyllabusSummary" class="syllabusSummary"></div>
+    <div class="syllabusToolbar">
+      <button class="gray" onclick="expandAllFamilyClasses()">EXPAND ALL</button>
+      <button class="gray" onclick="collapseAllFamilyClasses()">COLLAPSE ALL</button>
+    </div>
+    <div id="familySyllabus"></div>
   </div>
 
   <button class="primary" onclick="openClassModal()">＋ ADD CLASS</button>
@@ -997,6 +1037,107 @@ function renderEvidenceSyllabus(){
   container.innerHTML=html;
 }
 
+
+var FAMILY_LAW_SYLLABUS = [{"id": "fl1", "date": "2026-08-26", "label": "Class 1 — Wednesday August 26", "topic": "The Evolution of the Right to Privacy; Introduction to Family Law; Abortion as a Private Choice", "readings": ["Casebook pp. 1-44"], "problems": []}, {"id": "fl2", "date": "2026-08-31", "label": "Class 2 — Monday August 31", "topic": "The end of the constitutional right to abortion; Privacy and sexual intimacy", "readings": ["Casebook pp. 45-84"], "problems": []}, {"id": "fl3", "date": "2026-09-02", "label": "Class 3 — Wednesday September 2", "topic": "Entry Into Marriage; Constitutional Law of Marriage: Substantive and procedural regulations for entry into marriage", "readings": ["Casebook pp. 85-100", "Casebook pp. 115-130"], "problems": []}, {"id": "fl4", "date": "2026-09-09", "label": "Class 4 — Wednesday September 9", "topic": "Constitutional Law of Marriage: Substantive and procedural regulations for entry into marriage; same-sex marriage", "readings": ["Casebook pp. 130-165"], "problems": ["Problem #1 p. 134"]}, {"id": "fl5", "date": "2026-09-14", "label": "Class 5 — Monday September 14", "topic": "State regulation: incest, bigamy, polygamy; State regulation: Age and State of Mind Restrictions", "readings": ["Casebook pp. 165-199"], "problems": ["Problem p. 169", "Problem #1 pp. 184-86", "Problem #1 p. 197"]}, {"id": "fl6", "date": "2026-09-16", "label": "Class 6 — Wednesday September 16", "topic": "Common Law Marriage; “Essentials of Marriage”; Property Rules", "readings": ["Casebook pp. 199-223", "Casebook pp. 246-255"], "problems": ["Problem #1 pp. 204-05", "Problem #3 pp. 205-06"]}, {"id": "fl7", "date": "2026-09-23", "label": "Class 7 — Wednesday September 23", "topic": "Family Labors; Tort Actions Against 3rd Parties", "readings": ["Casebook pp. 256-291"], "problems": ["Problem p. 281", "Problem #1 pp. 286-87", "Problem p. 291"]}, {"id": "fl8", "date": "2026-09-28", "label": "Class 8 — Monday September 28", "topic": "Family Violence", "readings": ["Casebook pp. 301-325"], "problems": ["Problem pp. 311-12", "Problem p. 323"]}, {"id": "fl9", "date": "2026-09-30", "label": "Class 9 — Wednesday September 30", "topic": "Family Violence Cont’d; Introduction to Divorce; Fault Grounds", "readings": ["Casebook pp. 325-336", "Casebook pp. 435-453", "Casebook pp. 461-469"], "problems": []}, {"id": "fl10", "date": "2026-10-05", "label": "Class 10 — Monday October 5", "topic": "No-Fault Divorce; Divorce Jurisdiction", "readings": ["Casebook pp. 469-489", "Casebook pp. 506-522"], "problems": ["Problem #1 p. 466", "Problem #2 p. 522"]}, {"id": "fl11", "date": "2026-10-07", "label": "Class 11 — Wednesday October 7", "topic": "Divorce Jurisdiction; Financial Consequences of Divorce", "readings": ["Casebook pp. 522-551"], "problems": ["Problem p. 532", "Problem #1 p. 545"]}, {"id": "fl12", "date": "2026-10-12", "label": "Class 12 — Monday October 12", "topic": "Financial Consequences of Divorce: Property Distribution, Spousal Support", "readings": ["Casebook pp. 551-574"], "problems": ["Problem p. 551", "Problem pp. 572-73"]}, {"id": "fl13", "date": "2026-10-14", "label": "Class 13 — Wednesday October 14", "topic": "Financial Consequences; Pre-Marital Agreements; Separation Agreements", "readings": ["Casebook pp. 100-114", "Casebook pp. 615-620"], "problems": ["Problem #3 p. 114"]}, {"id": "fl14", "date": "2026-10-19", "label": "Class 14 — Monday October 19", "topic": "Child Support", "readings": ["Casebook pp. 574-604"], "problems": ["Problem p. 579", "Problem p. 583"]}, {"id": "fl15", "date": "2026-10-21", "label": "Class 15 — Wednesday October 21", "topic": "Child Custody", "readings": ["Casebook pp. 621-648"], "problems": ["Problem p. 631", "Problem #1 p. 639", "Problem p. 648"]}, {"id": "fl16", "date": "2026-10-26", "label": "Class 16 — Monday October 26", "topic": "Visitation; disputes with non-parents", "readings": ["Casebook pp. 654-688"], "problems": ["Problem #1 p. 673"]}, {"id": "fl17", "date": "2026-10-28", "label": "Class 17 — Wednesday October 28", "topic": "Visitation; modification; Mediation", "readings": ["Casebook pp. 698-721"], "problems": ["Problem p. 706", "Problem p. 720"]}, {"id": "fl18", "date": "2026-11-09", "label": "Class 18 — Monday November 9", "topic": "Unmarried Couples", "readings": ["Casebook pp. 385-434"], "problems": ["Problem #1 pp. 411-12", "Problem #2 p. 412"]}, {"id": "fl19", "date": "2026-11-11", "label": "Class 19 — Wednesday November 11", "topic": "Unmarried Parents and Children", "readings": ["Casebook pp. 723-759"], "problems": ["Problem p. 758"]}, {"id": "fl20", "date": "2026-11-16", "label": "Class 20 — Monday November 16", "topic": "Adoption", "readings": ["Casebook pp. 797-828"], "problems": ["Problem #1 pp. 810-11"]}, {"id": "fl21", "date": "2026-11-18", "label": "Class 21 — Wednesday November 18", "topic": "Assisted Reproductive Technology", "readings": ["Casebook pp. 759-797"], "problems": ["Problem #1 p. 783"]}, {"id": "flReview", "date": "2026-11-23", "label": "Monday November 23 — OPTIONAL REVIEW CLASS", "topic": "Optional review class at the usual start time; session will be recorded and posted on Canvas.", "readings": [], "problems": []}];
+
+function familyChecklistState(){
+  var state=readJSON("familyLawChecklist",{});
+  return state && typeof state==="object" ? state : {};
+}
+function saveFamilyChecklistState(state){ localStorage.setItem("familyLawChecklist",JSON.stringify(state)); }
+function familyItemKey(classId,itemType,itemIndex){ return classId+"|"+itemType+"|"+itemIndex; }
+
+function familyTotals(){
+  var total=0,done=0,state=familyChecklistState();
+  FAMILY_LAW_SYLLABUS.forEach(function(c){
+    c.readings.forEach(function(x,i){ total++; if(state[familyItemKey(c.id,"r",i)])done++; });
+    c.problems.forEach(function(x,i){ total++; if(state[familyItemKey(c.id,"p",i)])done++; });
+  });
+  return {total:total,done:done};
+}
+
+function familyClassTotals(c){
+  var total=0,done=0,state=familyChecklistState();
+  c.readings.forEach(function(x,i){ total++; if(state[familyItemKey(c.id,"r",i)])done++; });
+  c.problems.forEach(function(x,i){ total++; if(state[familyItemKey(c.id,"p",i)])done++; });
+  return {total:total,done:done};
+}
+
+function toggleFamilyItem(key,checked){
+  var state=familyChecklistState();
+  state[key]=!!checked;
+  saveFamilyChecklistState(state);
+  renderFamilyLawSyllabus();
+}
+
+function toggleFamilyClass(classId){
+  var body=document.getElementById("familyBody-"+classId);
+  if(body)body.classList.toggle("hiddenUnit");
+}
+
+function expandAllFamilyClasses(){
+  FAMILY_LAW_SYLLABUS.forEach(function(c){
+    var body=document.getElementById("familyBody-"+c.id);
+    if(body)body.classList.remove("hiddenUnit");
+  });
+}
+
+function collapseAllFamilyClasses(){
+  FAMILY_LAW_SYLLABUS.forEach(function(c){
+    var body=document.getElementById("familyBody-"+c.id);
+    if(body)body.classList.add("hiddenUnit");
+  });
+}
+
+function renderFamilyLawSyllabus(){
+  var container=document.getElementById("familySyllabus");
+  var summary=document.getElementById("familySyllabusSummary");
+  if(!container||!summary)return;
+
+  var state=familyChecklistState();
+  var totals=familyTotals();
+  var pct=totals.total?Math.round(totals.done/totals.total*100):0;
+  summary.textContent=totals.done+" of "+totals.total+" readings/problems complete • "+pct+"%";
+
+  var html="";
+  FAMILY_LAW_SYLLABUS.forEach(function(c){
+    var ct=familyClassTotals(c);
+    var cpct=ct.total?Math.round(ct.done/ct.total*100):0;
+
+    html+='<div class="syllabusUnit">'+
+      '<button class="syllabusUnitHeader" onclick="toggleFamilyClass(\''+c.id+'\')">'+
+        '<span class="syllabusUnitTitle">'+escapeHTML(c.label)+'</span>'+
+        '<span class="syllabusUnitProgress">'+ct.done+'/'+ct.total+(ct.total?' • '+cpct+'%':'')+'</span>'+
+      '</button>'+
+      '<div id="familyBody-'+c.id+'" class="hiddenUnit">'+
+        '<div class="syllabusSection">'+
+          '<div class="familyClassDate">'+escapeHTML(c.date)+'</div>'+
+          '<div class="familyTopic">'+escapeHTML(c.topic)+'</div>';
+
+    c.readings.forEach(function(item,i){
+      var key=familyItemKey(c.id,"r",i);
+      html+='<label class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+
+        ' onchange="toggleFamilyItem(\''+key+'\',this.checked)"><span class="syllabusItemText"><span class="syllabusRule">'+
+        escapeHTML(item)+'</span></span></label>';
+    });
+
+    c.problems.forEach(function(item,i){
+      var key=familyItemKey(c.id,"p",i);
+      html+='<label class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+
+        ' onchange="toggleFamilyItem(\''+key+'\',this.checked)"><span class="syllabusItemText familyProblem">📝 '+
+        escapeHTML(item)+'</span></label>';
+    });
+
+    if(!c.readings.length&&!c.problems.length){
+      html+='<div class="small">No assigned reading/problem listed.</div>';
+    }
+
+    html+='</div></div></div>';
+  });
+
+  container.innerHTML=html;
+}
+
 function renderClasses(){
   if(!classes.length){
     document.getElementById("classesList").innerHTML='<div class="card empty">Add your classes to begin building your semester command center.</div>';
@@ -1151,6 +1292,7 @@ function renderAll(){
   renderTasks();
   renderClasses();
   renderEvidenceSyllabus();
+  renderFamilyLawSyllabus();
   renderCalendar();
   renderProgress();
   renderRewards();
