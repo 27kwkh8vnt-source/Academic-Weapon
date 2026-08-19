@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ef">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Academic Weapon">
+
+<title>Academic Weapon</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent
+}
+
+html,body{
+    margin:0;
+    background:#f7f4ef;
+    color:#171717;
+    font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif
+}
+
+body{
+    padding-bottom:100px
+}
+
+header{
+    text-align:center;
+    padding:22px 16px 10px
+}
+
+header h1{
+    margin:0;
+    font-size:30px;
+    font-weight:900
+}
+
+header p{
+    margin:6px 0 0;
+    color:#777;
+    font-size:14px
+}
+
+.page{
+    display:none;
+    padding:0 16px 26px;
+    max-width:650px;
+    margin:auto
+}
+
+.page.active{
+    display:block
+}
+
+.card{
+    background:#fff;
+    border-radius:22px;
+    padding:18px;
+    margin:12px 0;
+    box-shadow:0 5px 20px rgba(0,0,0,.07)
+}
+
+.center{
+    text-align:center
+}
+
+.heroAvatar{
+    font-size:82px;
+    line-height:1;
+    margin:5px 0 8px
+}
+
+.rating{
+    font-size:62px;
+    line-height:1;
+    font-weight:900
+}
+
+.status{
+    font-size:20px;
+    font-weight:900;
+    margin-top:8px
+}
+
+.muted{
+    color:#777
+}
+
+.small{
+    color:#888;
+    font-size:12px
+}
+
+.sectionTitle{
+    margin:22px 2px 8px;
+    font-size:20px;
+    font-weight:900
+}
+
+button{
+    width:100%;
+    border:none;
+    border-radius:15px;
+    padding:16px;
+    font-size:16px;
+    font-weight:800;
+    cursor:pointer;
+    touch-action:manipulation
+}
+
+.primary{
+    background:#4979bd;
+    color:#fff
+}
+
+.green{
+    background:#25b85a;
+    color:#fff
+}
+
+.gold{
+    background:#d8a91e;
+    color:#fff
+}
+
+.gray{
+    background:#ececec;
+    color:#222
+}
+
+.red{
+    background:#e74a45;
+    color:#fff
+}
+
+.gap{
+    height:10px
+}
+
+.statGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px
+}
+
+.stat{
+    background:#fff;
+    border-radius:18px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 5px 18px rgba(0,0,0,.05)
+}
+
+.statNumber{
+    font-size:28px;
+    font-weight:900
+}
+
+.statLabel{
+    color:#777;
+    font-size:12px;
+    margin-top:4px
+}
+
+.task{
+    padding:14px 0;
+    border-bottom:1px solid #eee
+}
+
+.task:last-child{
+    border-bottom:none
+}
+
+.taskTop{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:flex-start
+}
+
+.taskTitle{
+    font-weight:800;
+    font-size:16px
+}
+
+.taskMeta{
+    font-size:12px;
+    color:#777;
+    margin-top:5px
+}
+
+.taskDone{
+    opacity:.45;
+    text-decoration:line-through
+}
+
+.taskButton{
+    margin-top:10px;
+    padding:10px;
+    font-size:13px
+}
+
+.classCard{
+    background:#fff;
+    border-radius:20px;
+    padding:16px;
+    margin:10px 0;
+    box-shadow:0 5px 18px rgba(0,0,0,.05)
+}
+
+.className{
+    font-size:18px;
+    font-weight:900
+}
+
+.progressBar{
+    margin-top:10px;
+    height:8px;
+    background:#eee;
+    border-radius:999px;
+    overflow:hidden
+}
+
+.progressFill{
+    height:100%;
+    background:#4979bd
+}
+
+.reward{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+    padding:13px 0;
+    border-bottom:1px solid #eee
+}
+
+.reward:last-child{
+    border-bottom:none
+}
+
+.rewardName{
+    font-weight:800
+}
+
+.rewardButton{
+    width:auto;
+    padding:10px 12px;
+    font-size:12px
+}
+
+.overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:1000;
+    align-items:flex-end;
+    justify-content:center
+}
+
+.overlay.show{
+    display:flex
+}
+
+.sheet{
+    width:100%;
+    max-width:650px;
+    max-height:86vh;
+    overflow-y:auto;
+    background:#fff;
+    border-radius:24px 24px 0 0;
+    padding:20px 16px calc(22px + env(safe-area-inset-bottom))
+}
+
+input,select{
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:12px;
+    padding:14px;
+    font-size:16px;
+    background:#fff;
+    margin:6px 0 12px
+}
+
+label{
+    display:block;
+    font-size:12px;
+    font-weight:800;
+    margin-top:8px
+}
+
+.empty{
+    text-align:center;
+    color:#888;
+    padding:24px 8px
+}
+
+.recommendation{
+    font-size:18px;
+    font-weight:900;
+    line-height:1.35
+}
+
+.badge{
+    display:inline-block;
+    background:#f0eee9;
+    padding:6px 9px;
+    border-radius:999px;
+    margin:3px;
+    font-size:12px;
+    font-weight:800
+}
+
+nav{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:999;
+    display:flex;
+    height:calc(76px + env(safe-area-inset-bottom));
+    padding-bottom:env(safe-area-inset-bottom);
+    background:rgba(255,255,255,.98);
+    border-top:1px solid #ddd
+}
+
+.navButton{
+    flex:1;
+    border-radius:0;
+    background:transparent;
+    color:#777;
+    padding:8px 1px;
+    font-size:10px
+}
+
+.navButton span{
+    display:block;
+    font-size:21px;
+    margin-bottom:2px
+}
+
+.navButton.active{
+    color:#4979bd
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Academic Weapon</h1>
+<p>Law Student Performance Management System</p>
+</header>
+
+<!-- TODAY -->
+
+<section id="todayPage" class="page active">
+
+<div class="card center">
+
+<div id="avatar" class="heroAvatar">👩‍⚖️</div>
+
+<div id="rating" class="rating">75</div>
+
+<div class="small">ACADEMIC RATING</div>
+
+<div id="status" class="status">
+💼 GOOD STANDING
+</div>
+
+<div id="statusMessage" class="muted">
+Counsel is adequately prepared.
+</div>
+
+</div>
+
+<div class="statGrid">
+
+<div class="stat">
+<div id="todayPoints" class="statNumber">0</div>
+<div class="statLabel">⭐ Points This Week</div>
+</div>
+
+<div class="stat">
+<div id="cashDisplay" class="statNumber">$0</div>
+<div class="statLabel">💵 Counsel Cash</div>
+</div>
+
+</div>
+
+<div class="sectionTitle">⚖️ Today's Docket</div>
+
+<div class="card">
+<div id="todayTasks"></div>
+</div>
+
+<button class="gold" onclick="giveThirtyMinuteTask()">
+⏱ I HAVE 30 MINUTES
+</button>
+
+<div class="gap"></div>
+
+<button class="primary" onclick="openTaskModal()">
+＋ ADD TASK
+</button>
+
+</section>
+
+
+<!-- CLASSES -->
+
+<section id="classesPage" class="page">
+
+<div class="sectionTitle">📚 Classes</div>
+
+<div id="classesList"></div>
+
+<button class="primary" onclick="openClassModal()">
+＋ ADD CLASS
+</button>
+
+</section>
+
+
+<!-- TASKS -->
+
+<section id="tasksPage" class="page">
+
+<div class="sectionTitle">✅ All Tasks</div>
+
+<div class="card">
+<div id="allTasks"></div>
+</div>
+
+<button class="primary" onclick="openTaskModal()">
+＋ ADD TASK
+</button>
+
+</section>
+
+
+<!-- PROGRESS -->
+
+<section id="progressPage" class="page">
+
+<div class="sectionTitle">📊 Performance Analytics</div>
+
+<div id="progressStats" class="statGrid"></div>
+
+<div class="sectionTitle">🏆 Academic Record</div>
+
+<div class="card">
+<div id="weeklyHistory"></div>
+</div>
+
+<div class="sectionTitle">🎖 Achievements</div>
+
+<div class="card">
+<div id="achievements"></div>
+</div>
+
+</section>
+
+
+<!-- ME -->
+
+<section id="mePage" class="page">
+
+<div class="sectionTitle">👩‍⚖️ Counsel Profile</div>
+
+<div class="card center">
+
+<div id="meAvatar" class="heroAvatar">👩‍⚖️</div>
+
+<div id="meStatus" class="status"></div>
+
+<div class="muted">
+Academic performance subject to continuing review.
+</div>
+
+</div>
+
+<div class="sectionTitle">💰 Rewards Store</div>
+
+<div class="card">
+<div id="rewardList"></div>
+</div>
+
+<button class="primary" onclick="openRewardModal()">
+＋ ADD REWARD
+</button>
+
+<div class="sectionTitle">🗓 Weekly Administration</div>
+
+<button class="green" onclick="startNewWeek()">
+📁 ARCHIVE WEEK & START FRESH
+</button>
+
+</section>
+
+
+<!-- TASK MODAL -->
+
+<div id="taskOverlay" class="overlay">
+
+<div class="sheet">
+
+<h2>Add Law School Task</h2>
+
+<label>Task</label>
+<input id="taskName" placeholder="e.g. Read Evidence pp. 83–107">
+
+<label>Class</label>
+<select id="taskClass"></select>
+
+<label>Due Date</label>
+<input id="taskDue" type="date">
+
+<label>Type</label>
+<select id="taskType">
+<option>Reading</option>
+<option>Case Brief</option>
+<option>Outline</option>
+<option>Assignment</option>
+<option>Review</option>
+<option>Office Hours</option>
+<option>Email / Admin</option>
+<option>Exam Prep</option>
+<option>Other</option>
+</select>
+
+<label>Estimated Minutes</label>
+<input id="taskMinutes" type="number" value="30">
+
+<label>Academic Points</label>
+<input id="taskPoints" type="number" value="10">
+
+<label>Counsel Cash</label>
+<input id="taskCash" type="number" value="5">
+
+<button class="green" onclick="saveTask()">
+ADD TO DOCKET
+</button>
+
+<div class="gap"></div>
+
+<button class="gray" onclick="closeTaskModal()">
+Cancel
+</button>
+
+</div>
+</div>
+
+
+<!-- CLASS MODAL -->
+
+<div id="classOverlay" class="overlay">
+
+<div class="sheet">
+
+<h2>Add Class</h2>
+
+<label>Class Name</label>
+<input id="className" placeholder="Evidence">
+
+<label>Professor</label>
+<input id="classProfessor" placeholder="Professor name">
+
+<label>Meeting Days / Time</label>
+<input id="classSchedule" placeholder="Mon/Wed 10:00–11:20">
+
+<label>Total Reading Assignments</label>
+<input id="classTotalReadings" type="number" value="20">
+
+<button class="green" onclick="saveClass()">
+ADD CLASS
+</button>
+
+<div class="gap"></div>
+
+<button class="gray" onclick="closeClassModal()">
+Cancel
+</button>
+
+</div>
+</div>
+
+
+<!-- REWARD MODAL -->
+
+<div id="rewardOverlay" class="overlay">
+
+<div class="sheet">
+
+<h2>Add Reward</h2>
+
+<label>Reward</label>
+<input id="rewardName" placeholder="Fancy coffee">
+
+<label>Cost in Counsel Cash</label>
+<input id="rewardCost" type="number" value="30">
+
+<button class="green" onclick="saveReward()">
+ADD REWARD
+</button>
+
+<div class="gap"></div>
+
+<button class="gray" onclick="closeRewardModal()">
+Cancel
+</button>
+
+</div>
+</div>
+
+
+<nav>
+
+<button id="todayTab" class="navButton active" onclick="showPage('todayPage','todayTab')">
+<span>🏠</span>
+Today
+</button>
+
+<button id="classesTab" class="navButton" onclick="showPage('classesPage','classesTab')">
+<span>📚</span>
+Classes
+</button>
+
+<button id="tasksTab" class="navButton" onclick="showPage('tasksPage','tasksTab')">
+<span>✅</span>
+Tasks
+</button>
+
+<button id="progressTab" class="navButton" onclick="showPage('progressPage','progressTab')">
+<span>📊</span>
+Progress
+</button>
+
+<button id="meTab" class="navButton" onclick="showPage('mePage','meTab')">
+<span>👩‍⚖️</span>
+Me
+</button>
+
+</nav>
+
+
+<script>
+
+var BASE_RATING = 75;
+
+function readJSON(key,fallback){
+    try{
+        var value=localStorage.getItem(key);
+        return value ? JSON.parse(value) : fallback;
+    }catch(e){
+        return fallback;
+    }
+}
+
+var rating=parseInt(localStorage.getItem("lawRating"),10);
+if(isNaN(rating)) rating=BASE_RATING;
+
+var weekPoints=parseInt(localStorage.getItem("lawWeekPoints"),10);
+if(isNaN(weekPoints)) weekPoints=0;
+
+var counselCash=parseInt(localStorage.getItem("lawCounselCash"),10);
+if(isNaN(counselCash)) counselCash=0;
+
+var classes=readJSON("lawClasses",[]);
+var tasks=readJSON("lawTasks",[]);
+var rewards=readJSON("lawRewards",[]);
+var weekArchive=readJSON("lawWeekArchive",[]);
+
+if(!Array.isArray(classes)) classes=[];
+if(!Array.isArray(tasks)) tasks=[];
+if(!Array.isArray(rewards)) rewards=[];
+if(!Array.isArray(weekArchive)) weekArchive=[];
+
+if(rewards.length===0){
+    rewards=[
+        {name:"Fancy Coffee",cost:30},
+        {name:"Guilt-Free TV Episode",cost:40},
+        {name:"Cocktail",cost:60},
+        {name:"$25 Fun Purchase",cost:150},
+        {name:"New Yarn",cost:175},
+        {name:"Manicure",cost:250},
+        {name:"Guilt-Free Lazy Afternoon",cost:300}
+    ];
+}
+
+function save(){
+    localStorage.setItem("lawRating",String(rating));
+    localStorage.setItem("lawWeekPoints",String(weekPoints));
+    localStorage.setItem("lawCounselCash",String(counselCash));
+    localStorage.setItem("lawClasses",JSON.stringify(classes));
+    localStorage.setItem("lawTasks",JSON.stringify(tasks));
+    localStorage.setItem("lawRewards",JSON.stringify(rewards));
+    localStorage.setItem("lawWeekArchive",JSON.stringify(weekArchive));
+}
+
+function getStatus(value){
+
+    if(value>=100){
+        return {
+            title:"🏆 ACADEMIC WEAPON",
+            message:"Counsel is operating at an unreasonable level of preparedness.",
+            avatar:"👩‍⚖️"
+        };
+    }
+
+    if(value>=85){
+        return {
+            title:"🔥 PREPARED & DANGEROUS",
+            message:"Opposing counsel should be concerned.",
+            avatar:"😎"
+        };
+    }
+
+    if(value>=70){
+        return {
+            title:"💼 GOOD STANDING",
+            message:"Counsel is adequately prepared.",
+            avatar:"👩‍⚖️"
+        };
+    }
+
+    if(value>=55){
+        return {
+            title:"📚 PLAYING CATCH-UP",
+            message:"A strategic encounter with the casebook is recommended.",
+            avatar:"🤓"
+        };
+    }
+
+    if(value>=40){
+        return {
+            title:"⚠️ ACADEMIC PROBATION",
+            message:"Management has identified several preparedness deficiencies.",
+            avatar:"😵‍💫"
+        };
+    }
+
+    return {
+        title:"🚨 LAW SCHOOL JAIL",
+        message:"Counsel has been remanded to the library.",
+        avatar:"😭"
+    };
+}
+
+function todayString(){
+    var d=new Date();
+    return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+
+function escapeHTML(text){
+    var d=document.createElement("div");
+    d.textContent=String(text);
+    return d.innerHTML;
+}
+
+function taskHTML(task){
+
+    var doneClass=task.done ? " taskDone" : "";
+
+    var classLabel=task.className || "General";
+
+    var html=
+        '<div class="task'+doneClass+'">'+
+            '<div class="taskTop">'+
+                '<div>'+
+                    '<div class="taskTitle">'+escapeHTML(task.name)+'</div>'+
+                    '<div class="taskMeta">'+
+                        escapeHTML(classLabel)+
+                        " • "+
+                        escapeHTML(task.type)+
+                        " • "+
+                        task.minutes+
+                        " min"+
+                    '</div>'+
+                    '<div class="taskMeta">Due: '+escapeHTML(task.due || "No date")+'</div>'+
+                '</div>'+
+                '<strong>'+
+                    (task.done ? "✅" : "⭐ "+task.points)+
+                '</strong>'+
+            '</div>';
+
+    if(!task.done){
+        html+=
+            '<button class="green taskButton" onclick="completeTask(\''+task.id+'\')">'+
+            'COMPLETE +'+task.points+' ⭐ / +$'+task.cash+
+            '</button>';
+    }
+
+    html+='</div>';
+
+    return html;
+}
+
+function renderHeader(){
+
+    var status=getStatus(rating);
+
+    document.getElementById("rating").textContent=rating;
+    document.getElementById("status").textContent=status.title;
+    document.getElementById("statusMessage").textContent=status.message;
+    document.getElementById("avatar").textContent=status.avatar;
+
+    document.getElementById("meStatus").textContent=status.title;
+    document.getElementById("meAvatar").textContent=status.avatar;
+
+    document.getElementById("todayPoints").textContent=weekPoints;
+    document.getElementById("cashDisplay").textContent="$"+counselCash;
+}
+
+function renderToday(){
+
+    var today=todayString();
+
+    var todays=tasks.filter(function(task){
+        return !task.done && task.due===today;
+    });
+
+    var overdue=tasks.filter(function(task){
+        return !task.done && task.due && task.due<today;
+    });
+
+    var upcoming=tasks.filter(function(task){
+        return !task.done && task.due && task.due>today;
+    });
+
+    upcoming.sort(function(a,b){
+        return a.due.localeCompare(b.due);
+    });
+
+    var shown=overdue.concat(todays);
+
+    if(shown.length===0){
+        shown=upcoming.slice(0,3);
+    }
+
+    document.getElementById("todayTasks").innerHTML=
+        shown.length
+        ? shown.map(taskHTML).join("")
+        : '<div class="empty">Your docket is clear. Suspiciously clear.</div>';
+}
+
+function renderTasks(){
+
+    var ordered=tasks.slice();
+
+    ordered.sort(function(a,b){
+
+        if(a.done!==b.done){
+            return a.done ? 1 : -1;
+        }
+
+        return String(a.due).localeCompare(String(b.due));
+    });
+
+    document.getElementById("allTasks").innerHTML=
+        ordered.length
+        ? ordered.map(taskHTML).join("")
+        : '<div class="empty">No tasks yet.</div>';
+}
+
+function renderClasses(){
+
+    if(classes.length===0){
+
+        document.getElementById("classesList").innerHTML=
+            '<div class="card empty">Add your classes to begin building your semester command center.</div>';
+
+        return;
+    }
+
+    var html="";
+
+    classes.forEach(function(course){
+
+        var courseTasks=tasks.filter(function(task){
+            return task.className===course.name;
+        });
+
+        var readings=courseTasks.filter(function(task){
+            return task.type==="Reading";
+        });
+
+        var completed=readings.filter(function(task){
+            return task.done;
+        }).length;
+
+        var total=Math.max(course.totalReadings,readings.length);
+
+        var percent=
+            total>0
+            ? Math.min(100,Math.round((completed/total)*100))
+            : 0;
+
+        var next=courseTasks
+            .filter(function(task){
+                return !task.done;
+            })
+            .sort(function(a,b){
+                return String(a.due).localeCompare(String(b.due));
+            })[0];
+
+        html+=
+            '<div class="classCard">'+
+                '<div class="className">'+escapeHTML(course.name)+'</div>'+
+                '<div class="small">'+escapeHTML(course.professor || "")+'</div>'+
+                '<div class="small">'+escapeHTML(course.schedule || "")+'</div>'+
+                '<div style="margin-top:12px"><strong>Reading Progress: '+percent+'%</strong></div>'+
+                '<div class="progressBar"><div class="progressFill" style="width:'+percent+'%"></div></div>'+
+                '<div class="small" style="margin-top:8px">'+completed+' of '+total+' reading assignments completed</div>'+
+                '<div style="margin-top:12px"><strong>Next:</strong> '+(next ? escapeHTML(next.name) : "Nothing pending 🎉")+'</div>'+
+            '</div>';
+    });
+
+    document.getElementById("classesList").innerHTML=html;
+}
+
+function renderProgress(){
+
+    var completed=tasks.filter(function(task){
+        return task.done;
+    });
+
+    var totalMinutes=completed.reduce(function(sum,task){
+        return sum+Number(task.minutes || 0);
+    },0);
+
+    var readingCount=completed.filter(function(task){
+        return task.type==="Reading";
+    }).length;
+
+    var outlineCount=completed.filter(function(task){
+        return task.type==="Outline";
+    }).length;
+
+    var cards=[
+        [weekPoints,"⭐ Points This Week"],
+        [completed.length,"✅ Tasks Completed"],
+        [Math.round(totalMinutes/60*10)/10,"⏱ Study Hours Logged"],
+        [readingCount,"📚 Readings Completed"],
+        [outlineCount,"📝 Outline Sessions"],
+        [rating,"⚖️ Academic Rating"]
+    ];
+
+    document.getElementById("progressStats").innerHTML=
+        cards.map(function(card){
+            return '<div class="stat">'+
+                '<div class="statNumber">'+card[0]+'</div>'+
+                '<div class="statLabel">'+card[1]+'</div>'+
+            '</div>';
+        }).join("");
+
+    document.getElementById("weeklyHistory").innerHTML=
+        weekArchive.length
+        ? weekArchive.slice().reverse().map(function(week){
+            return '<div class="task">'+
+                '<div class="taskTop">'+
+                    '<div>'+
+                        '<div class="taskTitle">'+escapeHTML(week.date)+'</div>'+
+                        '<div class="taskMeta">'+week.completed+' completed tasks</div>'+
+                    '</div>'+
+                    '<strong>'+week.rating+'</strong>'+
+                '</div>'+
+                '<div class="taskMeta">'+week.points+' points earned</div>'+
+            '</div>';
+        }).join("")
+        : '<div class="empty">No archived weeks yet.</div>';
+
+    var achievements=[];
+
+    if(weekPoints>=100) achievements.push("💯 Century Club");
+    if(completed.length>=10) achievements.push("✅ Docket Dominator");
+    if(readingCount>=10) achievements.push("📚 Casebook Conqueror");
+    if(outlineCount>=3) achievements.push("📝 Outline Operator");
+    if(rating>=100) achievements.push("🏆 Academic Weapon");
+    if(counselCash>=200) achievements.push("💰 Highly Compensated Counsel");
+
+    document.getElementById("achievements").innerHTML=
+        achievements.length
+        ? achievements.map(function(x){
+            return '<span class="badge">'+x+'</span>';
+        }).join("")
+        : '<div class="empty">Achievements will unlock as counsel performs.</div>';
+}
+
+function renderRewards(){
+
+    document.getElementById("rewardList").innerHTML=
+        rewards.length
+        ? rewards.map(function(reward,index){
+
+            var affordable=counselCash>=reward.cost;
+
+            return '<div class="reward">'+
+                '<div>'+
+                    '<div class="rewardName">'+escapeHTML(reward.name)+'</div>'+
+                    '<div class="small">$'+reward.cost+' Counsel Cash</div>'+
+                '</div>'+
+                '<button class="'+(affordable ? "green" : "gray")+' rewardButton" onclick="redeemReward('+index+')">'+
+                    (affordable ? "REDEEM" : "LOCKED")+
+                '</button>'+
+            '</div>';
+        }).join("")
+        : '<div class="empty">No rewards configured.</div>';
+}
+
+function renderAll(){
+    renderHeader();
+    renderToday();
+    renderTasks();
+    renderClasses();
+    renderProgress();
+    renderRewards();
+}
+
+function completeTask(id){
+
+    var task=tasks.find(function(x){
+        return x.id===id;
+    });
+
+    if(!task || task.done) return;
+
+    task.done=true;
+    task.completedAt=new Date().toISOString();
+
+    weekPoints+=Number(task.points || 0);
+    counselCash+=Number(task.cash || 0);
+
+    rating+=Math.max(1,Math.round(Number(task.points || 0)/5));
+
+    save();
+    renderAll();
+
+    alert(
+        "⚖️ TASK CLOSED\n\n"+
+        task.name+
+        "\n\n+"+task.points+" Academic Points\n"+
+        "+$"+task.cash+" Counsel Cash"
+    );
+}
+
+function giveThirtyMinuteTask(){
+
+    var open=tasks.filter(function(task){
+        return !task.done && Number(task.minutes)<=30;
+    });
+
+    if(open.length===0){
+
+        alert("No open task fits within 30 minutes. Counsel may create a smaller assignment.");
+
+        return;
+    }
+
+    open.sort(function(a,b){
+        return String(a.due).localeCompare(String(b.due));
+    });
+
+    var pick=open[0];
+
+    alert(
+        "⏱ 30-MINUTE ASSIGNMENT\n\n"+
+        pick.name+
+        "\n\n"+
+        (pick.className || "General")+
+        " • "+
+        pick.minutes+
+        " minutes\n\nDue: "+
+        (pick.due || "No date")
+    );
+}
+
+function openTaskModal(){
+
+    var select=document.getElementById("taskClass");
+
+    select.innerHTML='<option value="">General</option>';
+
+    classes.forEach(function(course){
+
+        var option=document.createElement("option");
+
+        option.value=course.name;
+        option.textContent=course.name;
+
+        select.appendChild(option);
+    });
+
+    document.getElementById("taskName").value="";
+    document.getElementById("taskDue").value=todayString();
+
+    document.getElementById("taskOverlay").classList.add("show");
+}
+
+function closeTaskModal(){
+    document.getElementById("taskOverlay").classList.remove("show");
+}
+
+function saveTask(){
+
+    var name=document.getElementById("taskName").value.trim();
+
+    if(!name){
+        alert("Enter a task first.");
+        return;
+    }
+
+    tasks.push({
+        id:"task-"+Date.now()+"-"+Math.random().toString(16).slice(2),
+        name:name,
+        className:document.getElementById("taskClass").value,
+        due:document.getElementById("taskDue").value,
+        type:document.getElementById("taskType").value,
+        minutes:Number(document.getElementById("taskMinutes").value)||30,
+        points:Number(document.getElementById("taskPoints").value)||10,
+        cash:Number(document.getElementById("taskCash").value)||5,
+        done:false,
+        createdAt:new Date().toISOString()
+    });
+
+    save();
+    closeTaskModal();
+    renderAll();
+}
+
+function openClassModal(){
+    document.getElementById("classOverlay").classList.add("show");
+}
+
+function closeClassModal(){
+    document.getElementById("classOverlay").classList.remove("show");
+}
+
+function saveClass(){
+
+    var name=document.getElementById("className").value.trim();
+
+    if(!name){
+        alert("Enter the class name.");
+        return;
+    }
+
+    classes.push({
+        id:"class-"+Date.now(),
+        name:name,
+        professor:document.getElementById("classProfessor").value.trim(),
+        schedule:document.getElementById("classSchedule").value.trim(),
+        totalReadings:Number(document.getElementById("classTotalReadings").value)||20
+    });
+
+    document.getElementById("className").value="";
+    document.getElementById("classProfessor").value="";
+    document.getElementById("classSchedule").value="";
+
+    save();
+    closeClassModal();
+    renderAll();
+}
+
+function openRewardModal(){
+    document.getElementById("rewardOverlay").classList.add("show");
+}
+
+function closeRewardModal(){
+    document.getElementById("rewardOverlay").classList.remove("show");
+}
+
+function saveReward(){
+
+    var name=document.getElementById("rewardName").value.trim();
+    var cost=Number(document.getElementById("rewardCost").value);
+
+    if(!name || !cost){
+        alert("Add a reward and cost.");
+        return;
+    }
+
+    rewards.push({
+        name:name,
+        cost:cost
+    });
+
+    save();
+    closeRewardModal();
+    renderAll();
+}
+
+function redeemReward(index){
+
+    var reward=rewards[index];
+
+    if(!reward) return;
+
+    if(counselCash<reward.cost){
+
+        alert("Insufficient Counsel Cash.");
+
+        return;
+    }
+
+    if(!confirm(
+        "Redeem "+reward.name+" for $"+reward.cost+" Counsel Cash?"
+    )){
+        return;
+    }
+
+    counselCash-=reward.cost;
+
+    save();
+    renderAll();
+
+    alert(
+        "🎉 REWARD AUTHORIZED\n\n"+
+        reward.name+
+        "\n\nCounsel may proceed without guilt."
+    );
+}
+
+function startNewWeek(){
+
+    if(!confirm(
+        "Archive this week's performance and begin a new week at an Academic Rating of 75?"
+    )){
+        return;
+    }
+
+    weekArchive.push({
+        date:new Date().toLocaleDateString(),
+        rating:rating,
+        points:weekPoints,
+        completed:tasks.filter(function(task){
+            return task.done;
+        }).length
+    });
+
+    rating=BASE_RATING;
+    weekPoints=0;
+
+    save();
+    renderAll();
+
+    alert("📁 Week archived. New academic week opened.");
+}
+
+function showPage(pageID,tabID){
+
+    document.querySelectorAll(".page").forEach(function(page){
+        page.classList.remove("active");
+    });
+
+    document.querySelectorAll(".navButton").forEach(function(tab){
+        tab.classList.remove("active");
+    });
+
+    document.getElementById(pageID).classList.add("active");
+    document.getElementById(tabID).classList.add("active");
+
+    window.scrollTo(0,0);
+
+    renderAll();
+}
+
+["taskOverlay","classOverlay","rewardOverlay"].forEach(function(id){
+
+    document.getElementById(id).addEventListener("click",function(event){
+
+        if(event.target===this){
+            this.classList.remove("show");
+        }
+    });
+});
+
+save();
+renderAll();
+
+</script>
+
+</body>
+</html>
