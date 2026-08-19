@@ -248,6 +248,29 @@ label{display:block;font-size:12px;font-weight:800;margin-top:8px}
   line-height:1.45
 }
 
+
+.syllabusItemActions{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-left:auto
+}
+.todayMiniButton{
+  width:auto;
+  min-width:64px;
+  padding:7px 9px;
+  border-radius:10px;
+  background:#4979bd;
+  color:#fff;
+  font-size:10px;
+  font-weight:900;
+  white-space:nowrap
+}
+.todayMiniButton.added{
+  background:#ececec;
+  color:#777
+}
+
 nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(76px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #ddd}
 .navButton{flex:1;border-radius:0;background:transparent;color:#777;padding:8px 1px;font-size:10px}
 .navButton span{display:block;font-size:21px;margin-bottom:2px}
@@ -770,6 +793,14 @@ function dateString(d){
   return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
 function todayString(){ return dateString(new Date()); }
+
+function escapeJSString(value){
+  return String(value)
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/\r?\n/g," ");
+}
+
 function escapeHTML(text){ var d=document.createElement("div"); d.textContent=String(text); return d.innerHTML; }
 function addDays(dateStr,days){
   var d=dateStr ? new Date(dateStr+"T12:00:00") : new Date();
@@ -993,16 +1024,22 @@ function missionScore(task){
 }
 
 function bestNextTask(){
-  var open=tasks.filter(function(t){return !t.done;});
+  var open=tasks.filter(function(t){
+    return !t.done && journalIsWithinTwoWeeks(t);
+  });
+
   if(!open.length) return null;
 
   return open.slice().sort(function(a,b){
     var diff=missionScore(b)-missionScore(a);
-    if(diff!==0) return diff;
+
+    if(diff!==0){
+      return diff;
+    }
+
     return taskSort(a,b);
   })[0];
 }
-
 function renderNextMission(){
   var box=document.getElementById("nextMission");
   if(!box) return;
@@ -1091,27 +1128,62 @@ function renderFinalsCountdown(){
 }
 
 
-function renderToday(){
-  var today=todayString();
-  var shown=tasks.filter(function(t){ return !t.done && t.due && t.due<=today; });
-  if(!shown.length){
-    shown=tasks.filter(function(t){ return !t.done; })
-      .sort(taskSort)
-      .slice(0,4);
-  }else{
-    shown.sort(taskSort);
-  }
-  document.getElementById("todayTasks").innerHTML=shown.length?shown.map(taskHTML).join(""):'<div class="empty">Your docket is clear. Suspiciously clear.</div>';
-  renderDeadline();
-}
+
 
 function taskSort(a,b){
-  var ap=priorityWeight(a.priority),bp=priorityWeight(b.priority);
-  if(ap!==bp) return bp-ap;
-  var ad=a.due||"9999-12-31",bd=b.due||"9999-12-31";
+  var ap=priorityWeight(a.priority||"Normal");
+  var bp=priorityWeight(b.priority||"Normal");
+
+  if(ap!==bp){
+    return bp-ap;
+  }
+
+  var ad=a.due||"9999-12-31";
+  var bd=b.due||"9999-12-31";
+
   return ad.localeCompare(bd);
 }
 
+function journalIsWithinTwoWeeks(task){
+  if(task.className!=="Journal") return true;
+  if(!task.due) return true;
+
+  var d=daysUntil(task.due);
+
+  // Show Journal work on Today / Next Mission only when it is
+  // overdue or due within the next 14 days.
+  return d!==null && d<=14;
+}
+
+function renderToday(){
+  var today=todayString();
+
+  var dueNow=tasks.filter(function(t){
+    return !t.done &&
+      t.due &&
+      t.due<=today &&
+      journalIsWithinTwoWeeks(t);
+  });
+
+  var shown=dueNow;
+
+  if(!shown.length){
+    shown=tasks.filter(function(t){
+      return !t.done && journalIsWithinTwoWeeks(t);
+    })
+    .sort(taskSort)
+    .slice(0,4);
+  }else{
+    shown.sort(taskSort);
+  }
+
+  document.getElementById("todayTasks").innerHTML=
+    shown.length
+    ? shown.map(taskHTML).join("")
+    : '<div class="empty">Your docket is clear. Suspiciously clear.</div>';
+
+  renderDeadline();
+}
 function renderTasks(){
   var filter=document.getElementById("taskFilter")?document.getElementById("taskFilter").value:"open";
   var today=todayString();
@@ -1180,6 +1252,63 @@ function expandAllEvidenceUnits(){
 function collapseAllEvidenceUnits(){
   EVIDENCE_SYLLABUS.forEach(function(unit){var body=document.getElementById("evidenceBody-"+unit.id);if(body)body.classList.add("hiddenUnit");});
 }
+
+function localTodayDate(){
+  var d=new Date();
+  return d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+}
+
+function syllabusTaskId(courseName,key){
+  return "syllabus-"+courseName.toLowerCase().replace(/[^a-z0-9]+/g,"-")+"-"+key.replace(/[^a-z0-9]+/gi,"-");
+}
+
+function syllabusTaskExists(courseName,key){
+  var id=syllabusTaskId(courseName,key);
+  return tasks.some(function(t){
+    return t.id===id && !t.done;
+  });
+}
+
+function addSyllabusItemToToday(courseName,label,key,itemKind){
+  var id=syllabusTaskId(courseName,key);
+
+  var existing=tasks.find(function(t){
+    return t.id===id && !t.done;
+  });
+
+  if(existing){
+    existing.due=localTodayDate();
+    save();
+    renderAll();
+    return;
+  }
+
+  var prefix=itemKind==="problem"
+    ? "Complete "
+    : itemKind==="rule"
+      ? "Review "
+      : "Read ";
+
+  tasks.push({
+    id:id,
+    name:prefix+label,
+    className:courseName,
+    due:localTodayDate(),
+    type:itemKind==="problem" ? "Assignment" : "Reading",
+    priority:"Normal",
+    recurrence:"none",
+    minutes:itemKind==="problem" ? 30 : 30,
+    points:10,
+    cash:0,
+    notes:"Added from the "+courseName+" syllabus checklist.",
+    done:false,
+    createdAt:new Date().toISOString()
+  });
+
+  save();
+  renderAll();
+}
+
 function renderEvidenceSyllabus(){
   var container=document.getElementById("evidenceSyllabus");
   var summary=document.getElementById("evidenceSyllabusSummary");
@@ -1197,11 +1326,13 @@ function renderEvidenceSyllabus(){
       html+='<div class="syllabusSection"><div class="syllabusSectionTitle">'+escapeHTML(section.title)+'</div>';
       section.rules.forEach(function(rule,ri){
         var key=evidenceItemKey(unit.id,si,"r",ri);
-        html+='<label class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+' onchange="toggleEvidenceItem(\''+key+'\',this.checked)"><span class="syllabusItemText"><span class="syllabusRule">'+escapeHTML(rule)+'</span></span></label>';
+        var added=syllabusTaskExists("Evidence",key);
+        html+='<div class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+' onchange="toggleEvidenceItem(\''+key+'\',this.checked)"><span class="syllabusItemText"><span class="syllabusRule">'+escapeHTML(rule)+'</span></span><div class="syllabusItemActions"><button class="todayMiniButton '+(added?"added":"")+'" onclick="addSyllabusItemToToday(\'Evidence\',\''+escapeJSString(rule)+'\',\''+key+'\',\'rule\')">'+(added?"ADDED":"＋ TODAY")+'</button></div></div>';
       });
       section.items.forEach(function(item,ii){
         var key=evidenceItemKey(unit.id,si,"i",ii);
-        html+='<label class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+' onchange="toggleEvidenceItem(\''+key+'\',this.checked)"><span class="syllabusItemText">'+escapeHTML(item)+'</span></label>';
+        var added=syllabusTaskExists("Evidence",key);
+        html+='<div class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+' onchange="toggleEvidenceItem(\''+key+'\',this.checked)"><span class="syllabusItemText">'+escapeHTML(item)+'</span><div class="syllabusItemActions"><button class="todayMiniButton '+(added?"added":"")+'" onclick="addSyllabusItemToToday(\'Evidence\',\''+escapeJSString(item)+'\',\''+key+'\',\'reading\')">'+(added?"ADDED":"＋ TODAY")+'</button></div></div>';
       });
       if(!section.rules.length&&!section.items.length)html+='<div class="small">No separate reading listed for this subsection.</div>';
       html+='</div>';
@@ -1290,16 +1421,22 @@ function renderFamilyLawSyllabus(){
 
     c.readings.forEach(function(item,i){
       var key=familyItemKey(c.id,"r",i);
-      html+='<label class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+
+      var added=syllabusTaskExists("Family Law",key);
+      html+='<div class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+
         ' onchange="toggleFamilyItem(\''+key+'\',this.checked)"><span class="syllabusItemText"><span class="syllabusRule">'+
-        escapeHTML(item)+'</span></span></label>';
+        escapeHTML(item)+'</span></span><div class="syllabusItemActions"><button class="todayMiniButton '+(added?"added":"")+
+        '" onclick="addSyllabusItemToToday(\'Family Law\',\''+escapeJSString(item)+'\',\''+key+'\',\'reading\')">'+
+        (added?"ADDED":"＋ TODAY")+'</button></div></div>';
     });
 
     c.problems.forEach(function(item,i){
       var key=familyItemKey(c.id,"p",i);
-      html+='<label class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+
+      var added=syllabusTaskExists("Family Law",key);
+      html+='<div class="syllabusItem"><input type="checkbox" '+(state[key]?"checked":"")+
         ' onchange="toggleFamilyItem(\''+key+'\',this.checked)"><span class="syllabusItemText familyProblem">📝 '+
-        escapeHTML(item)+'</span></label>';
+        escapeHTML(item)+'</span><div class="syllabusItemActions"><button class="todayMiniButton '+(added?"added":"")+
+        '" onclick="addSyllabusItemToToday(\'Family Law\',\''+escapeJSString(item)+'\',\''+key+'\',\'problem\')">'+
+        (added?"ADDED":"＋ TODAY")+'</button></div></div>';
     });
 
     if(!c.readings.length&&!c.problems.length){
