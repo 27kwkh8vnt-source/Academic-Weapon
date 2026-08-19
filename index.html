@@ -547,6 +547,41 @@ if(!Array.isArray(rewards)) rewards=[];
 if(!Array.isArray(weekArchive)) weekArchive=[];
 if(!Array.isArray(focusSessions)) focusSessions=[];
 
+
+/* PRESET FALL 2026 CLASSES */
+var PRESET_CLASSES = [
+  {name:"Evidence", professor:"Shechtman", schedule:"TTh 6:00 PM - 7:55 PM"},
+  {name:"Family Law", professor:"Hazeldean", schedule:"MW 10:00 AM - 11:50 AM"},
+  {name:"Intro to Litigation", professor:"Fisher", schedule:"W 1:50 PM - 3:45 PM"},
+  {name:"Legal Drafting: Litigation", professor:"Hajjar", schedule:"M 8:00 PM - 9:55 PM"},
+  {name:"Journal", professor:"", schedule:"No set date or time"}
+];
+
+function ensurePresetClasses(){
+  PRESET_CLASSES.forEach(function(preset){
+    var existing=classes.find(function(c){
+      return (c.name||"").trim().toLowerCase()===preset.name.toLowerCase();
+    });
+
+    if(existing){
+      existing.professor=preset.professor;
+      existing.schedule=preset.schedule;
+      existing.totalReadings=0;
+    }else{
+      classes.push({
+        id:"preset-"+preset.name.toLowerCase().replace(/[^a-z0-9]+/g,"-"),
+        name:preset.name,
+        professor:preset.professor,
+        schedule:preset.schedule,
+        totalReadings:0
+      });
+    }
+  });
+}
+
+ensurePresetClasses();
+
+
 if(rewards.length===0){
   rewards=[
     {name:"Fancy Coffee",cost:30},
@@ -1140,30 +1175,59 @@ function renderFamilyLawSyllabus(){
 
 function renderClasses(){
   if(!classes.length){
-    document.getElementById("classesList").innerHTML='<div class="card empty">Add your classes to begin building your semester command center.</div>';
+    document.getElementById("classesList").innerHTML='<div class="card empty">No classes configured.</div>';
     return;
   }
+
+  var preferredOrder=[
+    "Evidence",
+    "Family Law",
+    "Intro to Litigation",
+    "Legal Drafting: Litigation",
+    "Journal"
+  ];
+
+  var sortedClasses=classes.slice().sort(function(a,b){
+    var ai=preferredOrder.indexOf(a.name);
+    var bi=preferredOrder.indexOf(b.name);
+
+    if(ai===-1 && bi===-1) return a.name.localeCompare(b.name);
+    if(ai===-1) return 1;
+    if(bi===-1) return -1;
+    return ai-bi;
+  });
+
   var html="";
-  classes.forEach(function(course){
-    var courseTasks=tasks.filter(function(t){return t.className===course.name;});
-    var readings=courseTasks.filter(function(t){return t.type==="Reading";});
-    var completed=readings.filter(function(t){return t.done;}).length;
-    var total=Math.max(Number(course.totalReadings||0),readings.length);
-    var percent=total?Math.min(100,Math.round(completed/total*100)):0;
-    var next=courseTasks.filter(function(t){return !t.done;}).sort(taskSort)[0];
+
+  sortedClasses.forEach(function(course){
+    var courseTasks=tasks.filter(function(t){
+      return t.className===course.name && !t.done;
+    }).sort(taskSort);
+
+    var next=courseTasks[0];
 
     html+='<div class="classCard">'+
-      '<div class="taskTop"><div><div class="className">'+escapeHTML(course.name)+'</div>'+
-      '<div class="small">'+escapeHTML(course.professor||"")+'</div>'+
-      '<div class="small">'+escapeHTML(course.schedule||"")+'</div></div>'+
-      '<button class="gray taskButton" style="width:auto" onclick="editClass(\''+course.id+'\')">EDIT</button></div>'+
-      '<div style="margin-top:12px"><strong>📚 '+escapeHTML(readingStatus(course))+'</strong></div>'+
-      '<div style="margin-top:10px"><strong>Reading Progress: '+percent+'%</strong></div>'+
-      '<div class="progressBar"><div class="progressFill" style="width:'+percent+'%"></div></div>'+
-      '<div class="small" style="margin-top:8px">'+completed+' of '+total+' reading assignments completed</div>'+
-      '<div style="margin-top:12px"><strong>Next:</strong> '+(next?escapeHTML(next.name):"Nothing pending 🎉")+'</div>'+
+      '<div class="taskTop">'+
+        '<div>'+
+          '<div class="className">'+escapeHTML(course.name)+'</div>'+
+          (course.professor?'<div class="small">Professor '+escapeHTML(course.professor)+'</div>':'')+
+          '<div class="small">'+escapeHTML(course.schedule||"No set date or time")+'</div>'+
+        '</div>'+
+        '<button class="gray taskButton" style="width:auto" onclick="editClass(\''+course.id+'\')">EDIT</button>'+
       '</div>';
+
+    if(courseTasks.length){
+      html+='<div style="margin-top:12px"><strong>📌 Open Tasks: '+courseTasks.length+'</strong></div>'+
+        '<div class="small" style="margin-top:5px">Next: '+escapeHTML(next.name)+
+        (next.due?' • due '+escapeHTML(next.due):'')+
+        '</div>';
+    }else{
+      html+='<div style="margin-top:12px"><strong>✅ No open tasks</strong></div>';
+    }
+
+    html+='</div>';
   });
+
   document.getElementById("classesList").innerHTML=html;
 }
 
