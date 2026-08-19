@@ -271,6 +271,42 @@ label{display:block;font-size:12px;font-weight:800;margin-top:8px}
   color:#777
 }
 
+.classCardActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.classCardActions button{padding:11px 10px;font-size:12px}
+
+
+.taskDateGroup{
+  margin:16px 0 22px
+}
+.taskDateHeading{
+  font-size:14px;
+  font-weight:900;
+  color:#5f5f5f;
+  margin:0 0 8px 2px;
+  text-transform:uppercase;
+  letter-spacing:.5px
+}
+.taskDateHeading.overdueHeading{
+  color:#c92a2a
+}
+.taskDateHeading.todayHeading{
+  color:#4979bd
+}
+.taskEmoji{
+  font-size:20px;
+  margin-right:7px
+}
+.taskTitleLine{
+  display:flex;
+  align-items:flex-start;
+  gap:2px
+}
+.taskDeleteButton{
+  margin-top:8px;
+  padding:10px;
+  font-size:12px
+}
+
 nav{position:fixed;left:0;right:0;bottom:0;z-index:999;display:flex;height:calc(76px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.98);border-top:1px solid #ddd}
 .navButton{flex:1;border-radius:0;background:transparent;color:#777;padding:8px 1px;font-size:10px}
 .navButton span{display:block;font-size:21px;margin-bottom:2px}
@@ -862,36 +898,173 @@ function studyMinutesFor(dateStr){
   }).reduce(function(sum,s){ return sum+Number(s.minutes||0); },0);
 }
 
+
+function taskEmoji(task){
+  if(task.className==="Journal") return "📝";
+
+  var type=(task.type||"").toLowerCase();
+
+  if(type==="reading") return "📖";
+  if(type==="case brief") return "⚖️";
+  if(type==="outline") return "🧠";
+  if(type==="review") return "🔁";
+  if(type==="office hours") return "👩‍🏫";
+  if(type==="email / admin") return "📧";
+  if(type==="exam prep") return "🎯";
+  if(type==="assignment") return "📌";
+  if(type==="memo / paper") return "✍️";
+  if(type==="exam") return "🎓";
+
+  return "✅";
+}
+
+function prettyTaskDate(dateStr){
+  if(!dateStr) return "No Due Date";
+
+  var d=new Date(dateStr+"T12:00:00");
+  return d.toLocaleDateString(
+    undefined,
+    {
+      weekday:"long",
+      month:"long",
+      day:"numeric"
+    }
+  );
+}
+
+function taskDateHeadingLabel(dateStr){
+  if(!dateStr) return "No Due Date";
+
+  var today=todayString();
+  var tomorrow=addDays(today,1);
+
+  if(dateStr<today) return "Overdue — "+prettyTaskDate(dateStr);
+  if(dateStr===today) return "Today — "+prettyTaskDate(dateStr);
+  if(dateStr===tomorrow) return "Tomorrow — "+prettyTaskDate(dateStr);
+
+  return prettyTaskDate(dateStr);
+}
+
+function taskDateHeadingClass(dateStr){
+  if(!dateStr) return "";
+  var today=todayString();
+
+  if(dateStr<today) return " overdueHeading";
+  if(dateStr===today) return " todayHeading";
+
+  return "";
+}
+
+function groupTasksByDueDate(list){
+  var groups={};
+
+  list.forEach(function(task){
+    var key=task.due||"NO_DATE";
+
+    if(!groups[key]){
+      groups[key]=[];
+    }
+
+    groups[key].push(task);
+  });
+
+  var keys=Object.keys(groups);
+
+  keys.sort(function(a,b){
+    if(a==="NO_DATE") return 1;
+    if(b==="NO_DATE") return -1;
+    return a.localeCompare(b);
+  });
+
+  return {
+    keys:keys,
+    groups:groups
+  };
+}
+
+function groupedTaskHTML(list){
+  if(!list.length){
+    return '<div class="empty">No matching tasks.</div>';
+  }
+
+  var grouped=groupTasksByDueDate(list);
+  var html="";
+
+  grouped.keys.forEach(function(key){
+    var dateStr=key==="NO_DATE" ? "" : key;
+    var items=grouped.groups[key].slice().sort(function(a,b){
+      var pa=priorityWeight(a.priority||"Normal");
+      var pb=priorityWeight(b.priority||"Normal");
+
+      if(pa!==pb){
+        return pb-pa;
+      }
+
+      return (a.name||"").localeCompare(b.name||"");
+    });
+
+    html+='<div class="taskDateGroup">'+
+      '<div class="taskDateHeading'+taskDateHeadingClass(dateStr)+'">'+
+        escapeHTML(taskDateHeadingLabel(dateStr))+
+      '</div>'+
+      items.map(taskHTML).join("")+
+    '</div>';
+  });
+
+  return html;
+}
+
+
 function taskHTML(task){
-  var doneClass=task.done?" taskDone":"";
+  var doneClass=task.done ? " taskDone" : "";
   var today=todayString();
   var overdue=!task.done && task.due && task.due<today;
-  var dueText=task.due || "No date";
-  var notes=task.notes ? '<div class="taskMeta">'+escapeHTML(task.notes)+'</div>' : '';
-  var recurrence=task.recurrence && task.recurrence!=="none" ? " • ↻ "+task.recurrence : "";
+  var recurrence=task.recurrence && task.recurrence!=="none"
+    ? " • ↻ "+task.recurrence
+    : "";
 
-  var html='<div class="task'+doneClass+'">'+
-    '<div class="taskTop"><div>'+
-    '<div class="taskTitle">'+escapeHTML(task.name)+' <span class="priority priority-'+escapeHTML(task.priority)+'">'+escapeHTML(task.priority)+'</span></div>'+
-    '<div class="taskMeta">'+escapeHTML(task.className||"General")+" • "+escapeHTML(task.type)+" • "+Number(task.minutes||0)+" min"+recurrence+'</div>'+
-    '<div class="taskMeta '+(overdue?"overdue":"")+'">'+(overdue?"OVERDUE • ":"Due: ")+escapeHTML(dueText)+'</div>'+
-    notes+
-    '</div><strong>'+(task.done?"✅":"⭐ "+task.points)+'</strong></div>';
+  var html=
+    '<div class="task'+doneClass+'">'+
+      '<div class="taskTop">'+
+        '<div>'+
+          '<div class="taskTitle taskTitleLine">'+
+            '<span class="taskEmoji">'+taskEmoji(task)+'</span>'+
+            '<span>'+escapeHTML(task.name)+'</span>'+
+            '<span class="priority priority-'+escapeHTML(task.priority||"Normal")+'">'+
+              escapeHTML(task.priority||"Normal")+
+            '</span>'+
+          '</div>'+
+          '<div class="taskMeta">'+
+            escapeHTML(task.className||"General")+
+            " • "+
+            escapeHTML(task.type||"Other")+
+            " • "+
+            Number(task.minutes||0)+
+            " min"+
+            recurrence+
+          '</div>'+
+          (task.notes
+            ? '<div class="taskMeta">'+escapeHTML(task.notes)+'</div>'
+            : '')+
+        '</div>'+
+        '<strong>'+(task.done ? "✅" : "⭐ "+task.points)+'</strong>'+
+      '</div>';
 
   if(!task.done){
     html+='<div class="taskActions">'+
-      '<button class="green taskButton" onclick="completeTask(\''+task.id+'\')">COMPLETE</button>'+
-      '<button class="gray taskButton" onclick="editTask(\''+task.id+'\')">EDIT</button>'+
-      '</div>';
+      '<button class="green taskButton" onclick="completeTask(&quot;'+task.id+'&quot;)">COMPLETE</button>'+
+      '<button class="gray taskButton" onclick="editTask(&quot;'+task.id+'&quot;)">EDIT</button>'+
+    '</div>'+
+    '<button class="red taskDeleteButton" onclick="deleteTask(&quot;'+task.id+'&quot;)">DELETE TASK</button>';
   }else{
     html+='<div class="taskActions">'+
-      '<button class="gray taskButton" onclick="editTask(\''+task.id+'\')">EDIT</button>'+
-      '<button class="red taskButton" onclick="deleteTask(\''+task.id+'\')">DELETE</button>'+
-      '</div>';
+      '<button class="gray taskButton" onclick="editTask(&quot;'+task.id+'&quot;)">EDIT</button>'+
+      '<button class="red taskButton" onclick="deleteTask(&quot;'+task.id+'&quot;)">DELETE</button>'+
+    '</div>';
   }
+
   return html+'</div>';
 }
-
 function renderHeader(){
   var shownRating=displayRating();
   var status=getStatus(shownRating);
@@ -1179,26 +1352,57 @@ function renderToday(){
 
   document.getElementById("todayTasks").innerHTML=
     shown.length
-    ? shown.map(taskHTML).join("")
+    ? groupedTaskHTML(shown)
     : '<div class="empty">Your docket is clear. Suspiciously clear.</div>';
 
   renderDeadline();
 }
 function renderTasks(){
-  var filter=document.getElementById("taskFilter")?document.getElementById("taskFilter").value:"open";
+  var filter=document.getElementById("taskFilter")
+    ? document.getElementById("taskFilter").value
+    : "open";
+
   var today=todayString();
   var list=tasks.slice();
-  if(filter==="open") list=list.filter(function(t){return !t.done;});
-  if(filter==="done") list=list.filter(function(t){return t.done;});
-  if(filter==="overdue") list=list.filter(function(t){return !t.done&&t.due&&t.due<today;});
-  if(filter==="major") list=list.filter(function(t){return MAJOR_TYPES.indexOf(t.type)>=0;});
-  list.sort(function(a,b){
-    if(a.done!==b.done) return a.done?1:-1;
-    return taskSort(a,b);
-  });
-  document.getElementById("allTasks").innerHTML=list.length?list.map(taskHTML).join(""):'<div class="empty">No matching tasks.</div>';
-}
 
+  if(filter==="open"){
+    list=list.filter(function(t){ return !t.done; });
+  }
+
+  if(filter==="done"){
+    list=list.filter(function(t){ return t.done; });
+  }
+
+  if(filter==="overdue"){
+    list=list.filter(function(t){
+      return !t.done && t.due && t.due<today;
+    });
+  }
+
+  if(filter==="major"){
+    list=list.filter(function(t){
+      return MAJOR_TYPES.indexOf(t.type)>=0;
+    });
+  }
+
+  list.sort(function(a,b){
+    if(a.done!==b.done){
+      return a.done ? 1 : -1;
+    }
+
+    var ad=a.due||"9999-12-31";
+    var bd=b.due||"9999-12-31";
+
+    if(ad!==bd){
+      return ad.localeCompare(bd);
+    }
+
+    return priorityWeight(b.priority||"Normal")-
+      priorityWeight(a.priority||"Normal");
+  });
+
+  document.getElementById("allTasks").innerHTML=groupedTaskHTML(list);
+}
 function readingStatus(course){
   var today=todayString();
   var readings=tasks.filter(function(t){return t.className===course.name&&t.type==="Reading";});
@@ -1242,15 +1446,30 @@ function toggleEvidenceItem(key,checked){
   saveEvidenceChecklistState(state);
   renderEvidenceSyllabus();
 }
+var openEvidenceUnits={};
+var openFamilyClasses={};
+
 function toggleEvidenceUnit(unitId){
+  openEvidenceUnits[unitId]=!openEvidenceUnits[unitId];
   var body=document.getElementById("evidenceBody-"+unitId);
-  if(body)body.classList.toggle("hiddenUnit");
+  if(body){
+    if(openEvidenceUnits[unitId]) body.classList.remove("hiddenUnit");
+    else body.classList.add("hiddenUnit");
+  }
 }
 function expandAllEvidenceUnits(){
-  EVIDENCE_SYLLABUS.forEach(function(unit){var body=document.getElementById("evidenceBody-"+unit.id);if(body)body.classList.remove("hiddenUnit");});
+  EVIDENCE_SYLLABUS.forEach(function(unit){
+    openEvidenceUnits[unit.id]=true;
+    var body=document.getElementById("evidenceBody-"+unit.id);
+    if(body)body.classList.remove("hiddenUnit");
+  });
 }
 function collapseAllEvidenceUnits(){
-  EVIDENCE_SYLLABUS.forEach(function(unit){var body=document.getElementById("evidenceBody-"+unit.id);if(body)body.classList.add("hiddenUnit");});
+  EVIDENCE_SYLLABUS.forEach(function(unit){
+    openEvidenceUnits[unit.id]=false;
+    var body=document.getElementById("evidenceBody-"+unit.id);
+    if(body)body.classList.add("hiddenUnit");
+  });
 }
 
 function localTodayDate(){
@@ -1321,7 +1540,7 @@ function renderEvidenceSyllabus(){
   EVIDENCE_SYLLABUS.forEach(function(unit){
     var totals=evidenceUnitTotals(unit);
     var pct=totals.total?Math.round(totals.done/totals.total*100):0;
-    html+='<div class="syllabusUnit"><button class="syllabusUnitHeader" onclick="toggleEvidenceUnit(\''+unit.id+'\')"><span class="syllabusUnitTitle">'+escapeHTML(unit.title)+'</span><span class="syllabusUnitProgress">'+totals.done+'/'+totals.total+' • '+pct+'%</span></button><div id="evidenceBody-'+unit.id+'" class="hiddenUnit">';
+    html+='<div class="syllabusUnit"><button class="syllabusUnitHeader" onclick="toggleEvidenceUnit(\''+unit.id+'\')"><span class="syllabusUnitTitle">'+escapeHTML(unit.title)+'</span><span class="syllabusUnitProgress">'+totals.done+'/'+totals.total+' • '+pct+'%</span></button><div id="evidenceBody-'+unit.id+'" class="'+(openEvidenceUnits[unit.id]?"":"hiddenUnit")+'">';
     unit.sections.forEach(function(section,si){
       html+='<div class="syllabusSection"><div class="syllabusSectionTitle">'+escapeHTML(section.title)+'</div>';
       section.rules.forEach(function(rule,ri){
@@ -1376,12 +1595,17 @@ function toggleFamilyItem(key,checked){
 }
 
 function toggleFamilyClass(classId){
+  openFamilyClasses[classId]=!openFamilyClasses[classId];
   var body=document.getElementById("familyBody-"+classId);
-  if(body)body.classList.toggle("hiddenUnit");
+  if(body){
+    if(openFamilyClasses[classId]) body.classList.remove("hiddenUnit");
+    else body.classList.add("hiddenUnit");
+  }
 }
 
 function expandAllFamilyClasses(){
   FAMILY_LAW_SYLLABUS.forEach(function(c){
+    openFamilyClasses[c.id]=true;
     var body=document.getElementById("familyBody-"+c.id);
     if(body)body.classList.remove("hiddenUnit");
   });
@@ -1389,6 +1613,7 @@ function expandAllFamilyClasses(){
 
 function collapseAllFamilyClasses(){
   FAMILY_LAW_SYLLABUS.forEach(function(c){
+    openFamilyClasses[c.id]=false;
     var body=document.getElementById("familyBody-"+c.id);
     if(body)body.classList.add("hiddenUnit");
   });
@@ -1414,7 +1639,7 @@ function renderFamilyLawSyllabus(){
         '<span class="syllabusUnitTitle">'+escapeHTML(c.label)+'</span>'+
         '<span class="syllabusUnitProgress">'+ct.done+'/'+ct.total+(ct.total?' • '+cpct+'%':'')+'</span>'+
       '</button>'+
-      '<div id="familyBody-'+c.id+'" class="hiddenUnit">'+
+      '<div id="familyBody-'+c.id+'" class="'+(openFamilyClasses[c.id]?"":"hiddenUnit")+'">'+
         '<div class="syllabusSection">'+
           '<div class="familyClassDate">'+escapeHTML(c.date)+'</div>'+
           '<div class="familyTopic">'+escapeHTML(c.topic)+'</div>';
@@ -1542,7 +1767,6 @@ function renderClasses(){
           (course.professor?'<div class="small">Professor '+escapeHTML(course.professor)+'</div>':'')+
           '<div class="small">'+escapeHTML(course.schedule||"No set date or time")+'</div>'+
         '</div>'+
-        '<button class="gray taskButton" style="width:auto" onclick="editClass(\''+course.id+'\')">EDIT</button>'+
       '</div>';
 
     if(courseTasks.length){
@@ -1553,6 +1777,11 @@ function renderClasses(){
     }else{
       html+='<div style="margin-top:12px"><strong>✅ No open tasks</strong></div>';
     }
+
+    html+='<div class="classCardActions">'+
+      '<button class="primary" onclick="openTaskModalForClass(&quot;'+escapeHTML(course.name)+'&quot;)">＋ ADD TASK</button>'+
+      '<button class="gray" onclick="editClass(&quot;'+course.id+'&quot;)">EDIT CLASS</button>'+
+    '</div>';
 
     html+='</div>';
   });
@@ -1604,7 +1833,7 @@ function showCalendarDay(key){
   var d=new Date(key+"T12:00:00");
   var dayTasks=tasksForDate(key).sort(taskSort);
   box.innerHTML='<div class="className">'+d.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"})+'</div>'+
-    (dayTasks.length?dayTasks.map(taskHTML).join(""):'<div class="empty">No docket items for this day.</div>');
+    (dayTasks.length?groupedTaskHTML(dayTasks):'<div class="empty">No docket items for this day.</div>');
 }
 
 function renderProgress(){
@@ -1751,6 +1980,11 @@ function populateClassSelect(selectId){
   classes.forEach(function(c){
     var o=document.createElement("option");o.value=c.name;o.textContent=c.name;select.appendChild(o);
   });
+}
+
+function openTaskModalForClass(className){
+  openTaskModal();
+  document.getElementById("taskClass").value=className;
 }
 
 function openTaskModal(){
