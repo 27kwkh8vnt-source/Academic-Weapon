@@ -1003,7 +1003,8 @@ tasks=tasks.map(function(t){
     minutes:30,
     points:10,
     cash:5,
-    done:false
+    done:false,
+    inProgress:false
   },t);
 });
 
@@ -1402,8 +1403,7 @@ function groupedTaskHTML(list){
 
 function taskHTML(task){
   var doneClass=task.done ? " taskDone" : "";
-  var today=todayString();
-  var overdue=!task.done && task.due && task.due<today;
+  var progressClass=!task.done && task.inProgress ? " taskInProgress" : "";
   var recurrence=task.recurrence && task.recurrence!=="none"
     ? " • ↻ "+task.recurrence
     : "";
@@ -1418,6 +1418,9 @@ function taskHTML(task){
             '<span class="priority priority-'+escapeHTML(task.priority||"Normal")+'">'+
               escapeHTML(task.priority||"Normal")+
             '</span>'+
+            (!task.done && task.inProgress
+              ? '<span class="inProgressBadge">⚡ IN PROGRESS</span>'
+              : '')+
           '</div>'+
           '<div class="taskMeta">'+
             escapeHTML(task.className||"General")+
@@ -1438,6 +1441,9 @@ function taskHTML(task){
   if(!task.done){
     html+='<div class="taskActions">'+
       '<button class="focusTaskButton taskButton" onclick="openFocusMode(&quot;'+task.id+'&quot;)">⚔️ FOCUS</button>'+
+      (task.inProgress
+        ? '<button class="gray taskButton" onclick="markTaskOpen(&quot;'+task.id+'&quot;)">↩ OPEN</button>'
+        : '<button class="gold taskButton" onclick="markTaskInProgress(&quot;'+task.id+'&quot;)">⚡ IN PROGRESS</button>')+
       '<button class="green taskButton" onclick="completeTask(&quot;'+task.id+'&quot;)">COMPLETE</button>'+
       '<button class="gray taskButton" onclick="editTask(&quot;'+task.id+'&quot;)">EDIT</button>'+
     '</div>'+
@@ -1651,6 +1657,30 @@ function beginMission(id){
   document.getElementById("focusTaskLabel").textContent=task.name;
 }
 
+
+function taskSort(a,b){
+  var ap=priorityWeight(a.priority||"Normal");
+  var bp=priorityWeight(b.priority||"Normal");
+
+  if(ap!==bp){
+    return bp-ap;
+  }
+
+  var ad=a.due||"9999-12-31";
+  var bd=b.due||"9999-12-31";
+
+  return ad.localeCompare(bd);
+}
+
+function journalIsWithinTwoWeeks(task){
+  if(task.className!=="Journal") return true;
+  if(!task.due) return true;
+
+  var d=daysUntil(task.due);
+
+  return d!==null && d<=14;
+}
+
 function finalsTasks(){
   var today=todayString();
 
@@ -1823,6 +1853,10 @@ function renderTasks(){
 
   if(filter==="open"){
     list=list.filter(function(t){ return !t.done; });
+  }
+
+  if(filter==="inprogress"){
+    list=list.filter(function(t){ return !t.done && t.inProgress; });
   }
 
   if(filter==="done"){
@@ -2485,6 +2519,7 @@ function completeTask(id){
   var baseRating=Math.max(1,Math.round(basePoints/5));
 
   task.done=true;
+  task.inProgress=false;
   task.completedAt=new Date().toISOString();
 
   // Store the exact rewards so Undo Complete can reverse them safely.
@@ -2505,6 +2540,7 @@ function completeTask(id){
     var next=Object.assign({},task);
     next.id="task-"+Date.now()+"-"+Math.random().toString(16).slice(2);
     next.done=false;
+    next.inProgress=false;
     delete next.completedAt;
     delete next.completionAwardPoints;
     delete next.completionAwardCash;
@@ -2585,6 +2621,7 @@ function uncompleteTask(id){
   }
 
   task.done=false;
+  task.inProgress=false;
   delete task.completedAt;
   delete task.completionAwardPoints;
   delete task.completionAwardCash;
@@ -2701,6 +2738,7 @@ function saveTask(){
   }else{
     data.id="task-"+Date.now()+"-"+Math.random().toString(16).slice(2);
     data.done=false;
+    data.inProgress=false;
     data.createdAt=new Date().toISOString();
     tasks.push(data);
   }
